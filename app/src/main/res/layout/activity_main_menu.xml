@@ -57,6 +57,7 @@
                 android:orientation="vertical"
         >
             <Button
+                    android:id="@+id/jugar"
                     android:textAllCaps="false"
                     android:text="Jugar"
                     android:textSize="37dp"
@@ -79,6 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             <Button
+                    android:id="@+id/button_exit"
                     android:textAllCaps="false"
                     android:text="Sortir"
                     android:textSize="37dp"

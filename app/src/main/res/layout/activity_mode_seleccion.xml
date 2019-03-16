@@ -8,10 +8,37 @@
         android:orientation="vertical"
         android:gravity="center">
 
+    <LinearLayout
+            android:layout_marginLeft="-230dp"
+            android:layout_marginTop="-30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                    android:id="@+id/button_back"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/back_button"/>
 
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <Button
+            android:layout_marginTop="-20dp"
+            android:layout_width="400dp"
+            android:layout_height="100dp"
+            android:textAllCaps="false"
+            android:text="1 - Player"
+            android:textSize="50dp"
+            android:fontFamily="@font/fuente1"
+            android:textStyle="bold"
+            android:background="@drawable/button_circle_bundle"/>
+    <Button
+            android:layout_width="400dp"
+            android:layout_height="100dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/fuente1"
+            android:textAllCaps="false"
+            android:text="2 - Players"
+            android:textSize="50dp"
+            android:background="@drawable/button_circle_bundle"/>
 
 
 </LinearLayout>

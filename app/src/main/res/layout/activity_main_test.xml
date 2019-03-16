@@ -33,7 +33,7 @@
                 android:orientation="vertical"
         >
             <Button
-                    android:id="@+id/popup"
+                    android:id="@+id/primer_boton"
                     android:background="@drawable/botoninicio"
                     android:text="Primer boton"
                     android:layout_width="175dp"
