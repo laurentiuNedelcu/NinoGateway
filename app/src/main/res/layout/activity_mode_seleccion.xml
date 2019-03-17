@@ -21,6 +21,7 @@
 
     </LinearLayout>
     <Button
+            android:id="@+id/button_singleplayer"
             android:layout_marginTop="-20dp"
             android:layout_width="400dp"
             android:layout_height="100dp"
@@ -31,6 +32,7 @@
             android:textStyle="bold"
             android:background="@drawable/button_circle_bundle"/>
     <Button
+            android:id="@+id/button_multiplayer"
             android:layout_width="400dp"
             android:layout_height="100dp"
             android:textStyle="bold"
