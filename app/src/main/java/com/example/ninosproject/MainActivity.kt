@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var button_jugar : Button
     lateinit var button_exit : Button
     lateinit var button_options : Button
+    var vibration_state : String = "Activat"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,8 +58,8 @@ class MainActivity : AppCompatActivity() {
         //inicialitzem la finestra
         val popupWindow = PopupWindow(
             view, // Layout inflat que volem mostrar
-            300.dp, // Width (dp transformat a pixel)
-            220.dp, // Heigth (dp transformat a pixel)
+            350.dp, // Width (dp transformat a pixel)
+            300.dp, // Heigth (dp transformat a pixel)
             true // Si cliquem fora de la finestra, es tancarà
         )
 
@@ -67,8 +68,16 @@ class MainActivity : AppCompatActivity() {
 
         var bar_volum : SeekBar = view.findViewById(R.id.bar_volum)
         var button_vibracio : Button = view.findViewById(R.id.button_vibracio)
+        var button_accept : Button = view.findViewById(R.id.button_accept)
+        var button_deny : Button = view.findViewById(R.id.button_deny)
 
+        button_vibracio.text = vibration_state
+
+        var estat_anterior = vibration_state
         button_vibracio.setOnClickListener { vibracio(button_vibracio) }
+
+        button_accept.setOnClickListener { vibration_state = button_vibracio.text.toString(); popupWindow.dismiss() }
+        button_deny.setOnClickListener { popupWindow.dismiss() }
     }
 
     fun vibracio(button: Button){
