@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Nino\'s Project</string>
+    <string name="vibracio">Vibració:</string>
+    <string name="activat">Activat</string>
+    <string name="accepta">Accepta</string>
+    <string name="cancella">Cancel·la</string>
+    <string name="volum">Volum:</string>
+    <string name="versio_del_joc">Game Version: 0.x.x</string>
+    <string name="email">Email:</string>
+    <string name="password">Password:</string>
+    <string name="title">Nino\'s Gateway</string>
+    <string name="guest">Guest</string>
+    <string name="log_in">Log In</string>
+    <string name="game_version_0_x_x">Game Version: 0.x.x</string>
+    <string name="volum">Volum:</string>
+    <string name="vibracio">Vibració:</string>
+    <string name="activat">Activat</string>
+    <string name="accepta">Accepta</string>
+    <string name="cancella">Cancel·la</string>
 </resources>

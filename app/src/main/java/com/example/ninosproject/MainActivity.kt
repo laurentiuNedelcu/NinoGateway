@@ -31,11 +31,14 @@ class MainActivity : AppCompatActivity() {
 
         button_jugar.setOnClickListener {
             val intent: Intent = Intent(this, ModeActivity::class.java)
-            startActivity(intent);
+            startActivity(intent)
         }
 
         button_exit.setOnClickListener {
-            finish()
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
         }
 
         button_options.setOnClickListener {

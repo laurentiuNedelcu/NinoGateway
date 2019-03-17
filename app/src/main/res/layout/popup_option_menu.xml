@@ -2,7 +2,6 @@
 
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-
         android:background="@drawable/popup_background"
         android:orientation="vertical"
         android:layout_width="350dp"
@@ -14,10 +13,10 @@
             android:layout_weight="1" />
 
     <TextView
-            android:text="Game Version: 0.x.x"
+            android:text="@string/game_version_0_x_x"
             android:fontFamily="@font/fuente1"
             android:textStyle="bold"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
@@ -28,11 +27,11 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:text="Volum:"
+                android:text="@string/volum"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginLeft="30dp"
+                android:textSize="20sp"
+                android:layout_marginStart="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -43,21 +42,21 @@
 
         <SeekBar
                 android:id="@+id/bar_volum"
-                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_width="150dp"
                 android:layout_height="20dp"
-                />
+        />
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <TextView
-                android:text="Vibració:"
+                android:text="@string/vibracio"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginLeft="30dp"
+                android:textSize="20sp"
+                android:layout_marginStart="30dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -68,13 +67,13 @@
 
         <Button
                 android:fontFamily="@font/fuente1"
-                android:text = "Activat"
+                android:text = "@string/activat"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:id="@+id/button_vibracio"
                 android:background="@drawable/button_circle_bundle"
-                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -86,12 +85,12 @@
 
         <Button
                 android:id="@+id/button_accept"
-                android:text = "Accepta"
+                android:text = "@string/accepta"
                 android:fontFamily="@font/fuente1"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginLeft="30dp"
+                android:textSize="20sp"
+                android:layout_marginStart="30dp"
                 android:background="@drawable/button_circle_bundle"
                 android:layout_width="125dp"
                 android:layout_height="wrap_content"/>
@@ -103,12 +102,12 @@
 
         <Button
                 android:id="@+id/button_deny"
-                android:text = "Cancel·la"
+                android:text = "@string/cancella"
                 android:fontFamily="@font/fuente1"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginRight="30dp"
+                android:textSize="20sp"
+                android:layout_marginEnd="30dp"
                 android:background="@drawable/button_circle_bundle"
                 android:layout_width="125dp"
                 android:layout_height="wrap_content"/>
