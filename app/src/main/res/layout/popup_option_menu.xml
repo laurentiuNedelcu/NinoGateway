@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:background="@drawable/popup_background"
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="220dp">
+
+    <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    <TextView
+            android:text="Game Version: 0.x.x"
+            android:fontFamily="@font/fuente1"
+            android:textStyle="bold"
+            android:textSize="25dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="Volum:"
+                android:fontFamily="@font/fuente1"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />    <!-- Este view lo utilizo como tabulador para poner la seekbar a la derecha del layout -->
+
+        <SeekBar
+                android:id="@+id/bar_volum"
+                android:layout_marginRight="30dp"
+                android:layout_width="150dp"
+                android:layout_height="20dp"
+                />
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:text="Vibració:"
+                android:fontFamily="@font/fuente1"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                android:layout_marginLeft="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+        <Button
+                android:fontFamily="@font/fuente1"
+                android:text = "Activat"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:id="@+id/button_vibracio"
+                android:background="@drawable/button_circle_bundle"
+                android:layout_marginRight="30dp"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+</LinearLayout>
