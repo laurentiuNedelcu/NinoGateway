@@ -12,10 +12,13 @@
     <string name="guest">Guest</string>
     <string name="log_in">Log In</string>
     <string name="game_version_0_x_x">Game Version: 0.x.x</string>
-    <string name="volum">Volum:</string>
-    <string name="vibracio">Vibració:</string>
-    <string name="activat">Activat</string>
-    <string name="accepta">Accepta</string>
-    <string name="cancella">Cancel·la</string>
     <string name="joc_aturat">Joc aturat</string>
+    <string name="repren">Repren</string>
+    <string name="opcions">Opcions</string>
+    <string name="menu">Menu</string>
+    <string name="idioma">Idioma:</string>
+    <string name="catala">Català</string>
+    <string name="englsih">Englsih</string>
+    <string name="selecciona_un_idioma">Selecciona un Idioma</string>
+    <string name="espanol">Español</string>
 </resources>

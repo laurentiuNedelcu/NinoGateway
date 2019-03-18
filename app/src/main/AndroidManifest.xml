@@ -16,6 +16,10 @@
                 android:screenOrientation="landscape">
         </activity>
         <activity
+                android:name=".LanguageActivity"
+                android:screenOrientation="landscape">
+        </activity>
+        <activity
                 android:name=".ModeActivity"
                 android:screenOrientation="landscape">
         </activity>

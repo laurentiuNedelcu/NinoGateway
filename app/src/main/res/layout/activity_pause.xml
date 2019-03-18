@@ -37,8 +37,8 @@
                   app:layout_constraintVertical_bias="0.0">
         <Button android:id="@+id/repren_button"
                 android:textAllCaps="false"
-                android:text="Repren"
-                android:textSize="37dp"
+                android:text="@string/repren"
+                android:textSize="37sp"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
                 android:height="70dp"
@@ -48,8 +48,8 @@
                 android:layout_height="wrap_content"/>
         <Button android:id="@+id/opcions_button"
                 android:textAllCaps="false"
-                android:text="Opcions"
-                android:textSize="37dp"
+                android:text="@string/opcions"
+                android:textSize="37sp"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
                 android:height="70dp"
@@ -59,8 +59,8 @@
                 android:layout_height="wrap_content"/>
         <Button android:id="@+id/menu_button"
                 android:textAllCaps="false"
-                android:text="Menu"
-                android:textSize="37dp"
+                android:text="@string/menu"
+                android:textSize="37sp"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
                 android:height="70dp"
