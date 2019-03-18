@@ -21,4 +21,8 @@
     <string name="englsih">Englsih</string>
     <string name="selecciona_un_idioma">Selecciona un Idioma</string>
     <string name="espanol">Español</string>
+    <string name="levels">Levels</string>
+    <string name="retry">Retry</string>
+    <string name="next">Next</string>
+    <string name="you_win">You Win</string>
 </resources>
