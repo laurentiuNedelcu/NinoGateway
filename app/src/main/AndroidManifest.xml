@@ -9,11 +9,9 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".YouLoseActivity">
-        </activity>
-        <activity android:name=".YouWinActivity">
-        </activity>
-        <activity android:name=".PauseActivity">
+        <activity
+                android:name=".PlayActivity"
+                android:screenOrientation="landscape">
         </activity>
         <activity
                 android:name=".LevelActivity"

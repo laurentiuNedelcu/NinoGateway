@@ -1,5 +1,6 @@
 package com.example.ninosproject
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Window
@@ -43,12 +44,31 @@ class LevelActivity : AppCompatActivity() {
         val levels = arrayOf("Level 1 - Very Easy","Level 2 - Very Easy","Level 3 - Easy","Level 4 - Easy","Level 5 - Normal","Level 6 - Normal","Level 7 - Hard","Level 8 - Hard","Level 9 - Very Hard","Level 10 - Very Hard")
         val levelList: ArrayAdapter<String> = ArrayAdapter(this,R.layout.item_list_background,levels)
 
-        if (idioma == 1) list_lvl.adapter = nivellList
-        if (idioma == 2) list_lvl.adapter = levelList
-        if (idioma == 3) list_lvl.adapter = nivelList
+        if (idioma == 1) {
+            list_lvl.adapter = nivellList
+            list_lvl.setOnItemClickListener { parent, view, position, id ->
+                val intent: Intent = Intent(this, PlayActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        if (idioma == 2) {
+            list_lvl.adapter = levelList
+            list_lvl.setOnItemClickListener { parent, view, position, id ->
+                val intent: Intent = Intent(this, PlayActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        if (idioma == 3) {
+            list_lvl.adapter = nivelList
+            list_lvl.setOnItemClickListener { parent, view, position, id ->
+                val intent: Intent = Intent(this, PlayActivity::class.java)
+                startActivity(intent)
+            }
+        }
 
         button_back.setOnClickListener {
             finish()
         }
+
     }
 }
