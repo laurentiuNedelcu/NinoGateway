@@ -3,8 +3,6 @@ package com.example.ninosproject
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -96,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         val popupWindow = PopupWindow(
             view, // Layout inflat que volem mostrar
             350.dp, // Width (dp transformat a pixel)
-            350.dp, // Heigth (dp transformat a pixel)
+            335.dp, // Heigth (dp transformat a pixel)
             true // Si cliquem fora de la finestra, es tancarà
         )
 

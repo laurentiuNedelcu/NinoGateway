@@ -43,7 +43,7 @@
                 android:background="@drawable/retry" android:layout_width="45dp"/>
         <Button
                 android:layout_width="136dp"
-                android:layout_height="wrap_content" android:id="@+id/levelsbuttonYW"
+                android:layout_height="50dp" android:id="@+id/levelsbuttonYW"
                 android:fontFamily="@font/fuente1" android:background="@drawable/button_circle"
                 android:textAlignment="center" android:text="@string/levels"
                 android:textSize="27sp" android:layout_weight="1" android:textAllCaps="false"/>
