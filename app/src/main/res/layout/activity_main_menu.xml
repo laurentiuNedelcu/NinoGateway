@@ -8,7 +8,6 @@
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:gravity="center">
-
     <RelativeLayout
             android:layout_marginTop="30dp"
             android:layout_marginLeft="115dp"
@@ -23,7 +22,8 @@
                 android:text="Nino's Getaway"
                 android:layout_marginLeft="40dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:background="#00ffffff"/>
 
         <ImageView
                 android:layout_width="350dp"
@@ -33,6 +33,7 @@
                 android:scaleY="1.5"
                 android:layout_marginLeft="20dp"
                 android:src="@drawable/title_background"
+                android:background="#00ffffff"
                 />
     </RelativeLayout>
 

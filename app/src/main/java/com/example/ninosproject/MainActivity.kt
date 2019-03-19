@@ -3,10 +3,14 @@ package com.example.ninosproject
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.SeekBar
@@ -24,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main_menu)
 
         button_jugar = findViewById<Button>(R.id.jugar)
@@ -120,42 +126,46 @@ class MainActivity : AppCompatActivity() {
 
     private fun actualitzarIdiomaPopup(accept: Button, deny: Button, bidioma: Button, volumView: TextView, vibracioView: TextView,
         idiomaView: TextView, game_version: TextView) {
-        if (idioma == 1) {
-            game_version.text = "Versió del Joc: 0.x.x"
-            accept.text = "Acceptar"
-            deny.text = "Cancel·lar"
-            bidioma.text = "Català"
-            volumView.text = "Volum:"
-            vibracioView.text = "Vibració:"
-            idiomaView.text = "Idioma:"
-            if (vibration_state.equals("On") || vibration_state.equals("Activado"))
-                vibration_state = "Activat"
-            else if (vibration_state.equals("Off") || vibration_state.equals("Desactivado"))
-                vibration_state = "Desactivat"
-        } else if (idioma == 2) {
-            game_version.text = "Game Version: 0.x.x"
-            accept.text = "Accept"
-            deny.text = "Cancel"
-            bidioma.text = "English"
-            volumView.text = "Volume:"
-            vibracioView.text = "Vibration:"
-            idiomaView.text = "Language:"
-            if (vibration_state.equals("Activat") || vibration_state.equals("Activado"))
-                vibration_state = "On"
-            else if (vibration_state.equals("Desactivat") || vibration_state.equals("Desactivado"))
-                vibration_state = "Off"
-        } else if (idioma == 3) {
-            game_version.text = "Versión del Juego: 0.x.x"
-            accept.text = "Aceptar"
-            deny.text = "Cancelar"
-            bidioma.text = "Español"
-            volumView.text = "Volumen:"
-            vibracioView.text = "Vibración:"
-            idiomaView.text = "Lenguaje:"
-            if (vibration_state.equals("Activat") || vibration_state.equals("On"))
-                vibration_state = "Activado"
-            else if (vibration_state.equals("Desactivat") || vibration_state.equals("Off"))
-                vibration_state = "Desactivado"
+        when (idioma) {
+            1 -> {
+                game_version.text = "Versió del Joc: 0.x.x"
+                accept.text = "Acceptar"
+                deny.text = "Cancel·lar"
+                bidioma.text = "Català"
+                volumView.text = "Volum:"
+                vibracioView.text = "Vibració:"
+                idiomaView.text = "Idioma:"
+                if (vibration_state.equals("On") || vibration_state.equals("Activado"))
+                    vibration_state = "Activat"
+                else if (vibration_state.equals("Off") || vibration_state.equals("Desactivado"))
+                    vibration_state = "Desactivat"
+            }
+            2 -> {
+                game_version.text = "Game Version: 0.x.x"
+                accept.text = "Accept"
+                deny.text = "Cancel"
+                bidioma.text = "English"
+                volumView.text = "Volume:"
+                vibracioView.text = "Vibration:"
+                idiomaView.text = "Language:"
+                if (vibration_state.equals("Activat") || vibration_state.equals("Activado"))
+                    vibration_state = "On"
+                else if (vibration_state.equals("Desactivat") || vibration_state.equals("Desactivado"))
+                    vibration_state = "Off"
+            }
+            3 -> {
+                game_version.text = "Versión del Juego: 0.x.x"
+                accept.text = "Aceptar"
+                deny.text = "Cancelar"
+                bidioma.text = "Español"
+                volumView.text = "Volumen:"
+                vibracioView.text = "Vibración:"
+                idiomaView.text = "Lenguaje:"
+                if (vibration_state.equals("Activat") || vibration_state.equals("On"))
+                    vibration_state = "Activado"
+                else if (vibration_state.equals("Desactivat") || vibration_state.equals("Off"))
+                    vibration_state = "Desactivado"
+            }
         }
     }
 
@@ -193,4 +203,6 @@ class MainActivity : AppCompatActivity() {
         if (button.text.equals("Activado")) button.text = "Desactivado"
         else if (button.text.equals("Desactivado")) button.text = "Activado"
     }
+
+    override fun onBackPressed() {} //Deshabilitar back button del mobil
 }

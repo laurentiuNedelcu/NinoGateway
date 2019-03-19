@@ -2,6 +2,8 @@ package com.example.ninosproject
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
@@ -13,6 +15,8 @@ class LevelActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_level_selector)
 
         val text_mode : TextView = findViewById(R.id.textV_mode)
