@@ -1,0 +1,49 @@
+<resources>
+    <string-array name="levels" >
+        <item>Nivel 1 - Muy Fácil</item>
+        <item>Nivel 2 - Muy Fácil</item>
+        <item>Nivel 3 - Fácil</item>
+        <item>Nivel 4 - Fácil</item>
+        <item>Nivel 5 - Normal</item>
+        <item>Nivel 6 - Normal</item>
+        <item>Nivel 7 - Difícil</item>
+        <item>Nivel 8 - Difícil</item>
+        <item>Nivel 9 - Muy Difícil</item>
+        <item>Nivel 10 - Muy Difícil</item>
+    </string-array>
+    <string name="app_name">Nino\'s Project</string>
+    <string name="vibration">Vibración:</string>
+    <string name="on">Activado</string>
+    <string name="off">Desactivado</string>
+    <string name="accept">Acceptar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="volume">Volumen:</string>
+    <string name="email">Correo:</string>
+    <string name="title">Nino\'s Gateway</string>
+    <string name="guest">Huésped</string>
+    <string name="log_in">Iniciar sessión</string>
+    <string name="game_version_0_x_x">Versión del juego: 0.x.x</string>
+    <string name="game_paused">Pausa</string>
+    <string name="resume">Reanudar</string>
+    <string name="options">Opciones</string>
+    <string name="menu">Menu</string>
+    <string name="language">Idioma:</string>
+    <string name="retry">Retry</string>
+    <string name="next">Next</string>
+    <string name="you_win">¡Has ganado!</string>
+    <string name="register">Registro</string>
+    <string name="game_mode">-Modo de juego-</string>
+    <string name="sign_up">Regístrate</string>
+    <string name="user_name">Nombre de Usuario:</string>
+    <string name="email_address">Correo Electrónico:</string>
+    <string name="password">Contraseña:</string>
+    <string name="confirm_password">Confirmar Contraseña:</string>
+    <string name="play">Jugar</string>
+    <string name="exit">Salir</string>
+    <string name="single_player">1 - Jugador</string>
+    <string name="multi_players">2 - Jugadores</string>
+    <string name="win">Victoria</string>
+    <string name="lose">Derrota</string>
+    <string name="you_lose">¡Has perdido!</string>
+    <string name="levels">Niveles</string>
+</resources>

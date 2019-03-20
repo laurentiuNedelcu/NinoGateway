@@ -14,6 +14,8 @@ import android.widget.PopupWindow
 
 class PlayActivity : AppCompatActivity() {
 
+    private lateinit var vibration_state: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -23,15 +25,16 @@ class PlayActivity : AppCompatActivity() {
         val tmp_win: Button = findViewById(R.id.tmpwinbutton)
         val tmp_lose: Button = findViewById(R.id.tmplosebutton)
         val pause: Button = findViewById(R.id.pauseButton)
+        vibration_state = intent.getStringExtra("vibration")
 
         tmp_win.setOnClickListener {
-            finsestraWin()
+            finestraWin()
         }
         tmp_lose.setOnClickListener {
-            finsestraLose()
+            finestraLose()
         }
         pause.setOnClickListener {
-            finsestraPause()
+            finestraPause()
         }
 
     }
@@ -39,7 +42,7 @@ class PlayActivity : AppCompatActivity() {
 
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt() // Metode per passar de density independent pixels (dp) a pixels
 
-    private fun finsestraWin() {
+    private fun finestraWin() {
         //Layout per fer visible el popup
         val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -70,18 +73,20 @@ class PlayActivity : AppCompatActivity() {
         levels.setOnClickListener {
             //val intent: Intent = Intent(this, LevelActivity::class.java)
             //startActivity(intent)
+            finish()
         }
 
 
         next_level.setOnClickListener {
             //val intent: Intent = Intent(this, seguent nivell)//falta per implementar
             //startActivity(intent)
+            popupWindow.dismiss()
         }
 
 
     }
 
-    private fun finsestraLose() {
+    private fun finestraLose() {
         //Layout per fer visible el popup
         val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -108,10 +113,11 @@ class PlayActivity : AppCompatActivity() {
         levels.setOnClickListener {
             //val intent: Intent = Intent(this, LevelActivity::class.java)
             //startActivity(intent)
+            finish()
         }
     }
 
-    private fun finsestraPause() {
+    private fun finestraPause() {
         //Layout per fer visible el popup
         val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -138,13 +144,53 @@ class PlayActivity : AppCompatActivity() {
         opcions_joc.setOnClickListener {
             //val intent : Intent = Intent(this, falta classe opcions)
             //startActivity(intent)
+            popupWindow.dismiss()
+            finestraOpcions()
         }
         var menu_joc: Button = view.findViewById(R.id.menu_button)
         menu_joc.setOnClickListener {
             val intent: Intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("vibration",vibration_state)
             startActivity(intent) //torna al menu principal, no al menu dels nivells
         }
-
-
     }
+    fun finestraOpcions() {
+        //A partir d'aqui generem la finestra popup on es trobarán totes les opcions
+
+        //Layout per fer visible el popup
+        val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        //Fem visible el layout però no el mostrem
+        val view = inflater.inflate(R.layout.popup_option_menu, null)
+
+        //inicialitzem la finestra
+        val popupWindow = PopupWindow(
+            view, // Layout inflat que volem mostrar
+            350.dp, // Width (dp transformat a pixel)
+            300.dp, // Heigth (dp transformat a pixel)
+            true // Si cliquem fora de la finestra, es tancarà
+        )
+
+        //mostrem la finestra amb el layout
+        popupWindow.showAtLocation(findViewById(R.id.play_activity), Gravity.CENTER, 0, 0)
+
+        var button_vibracio: Button = view.findViewById(R.id.button_vibracio)
+        var button_accept: Button = view.findViewById(R.id.button_accept)
+        var button_deny: Button = view.findViewById(R.id.button_deny)
+
+       button_vibracio.text = vibration_state
+
+        var estat_anterior = vibration_state
+        button_vibracio.setOnClickListener { vibracio(button_vibracio) }
+
+        button_accept.setOnClickListener { vibration_state = button_vibracio.text.toString(); popupWindow.dismiss(); finestraPause() }
+        button_deny.setOnClickListener { popupWindow.dismiss(); finestraPause() }
+    }
+
+    fun vibracio(button: Button) {
+        if (button.text.equals(getString(R.string.off))) button.text = getString(R.string.on)
+        else button.text = getString(R.string.off)
+    }
+
+    override fun onBackPressed() {} //Deshabilitar back button del mobil
 }

@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:text="@string/volum"
+                android:text="@string/volume"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content">
 
         <TextView
-                android:text="@string/vibracio"
+                android:text="@string/vibration"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
                 android:textSize="20sp"
@@ -54,7 +54,7 @@
 
         <Button
                 android:fontFamily="@font/fuente1"
-                android:text="@string/activat"
+                android:text="@string/on"
                 android:textAllCaps="false"
                 android:textStyle="bold"
                 android:textSize="25sp"
@@ -66,35 +66,13 @@
     </LinearLayout>
 
     <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-                android:text="@string/idioma"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" android:id="@+id/languageView" android:layout_weight="1"
-                android:textSize="20sp" android:fontFamily="@font/fuente1" android:layout_gravity="center"
-                android:layout_marginStart="30dp" android:textStyle="bold"/>
-        <Button
-                android:fontFamily="@font/fuente1"
-                android:text="@string/catala"
-                android:textAllCaps="false"
-                android:textStyle="bold"
-                android:textSize="25sp"
-                android:id="@+id/button_idioma"
-                android:background="@drawable/button_circle_bundle"
-                android:layout_marginEnd="30dp"
-                android:layout_width="150dp"
-                android:layout_height="50dp" android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp">
 
         <Button
                 android:id="@+id/button_accept"
-                android:text="@string/accepta"
+                android:text="@string/accept"
                 android:fontFamily="@font/fuente1"
                 android:textAllCaps="false"
                 android:textStyle="bold"
@@ -107,11 +85,11 @@
         <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"></View>
+                android:layout_weight="1"/>
 
         <Button
                 android:id="@+id/button_deny"
-                android:text="@string/cancella"
+                android:text="@string/cancel"
                 android:fontFamily="@font/fuente1"
                 android:textAllCaps="false"
                 android:textStyle="bold"

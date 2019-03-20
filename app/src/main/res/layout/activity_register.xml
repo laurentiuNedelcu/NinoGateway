@@ -9,7 +9,7 @@
 
     <Button
             android:id="@+id/button_validate"
-            android:text="@string/registerUp"
+            android:text="@string/register"
             android:fontFamily="@font/fuente1"
             android:textAllCaps="false"
             android:textStyle="bold"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content" android:layout_marginStart="20dp" android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp">
             <TextView
-                    android:text="@string/email_adress"
+                    android:text="@string/email_address"
                     android:layout_width="20dp"
                     android:layout_height="50dp" android:id="@+id/emailAdress" android:layout_weight="1"
                     android:layout_gravity="center" android:gravity="" android:textSize="18sp"

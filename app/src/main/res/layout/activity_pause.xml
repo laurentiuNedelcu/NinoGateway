@@ -9,7 +9,7 @@
 
     <TextView android:layout_width="217dp"
               android:layout_height="wrap_content"
-              android:text="@string/joc_aturat"
+              android:text="@string/game_paused"
               android:fontFamily="@font/fuente1"
               android:textSize="47sp"
               android:textAllCaps="false"
@@ -37,7 +37,7 @@
                   app:layout_constraintVertical_bias="0.0">
         <Button android:id="@+id/repren_button"
                 android:textAllCaps="false"
-                android:text="@string/repren"
+                android:text="@string/resume"
                 android:textSize="37sp"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"
@@ -46,7 +46,7 @@
                 android:layout_height="65dp"/>
         <Button android:id="@+id/opcions_button"
                 android:textAllCaps="false"
-                android:text="@string/opcions"
+                android:text="@string/options"
                 android:textSize="37sp"
                 android:fontFamily="@font/fuente1"
                 android:textStyle="bold"

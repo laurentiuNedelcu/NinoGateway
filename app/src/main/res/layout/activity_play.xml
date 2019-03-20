@@ -62,11 +62,11 @@
             app:layout_constraintStart_toEndOf="@+id/rightButton"
             android:layout_marginStart="250dp">
         <Button
-                android:text="Win"
+                android:text="@string/win"
                 android:layout_width="100dp"
                 android:layout_height="45dp" android:id="@+id/tmpwinbutton" android:alpha="0.25"/>
         <Button
-                android:text="Lose"
+                android:text="@string/lose"
                 android:layout_width="100dp"
                 android:layout_height="45dp" android:id="@+id/tmplosebutton" android:alpha="0.25"/>
     </LinearLayout>

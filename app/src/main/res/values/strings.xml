@@ -1,37 +1,49 @@
 <resources>
+    <string-array name="levels" >
+        <item>Level 1 - Very Easy</item>
+        <item>Level 2 - Very Easy</item>
+        <item>Level 3 - Easy</item>
+        <item>Level 4 - Easy</item>
+        <item>Level 5 - Normal</item>
+        <item>Level 6 - Normal</item>
+        <item>Level 7 - Hard</item>
+        <item>Level 8 - Hard</item>
+        <item>Level 9 - Very Hard</item>
+        <item>Level 10 - Very Hard</item>
+    </string-array>
     <string name="app_name">Nino\'s Project</string>
-    <string name="vibracio">Vibració:</string>
-    <string name="activat">Activat</string>
-    <string name="accepta">Accepta</string>
-    <string name="cancella">Cancel·la</string>
-    <string name="volum">Volum:</string>
-    <string name="versio_del_joc">Game Version: 0.x.x</string>
+    <string name="vibration">Vibration:</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="volume">Volume:</string>
     <string name="email">Email:</string>
     <string name="title">Nino\'s Gateway</string>
     <string name="guest">Guest</string>
     <string name="log_in">Log In</string>
     <string name="game_version_0_x_x">Game Version: 0.x.x</string>
-    <string name="joc_aturat">Joc aturat</string>
-    <string name="repren">Repren</string>
-    <string name="opcions">Opcions</string>
+    <string name="game_paused">Game Paused</string>
+    <string name="resume">Resume</string>
+    <string name="options">Options</string>
     <string name="menu">Menu</string>
-    <string name="idioma">Idioma:</string>
-    <string name="catala">Català</string>
-    <string name="englsih">Englsih</string>
-    <string name="selecciona_un_idioma">Selecciona un Idioma</string>
-    <string name="espanol">Español</string>
-    <string name="levels">Levels</string>
+    <string name="language">Language:</string>
     <string name="retry">Retry</string>
     <string name="next">Next</string>
     <string name="you_win">You Win</string>
-    <string name="register">register</string>
-    <string name="enter_as_a_guest">enter as a guest</string>
-    <string name="mode_de_joc">-Mode de Joc-</string>
+    <string name="register">Register</string>
+    <string name="game_mode">-Game Mode-</string>
     <string name="sign_up">SIGN UP</string>
     <string name="user_name">User Name:</string>
-    <string name="email_adress">Email Address:</string>
+    <string name="email_address">Email Address:</string>
     <string name="password">Password:</string>
     <string name="confirm_password">Confirm Password:</string>
-    <string name="validate">Validate</string>
-    <string name="registerUp">Register</string>
+    <string name="play">Play</string>
+    <string name="exit">Exit</string>
+    <string name="single_player">1 - Player</string>
+    <string name="multi_players">2 - Players</string>
+    <string name="win">Win</string>
+    <string name="lose">Lose</string>
+    <string name="you_lose">You Lose</string>
+    <string name="levels">Levels</string>
 </resources>
