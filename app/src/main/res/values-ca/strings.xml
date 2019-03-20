@@ -1,0 +1,49 @@
+<resources>
+    <string-array name="levels" >
+        <item>Nivell 1 - Molt Fàcil</item>
+        <item>Nivell 2 - Molt Fàcil</item>
+        <item>Nivell 3 - Fàcil</item>
+        <item>Nivell 4 - Fàcil</item>
+        <item>Nivell 5 - Normal</item>
+        <item>Nivell 6 - Normal</item>
+        <item>Nivell 7 - Difícil</item>
+        <item>Nivell 8 - Difícil</item>
+        <item>Nivell 9 - Molt Difícil</item>
+        <item>Nivell 10 - Molt Difícil</item>
+    </string-array>
+    <string name="app_name">Nino\'s Project</string>
+    <string name="vibration">Vibració:</string>
+    <string name="on">Activat</string>
+    <string name="off">Desactivat</string>
+    <string name="accept">Acceptar</string>
+    <string name="cancel">Cancel·lar</string>
+    <string name="volume">Volum:</string>
+    <string name="email">Correu:</string>
+    <string name="title">Nino\'s Gateway</string>
+    <string name="guest">Hoste</string>
+    <string name="log_in">Iniciar sessió</string>
+    <string name="game_version_0_x_x">Versió del juego: 0.x.x</string>
+    <string name="game_paused">Pausa</string>
+    <string name="resume">Reprendre</string>
+    <string name="options">Opcions</string>
+    <string name="menu">Menu</string>
+    <string name="language">Idioma:</string>
+    <string name="retry">Retry</string>
+    <string name="next">Next</string>
+    <string name="you_win">¡Has guanyat!</string>
+    <string name="register">Registre</string>
+    <string name="game_mode">-Mode de joc-</string>
+    <string name="sign_up">Registre</string>
+    <string name="user_name">Nom Usuari:</string>
+    <string name="email_address">Correu Electrònic:</string>
+    <string name="password">Contrasenya:</string>
+    <string name="confirm_password">Confirmar Contrasenya:</string>
+    <string name="play">Jugar</string>
+    <string name="exit">Sortir</string>
+    <string name="single_player">1 - Jugador</string>
+    <string name="multi_players">2 - Jugadors</string>
+    <string name="win">Victòria</string>
+    <string name="lose">Derrota</string>
+    <string name="you_lose">¡Has perdut!</string>
+    <string name="levels">Nivells</string>
+</resources>
