@@ -7,7 +7,6 @@
     <string name="volum">Volum:</string>
     <string name="versio_del_joc">Game Version: 0.x.x</string>
     <string name="email">Email:</string>
-    <string name="password">Password:</string>
     <string name="title">Nino\'s Gateway</string>
     <string name="guest">Guest</string>
     <string name="log_in">Log In</string>
@@ -27,4 +26,12 @@
     <string name="you_win">You Win</string>
     <string name="register">register</string>
     <string name="enter_as_a_guest">enter as a guest</string>
+    <string name="mode_de_joc">-Mode de Joc-</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="user_name">User Name:</string>
+    <string name="email_adress">Email Address:</string>
+    <string name="password">Password:</string>
+    <string name="confirm_password">Confirm Password:</string>
+    <string name="validate">Validate</string>
+    <string name="registerUp">Register</string>
 </resources>

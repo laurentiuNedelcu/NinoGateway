@@ -7,7 +7,6 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_log_in.view.*
 
 class LogInActivity : AppCompatActivity() {
 
@@ -26,7 +25,10 @@ class LogInActivity : AppCompatActivity() {
         guestButton = findViewById(R.id.guest_id)
 
         logInButton.setOnClickListener { Toast.makeText(this,"La funció encara no està implementada",Toast.LENGTH_SHORT).show() }
-        registerButton.setOnClickListener { Toast.makeText(this, "La funció encara no està implementada", Toast.LENGTH_SHORT).show() }
+        registerButton.setOnClickListener {
+            val intent = Intent(this,RegisterActivity::class.java)
+            startActivity(intent)
+        }
         guestButton.setOnClickListener {
             val intent = Intent(this,MainActivity::class.java)
             startActivity(intent)

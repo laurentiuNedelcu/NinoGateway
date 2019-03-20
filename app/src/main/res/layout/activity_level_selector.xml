@@ -1,36 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
 
-    <Button
-            android:id="@+id/button_back"
-            android:layout_marginTop="-105dp"
-            android:layout_marginLeft="-35dp"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/back_button"/>
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <ListView
-            android:id="@+id/lvl_selector"
-            android:layout_width="325dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="40dp"
-            android:listSelector="#00000000"
-            android:divider="#00000000"
-            android:scrollbars="none"
-    ></ListView>
+        <ListView
+                android:id="@+id/lvl_selector"
+                android:layout_width="450dp"
+                android:layout_height="275dp"
+                android:listSelector="#00000000"
+                android:divider="#00000000"
+                android:scrollbars="none"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="8dp" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.882" app:layout_constraintStart_toStartOf="parent"></ListView>
+        <Button
+                android:id="@+id/button_back"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/back_button"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="8dp"/>
+        <TextView
+                android:text="@string/mode_de_joc"
+                android:id="@+id/textV_mode"
+                android:fontFamily="@font/fuente1"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:textColor="#000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_marginStart="8dp"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent" app:layout_constraintHorizontal_bias="0.979"
+                app:layout_constraintVertical_bias="0.026"/>
+    </android.support.constraint.ConstraintLayout>
 
-    <TextView
-            android:text="-Mode de Joc-"
-            android:id="@+id/textV_mode"
-            android:layout_marginTop="-100dp"
-            android:fontFamily="@font/fuente1"
-            android:textStyle="bold"
-            android:textSize="30dp"
-            android:textColor="#000000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 </LinearLayout>
