@@ -20,7 +20,7 @@
     <string name="volume">Volum:</string>
     <string name="email">Correu:</string>
     <string name="title">Nino\'s Gateway</string>
-    <string name="guest">Hoste</string>
+    <string name="guest">Convidat</string>
     <string name="log_in">Iniciar sessió</string>
     <string name="game_version_0_x_x">Versió del juego: 0.x.x</string>
     <string name="game_paused">Pausa</string>

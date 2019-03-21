@@ -3,6 +3,7 @@ package com.example.ninosproject
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -11,10 +12,17 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.PopupWindow
+import kotlinx.android.synthetic.main.activity_play.*
 
 class PlayActivity : AppCompatActivity() {
 
     private lateinit var vibration_state: String
+
+    //inicialitzem la finestra
+    private lateinit var popupWindow : PopupWindow
+    private lateinit var pause : Button
+
+    private var isPopupOn : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,18 +32,31 @@ class PlayActivity : AppCompatActivity() {
 
         val tmp_win: Button = findViewById(R.id.tmpwinbutton)
         val tmp_lose: Button = findViewById(R.id.tmplosebutton)
-        val pause: Button = findViewById(R.id.pauseButton)
+        pause = findViewById(R.id.pauseButton)
         vibration_state = intent.getStringExtra("vibration")
 
         tmp_win.setOnClickListener {
-            finestraWin()
+            if(!isPopupOn) {
+                pause.setBackground(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                isPopupOn = true
+                finestraWin()
+            }
         }
         tmp_lose.setOnClickListener {
-            finestraLose()
+            if(!isPopupOn) {
+                pause.setBackground(ColorDrawable(android.graphics.Color.TRANSPARENT))
+                isPopupOn = true
+                finestraLose()
+            }
         }
         pause.setOnClickListener {
-            finestraPause()
+            if(!isPopupOn) {
+                pause.setBackgroundResource(R.drawable.play_button)
+                isPopupOn = true
+                finestraPause()
+            }
         }
+
 
     }
 
@@ -49,14 +70,12 @@ class PlayActivity : AppCompatActivity() {
         //Fem visible el layout però no el mostrem
         val view = inflater.inflate(R.layout.activity_you_win, null)
 
-        //inicialitzem la finestra
-        val popupWindow = PopupWindow(
+        popupWindow = PopupWindow(
             view, // Layout inflat que volem mostrar
             375.dp, // Width (dp transformat a pixel)
             335.dp, // Heigth (dp transformat a pixel)
             false
         )
-
         //mostrem la finestra amb el layout
         popupWindow.showAtLocation(findViewById(R.id.play_activity), Gravity.CENTER, 0, 0)
 
@@ -66,6 +85,8 @@ class PlayActivity : AppCompatActivity() {
 
 
         retry_level.setOnClickListener {
+            isPopupOn = false
+            pause.setBackgroundResource(R.drawable.pause_button)
             popupWindow.dismiss()
         }
 
@@ -80,6 +101,8 @@ class PlayActivity : AppCompatActivity() {
         next_level.setOnClickListener {
             //val intent: Intent = Intent(this, seguent nivell)//falta per implementar
             //startActivity(intent)
+            isPopupOn = false
+            pause.setBackgroundResource(R.drawable.pause_button)
             popupWindow.dismiss()
         }
 
@@ -94,7 +117,7 @@ class PlayActivity : AppCompatActivity() {
         val view = inflater.inflate(R.layout.activity_you_lose, null)
 
         //inicialitzem la finestra
-        val popupWindow = PopupWindow(
+        popupWindow = PopupWindow(
             view, // Layout inflat que volem mostrar
             375.dp, // Width (dp transformat a pixel)
             335.dp, // Heigth (dp transformat a pixel)
@@ -106,6 +129,8 @@ class PlayActivity : AppCompatActivity() {
 
         var retry_level: Button = view.findViewById(R.id.retryButtonYL)
         retry_level.setOnClickListener {
+            isPopupOn = false
+            pause.setBackgroundResource(R.drawable.pause_button)
             popupWindow.dismiss()
         }
 
@@ -125,7 +150,7 @@ class PlayActivity : AppCompatActivity() {
         val view = inflater.inflate(R.layout.activity_pause, null)
 
         //inicialitzem la finestra
-        val popupWindow = PopupWindow(
+        popupWindow = PopupWindow(
             view, // Layout inflat que volem mostrar
             375.dp, // Width (dp transformat a pixel)
             335.dp, // Heigth (dp transformat a pixel)
@@ -135,9 +160,12 @@ class PlayActivity : AppCompatActivity() {
         //mostrem la finestra amb el layout
         popupWindow.showAtLocation(findViewById(R.id.play_activity), Gravity.CENTER, 0, 0)
 
+        popupWindow.setOutsideTouchable(true)
         var repren_joc: Button = view.findViewById(R.id.repren_button)
         repren_joc.setOnClickListener {
             //Recuperar estat del joc i tornar a la partida.
+            pause.setBackgroundResource(R.drawable.pause_button)
+            isPopupOn = false
             popupWindow.dismiss()
         }
         var opcions_joc: Button = view.findViewById(R.id.opcions_button)
@@ -154,6 +182,7 @@ class PlayActivity : AppCompatActivity() {
             startActivity(intent) //torna al menu principal, no al menu dels nivells
         }
     }
+
     fun finestraOpcions() {
         //A partir d'aqui generem la finestra popup on es trobarán totes les opcions
 
@@ -164,11 +193,11 @@ class PlayActivity : AppCompatActivity() {
         val view = inflater.inflate(R.layout.popup_option_menu, null)
 
         //inicialitzem la finestra
-        val popupWindow = PopupWindow(
+        popupWindow = PopupWindow(
             view, // Layout inflat que volem mostrar
-            350.dp, // Width (dp transformat a pixel)
-            300.dp, // Heigth (dp transformat a pixel)
-            true // Si cliquem fora de la finestra, es tancarà
+            375.dp, // Width (dp transformat a pixel)
+            335.dp, // Heigth (dp transformat a pixel)
+            false
         )
 
         //mostrem la finestra amb el layout
@@ -192,5 +221,7 @@ class PlayActivity : AppCompatActivity() {
         else button.text = getString(R.string.off)
     }
 
+
     override fun onBackPressed() {} //Deshabilitar back button del mobil
+
 }
