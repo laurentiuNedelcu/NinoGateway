@@ -30,7 +30,8 @@ class ModeActivity : AppCompatActivity() {
 
         multi_button.setOnClickListener {
             val intent: Intent = Intent(this, LevelActivity::class.java)
-            intent.putExtra("mode",multi_button.text.toString())
+            intent.putExtra("mode",single_button.text.toString())
+            intent.putExtra("vibration",vibration)
             startActivity(intent);
         }
 
