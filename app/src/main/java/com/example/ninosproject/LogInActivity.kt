@@ -24,7 +24,7 @@ class LogInActivity : AppCompatActivity() {
         registerButton = findViewById(R.id.register_id)
         guestButton = findViewById(R.id.guest_id)
 
-        logInButton.setOnClickListener { Toast.makeText(this,"La funció encara no està implementada",Toast.LENGTH_SHORT).show() }
+        logInButton.setOnClickListener { Toast.makeText(this,getString(R.string.function),Toast.LENGTH_SHORT).show() }
         registerButton.setOnClickListener {
             val intent = Intent(this,RegisterActivity::class.java)
             startActivity(intent)

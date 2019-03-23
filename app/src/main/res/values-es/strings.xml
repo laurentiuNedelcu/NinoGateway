@@ -46,4 +46,5 @@
     <string name="lose">Derrota</string>
     <string name="you_lose">¡Has perdido!</string>
     <string name="levels">Niveles</string>
+    <string name="function">La función aún no está implementada</string>
 </resources>

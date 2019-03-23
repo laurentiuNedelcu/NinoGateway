@@ -22,6 +22,6 @@ class RegisterActivity : AppCompatActivity() {
         validateButton = findViewById(R.id.button_validate)
 
         backButton.setOnClickListener { finish() }
-        validateButton.setOnClickListener { Toast.makeText(this, "La funció encara no està implementada", Toast.LENGTH_SHORT).show() }
+        validateButton.setOnClickListener { Toast.makeText(this, getString(R.string.function), Toast.LENGTH_SHORT).show() }
     }
 }
