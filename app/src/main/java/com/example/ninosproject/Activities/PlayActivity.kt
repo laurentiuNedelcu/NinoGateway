@@ -3,7 +3,6 @@ package com.example.ninosproject.Activities
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
@@ -12,6 +11,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.PopupWindow
+import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
 
 class PlayActivity : AppCompatActivity() {
@@ -28,9 +28,9 @@ class PlayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        setContentView(R.layout.activity_play)
+        setContentView(GameView(this))
 
-        val tmp_win: Button = findViewById(R.id.tmpwinbutton)
+/*        val tmp_win: Button = findViewById(R.id.tmpwinbutton)
         val tmp_lose: Button = findViewById(R.id.tmplosebutton)
         pause = findViewById(R.id.pauseButton)
         vibration_state = intent.getStringExtra("vibration")
@@ -57,7 +57,7 @@ class PlayActivity : AppCompatActivity() {
             }
         }
 
-
+*/
     }
 
 
@@ -160,7 +160,7 @@ class PlayActivity : AppCompatActivity() {
         //mostrem la finestra amb el layout
         popupWindow.showAtLocation(findViewById(R.id.play_activity), Gravity.CENTER, 0, 0)
 
-        popupWindow.setOutsideTouchable(true)
+        popupWindow.isOutsideTouchable = true
         var repren_joc: Button = view.findViewById(R.id.repren_button)
         repren_joc.setOnClickListener {
             //Recuperar estat del joc i tornar a la partida.
