@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.Button
+import com.example.ninosproject.Logic.GameThread.Companion.canvas
 import com.example.ninosproject.R
 
 class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
@@ -41,13 +43,24 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
         thread.setRunning(true)
-        thread.start()
     }
 
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
 
         canvas?.drawBitmap(circle,px,py,null)
+    }
+
+    fun updateR(){
+        this.px = px+5
+    }
+
+    fun addButtons(b: ArrayList<Button>){
+        thread.addButtons(b)
+    }
+
+    fun startGame(){
+        thread.start()
     }
 
 }

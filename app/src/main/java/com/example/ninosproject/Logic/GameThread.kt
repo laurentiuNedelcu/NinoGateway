@@ -1,7 +1,9 @@
 package com.example.ninosproject.Logic
 
 import android.graphics.Canvas
+import android.view.MotionEvent
 import android.view.SurfaceHolder
+import android.widget.Button
 
 class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
     private val FPS : Long = 30
@@ -9,6 +11,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
     private var holder: SurfaceHolder = surfaceHolder
     private var gameView: GameView = gameView
     private var isRunning: Boolean = false
+    private var buttonArray: ArrayList<Button> = ArrayList<Button>(6)
 
     companion object { //Para poder llamar al objeto estaticamente (ex: GameThread.canvas)
         var canvas: Canvas? = null
@@ -33,6 +36,10 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
                 canvas = this.holder.lockCanvas()
                 synchronized(holder){ //Este es el loop del juego, lo demas es para prevenir errores
                     //this.gameView.update(); //implementarlo
+
+                    if(buttonArray[1].isPressed){
+                        gameView.updateR()
+                    }
                     this.gameView.draw(canvas) //implementarlo
                 }
             }catch (e: Exception){
@@ -70,4 +77,12 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
     fun setRunning(isRunning: Boolean){
         this.isRunning = isRunning
     }
+
+    fun addButtons(b: ArrayList<Button>){
+        this.buttonArray = b
+    }
+
+
+
+
 }

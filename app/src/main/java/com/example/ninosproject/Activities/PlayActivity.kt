@@ -45,6 +45,7 @@ class PlayActivity : AppCompatActivity() {
         buttonRight.text = "->"
         buttonRight.id = 123456 //Hay que ponerles un id diferente para diferenciarlos de los default buttons (que tienen el mismo id)
 
+        buttonRight.setOnClickListener { gameView.updateR() }
         val buttonLeft: Button = Button(this)
         buttonLeft.text = "<-"
         buttonLeft.id = 654321
@@ -84,7 +85,12 @@ class PlayActivity : AppCompatActivity() {
         //Como he dicho antes el FrameLayout va a contener las dos "vistas"
         game.addView(gameView)
         game.addView(gameButtons)
+        var buttons : ArrayList<Button> = ArrayList<Button>()
+        buttons.add(buttonLeft)
+        buttons.add(buttonRight)
+        gameView.addButtons(buttons)
         setContentView(game)
+        gameView.startGame()
 
         //setContentView(GameView(this))
 
