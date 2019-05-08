@@ -62,8 +62,17 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
         drawMap(canvas!!)
     }
 
+    fun updateL(){
+        this.px -= 10
+    }
+    fun updateD(){
+        this.py += 10
+    }
     fun updateR(){
-        this.px = px+5
+        this.px += 10
+    }
+    fun updateU(){
+        this.py -= 10
     }
 
     fun addButtons(b: ArrayList<Button>){
@@ -80,7 +89,7 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
         paint.strokeWidth = 2.5f
         var x: Int
         var y: Int
-        for (i in 0..17) {
+        for (i in 0..10) {
             for (j in 0..16) {
                 x = j * blockSize
                 y = i * blockSize

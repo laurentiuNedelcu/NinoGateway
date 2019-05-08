@@ -1,7 +1,6 @@
 package com.example.ninosproject.Logic
 
 import android.graphics.Canvas
-import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.widget.Button
 
@@ -37,8 +36,17 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
                 synchronized(holder){ //Este es el loop del juego, lo demas es para prevenir errores
                     //this.gameView.update(); //implementarlo
 
+                    if(buttonArray[0].isPressed){
+                        gameView.updateL()
+                    }
                     if(buttonArray[1].isPressed){
+                        gameView.updateD()
+                    }
+                    if(buttonArray[2].isPressed){
                         gameView.updateR()
+                    }
+                    if(buttonArray[3].isPressed){
+                        gameView.updateU()
                     }
                     this.gameView.draw(canvas) //implementarlo
                 }
