@@ -3,13 +3,15 @@ package com.example.ninosproject.Logic
 import android.graphics.Canvas
 import android.view.SurfaceHolder
 import android.widget.Button
+import com.example.ninosproject.ObstacleObject.Mur
 
-class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
+class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView,m:ArrayList<Mur>) : Thread() {
     private val FPS : Long = 30
     private var avgFPS : Double = 0.0
     private var holder: SurfaceHolder = surfaceHolder
     private var gameView: GameView = gameView
-    private var isRunning: Boolean = false
+    private var gameEngine: GameEngine = GameEngine(gameView,m)
+    private var isRunning: Boolean = true
     private var buttonArray: ArrayList<Button> = ArrayList<Button>(6)
 
     companion object { //Para poder llamar al objeto estaticamente (ex: GameThread.canvas)
@@ -17,7 +19,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
     }
 
     init {
-        isRunning = true
+        isRunning = false
     }
 
     override fun run(){
@@ -37,18 +39,19 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView) : Thread() {
                     //this.gameView.update(); //implementarlo
 
                     if(buttonArray[0].isPressed){
-                        gameView.updateL()
+                        gameEngine.updateL()
                     }
                     if(buttonArray[1].isPressed){
-                        gameView.updateD()
+                        gameEngine.updateD()
                     }
                     if(buttonArray[2].isPressed){
-                        gameView.updateR()
+                        gameEngine.updateR()
                     }
                     if(buttonArray[3].isPressed){
-                        gameView.updateU()
+                        gameEngine.updateU()
                     }
-                    this.gameView.draw(canvas) //implementarlo
+
+                    gameEngine.draw()
                 }
             }catch (e: Exception){
                 e.printStackTrace()

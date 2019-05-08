@@ -6,6 +6,8 @@ import android.util.DisplayMetrics
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
+import com.example.ninosproject.Data.Personaje
+import com.example.ninosproject.ObstacleObject.Mur
 import com.example.ninosproject.R
 
 class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
@@ -16,21 +18,44 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
     private var py: Float
     private var screenW: Int
     private var blockSize: Int
-    private var paint: Paint
+    private var murArray: ArrayList<Mur> = ArrayList<Mur>()
+
+    internal val level = arrayOf(
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(2, 2, 2, 2, 0, 0, 0, 2, 2, 5, 0, 0, 0, 6, 2, 2, 2, 0, 0, 0, 2, 5, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(2, 2, 2, 2, 0, 0, 0, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    )
+
     init {
         holder.addCallback(this)
-        thread = GameThread(holder,this)
+
+        val matrix: DisplayMetrics = resources.displayMetrics
+
+        screenW = matrix.widthPixels
+
+        //blockSize = screenW.div(25.dp)
+
+        blockSize = screenW.div(25)
+        blockSize = (blockSize.div(5)).times(5)
+
+        renderMap()
+
+        thread = GameThread(holder,this,murArray)
         circle = BitmapFactory.decodeResource(resources, R.drawable.circle)
         px = 0.0F
         py = 0.0F
         isFocusable = true
-        /*****************************************/
-        val matrix: DisplayMetrics = resources.displayMetrics
-        screenW = matrix.widthPixels
-        blockSize = screenW.div(17)
-        blockSize = (blockSize.div(5)).times(5)
-        paint = Paint()
-        paint.color = Color.WHITE
 
 
     }
@@ -53,26 +78,14 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
 
     override fun surfaceCreated(holder: SurfaceHolder?) {
         thread.setRunning(true)
+        thread.start()
     }
 
-    override fun draw(canvas: Canvas?) {
-        super.draw(canvas)
-
-        canvas?.drawBitmap(circle,px,py,null)
-        drawMap(canvas!!)
-    }
-
-    fun updateL(){
-        this.px -= 10
-    }
-    fun updateD(){
-        this.py += 10
-    }
-    fun updateR(){
-        this.px += 10
-    }
-    fun updateU(){
-        this.py -= 10
+    fun draw(personaje: Personaje) {
+        super.draw(GameThread.canvas)
+        GameThread.canvas?.drawColor(Color.WHITE)
+        personaje.draw(this)
+        drawMap(GameThread.canvas!!)
     }
 
     fun addButtons(b: ArrayList<Button>){
@@ -80,60 +93,45 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
     }
 
     fun startGame(){
-        thread.start()
+        thread.setRunning(true)
     }
+
 
     private fun drawMap(canvas: Canvas) {
-        //paint.setColor(Color.BLUE)
-        //paint.setStrokeWidth(2.5f)
-        paint.strokeWidth = 2.5f
-        var x: Int
-        var y: Int
-        for (i in 0..10) {
-            for (j in 0..16) {
-                x = j * blockSize
-                y = i * blockSize
-                if (level[i][j] and 1 != 0)
-                // draws left
-                    canvas.drawLine(x.toFloat(), y.toFloat(), x.toFloat(), (y + blockSize - 1).toFloat(), paint)
-
-                if (level[i][j] and 2 != 0)
-                // draws top
-                    canvas.drawLine(x.toFloat(), y.toFloat(), (x + blockSize - 1).toFloat(), y.toFloat(), paint)
-
-                if (level[i][j] and 4 != 0)
-                // draws right
-                    canvas.drawLine(
-                        (x + blockSize).toFloat(),
-                        y.toFloat(),
-                        (x + blockSize).toFloat(),
-                        (y + blockSize - 1).toFloat(),
-                        paint
-                    )
-
-                if (level[i][j] and 8 != 0)
-                // draws bottom
-                    canvas.drawLine(
-                        x.toFloat(),
-                        (y + blockSize).toFloat(),
-                        (x + blockSize - 1).toFloat(),
-                        (y + blockSize).toFloat(),
-                        paint
-                    )
-            }
+        for (i in murArray){
+            i.draw(this,canvas)
         }
-        paint.color = Color.WHITE
     }
 
-    internal val level = arrayOf(
-        intArrayOf(19, 26, 26, 18, 26, 26, 26, 26, 26, 26, 26, 26, 26, 18, 26, 26, 22),
-        intArrayOf(21, 0, 0, 21, 0, 0, 0, 21, 0, 0, 0, 0, 0, 21, 0, 0, 21),
-        intArrayOf(1, 26, 26, 16, 26, 18, 26, 24, 26, 24, 26, 18, 26, 16, 26, 26, 20),
-        intArrayOf(21, 26, 26, 20, 0, 25, 26, 22, 0, 19, 26, 28, 0, 17, 26, 26, 21),
-        intArrayOf(1, 0, 0, 21, 0, 0, 0, 21, 0, 21, 0, 0, 0, 21, 0, 0, 20),
-        intArrayOf(21, 0, 0, 21, 0, 19, 26, 24, 26, 24, 26, 22, 0, 21, 0, 0, 20),
-        intArrayOf(21, 0, 26, 16, 26, 20, 0, 0, 0, 0, 0, 17, 26, 16, 26, 26, 21),
-        intArrayOf(25, 26, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 26, 28)
-    )
 
+    private fun renderMap() {
+        var x: Int
+        var y: Int
+        var mur: Mur
+        for (i in 0..13) {
+            for (j in 0..24) {
+                x = j * blockSize
+                y = (i * (blockSize))
+                if (level[i][j] == Mur.MurHor) {
+                    mur = Mur(x, y, Mur.MurHor)
+                    murArray.add(mur)
+                } else if (level[i][j] == Mur.MurVer) {
+                    mur = Mur(x, y, Mur.MurVer)
+                    murArray.add(mur)
+                } else if (level[i][j] == Mur.MurUpToLeft) {
+                    mur = Mur(x, y, Mur.MurUpToLeft)
+                    murArray.add(mur)
+                } else if (level[i][j] == Mur.MurUpToRight) {
+                    mur = Mur(x, y, Mur.MurUpToRight)
+                    murArray.add(mur)
+                } else if (level[i][j] == Mur.MurDownToLeft) {
+                    mur = Mur(x, y, Mur.MurDownToLeft)
+                    murArray.add(mur)
+                } else if (level[i][j] == Mur.MurDownToRight) {
+                    mur = Mur(x, y, Mur.MurDownToRight)
+                    murArray.add(mur)
+                }
+            }
+        }
+    }
 }

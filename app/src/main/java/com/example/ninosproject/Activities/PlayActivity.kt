@@ -35,32 +35,26 @@ class PlayActivity : AppCompatActivity() {
         val buttonLeft = Button(this)
         buttonLeft.text = "L"
         buttonLeft.id = 111222
-        buttonLeft.setOnClickListener { gameView.updateL() }
 
         val buttonDown = Button(this)
         buttonDown.text = "D"
         buttonDown.id = 222333
-        buttonDown.setOnClickListener { gameView.updateD() }
 
         val buttonRight = Button(this)
         buttonRight.text = "R"
         buttonRight.id = 333444
-        buttonRight.setOnClickListener { gameView.updateR() }
 
         val buttonUp = Button(this)
         buttonUp.text = "U"
         buttonUp.id = 444555
-        buttonUp.setOnClickListener { gameView.updateU() }
 
         val buttonPause = Button(this)
         buttonPause.text = "||"
         buttonPause.id = 555666
-        //buttonPause.setOnClickListener { popupwindow }
 
         val buttonInteraction = Button(this)
         buttonInteraction.text = "A"
         buttonInteraction.id = 666777
-        //buttonInteraction.setOnClickListener { gameView.interact() }
 
         leftDownRightLayout.orientation = LinearLayout.HORIZONTAL
         upLayout.orientation = LinearLayout.VERTICAL
@@ -78,7 +72,6 @@ class PlayActivity : AppCompatActivity() {
             RelativeLayout.LayoutParams.WRAP_CONTENT)
 
         leftDownRightLayout.layoutParams = paramsButtons
-        layoutButtonUp.leftMargin = 210
         upLayout.layoutParams = paramsButtons
         gameButtons.layoutParams = params
         auxLayout.layoutParams = paramsAux
