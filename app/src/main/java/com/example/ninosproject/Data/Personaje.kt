@@ -29,48 +29,28 @@ class Personaje{
         pyInit = py
     }
 
-    fun updateL(m:ArrayList<Mur>){
-        var newPxInit = pxInit-10
-        if(!colision(newPxInit,pyInit,m)) {
-            this.pxInit -= 10
-        }
+    fun updateL():ArrayList<Int>{
+        var ar: ArrayList<Int> = ArrayList<Int>(2)
+        ar.add(pxInit-10)
+        ar.add(pyInit)
+        return ar
     }
-    fun updateD(m:ArrayList<Mur>){
-        var newPyInit = pyInit+10
-        if(!colision(pxInit,newPyInit,m)) {
-            this.pyInit += 10
-        }
+    fun updateD():ArrayList<Int>{
+        var ar: ArrayList<Int> = ArrayList<Int>(2)
+        ar.add(pxInit)
+        ar.add(pyInit+10)
+        return ar
     }
-    fun updateR(m:ArrayList<Mur>){
-        var newPxInit = pxInit+10
-        if(!colision(newPxInit,pyInit,m)) {
-            this.pxInit += 10
-        }
+    fun updateR():ArrayList<Int>{
+        var ar: ArrayList<Int> = ArrayList<Int>(2)
+        ar.add(pxInit+10)
+        ar.add(pyInit)
+        return ar
     }
-    fun updateU(m:ArrayList<Mur>){
-        var newPyInit = pyInit-10
-        if(!colision(pxInit,newPyInit,m)) {
-            this.pyInit -= 10
-        }
+    fun updateU():ArrayList<Int>{
+        var ar: ArrayList<Int> = ArrayList<Int>(2)
+        ar.add(pxInit)
+        ar.add(pyInit-10)
+        return ar
     }
-
-    fun colision(newPxInit: Int, newPyInit: Int, m: ArrayList<Mur>):Boolean{
-        var newPxFinal = newPxInit+50.dp
-        var newPyFinal = newPyInit+50.dp
-        for (i in m){
-            if(newPxInit>=i.pxInit && newPxInit<=i.pxFinal && newPyInit>=i.pyInit && newPyInit<=i.pyFinal){
-                return true
-            }else if(newPxFinal>=i.pxInit && newPxFinal<=i.pxFinal && newPyInit>=i.pyInit && newPyInit<=i.pyFinal){
-                return true
-            }else if(newPxFinal>=i.pxInit && newPxFinal<=i.pxFinal && newPyFinal>=i.pyInit && newPyFinal<=i.pyFinal){
-                return true
-            }else if(newPxInit>=i.pxInit && newPxInit<=i.pxFinal && newPyFinal>=i.pyInit && newPyFinal<=i.pyFinal){
-                return true
-            }
-        }
-        return false
-    }
-
-    val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt() // Metode per passar de density independent pixels (dp) a pixels
-
 }

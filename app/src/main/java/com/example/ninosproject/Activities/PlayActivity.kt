@@ -72,6 +72,8 @@ class PlayActivity : AppCompatActivity() {
             RelativeLayout.LayoutParams.WRAP_CONTENT)
 
         leftDownRightLayout.layoutParams = paramsButtons
+        //layoutButtonUp.leftMargin = 210
+        //layoutButtonUp.marginStart = 210
         upLayout.layoutParams = paramsButtons
         gameButtons.layoutParams = params
         auxLayout.layoutParams = paramsAux
@@ -120,5 +122,6 @@ class PlayActivity : AppCompatActivity() {
         setContentView(game)
 
         gameView.startGame()
+
     }
 }

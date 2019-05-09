@@ -8,6 +8,7 @@ import android.view.SurfaceView
 import android.widget.Button
 import com.example.ninosproject.Data.Personaje
 import com.example.ninosproject.ObstacleObject.Mur
+import com.example.ninosproject.ObstacleObject.Trampa
 import com.example.ninosproject.R
 
 class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
@@ -81,11 +82,14 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
         thread.start()
     }
 
-    fun draw(personaje: Personaje) {
+    fun draw(personaje: Personaje, traps: ArrayList<Trampa>) {
         super.draw(GameThread.canvas)
         GameThread.canvas?.drawColor(Color.WHITE)
         personaje.draw(this)
         drawMap(GameThread.canvas!!)
+        for (i in traps){
+            i.draw(this)
+        }
     }
 
     fun addButtons(b: ArrayList<Button>){
@@ -112,24 +116,31 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
             for (j in 0..24) {
                 x = j * blockSize
                 y = (i * (blockSize))
-                if (level[i][j] == Mur.MurHor) {
-                    mur = Mur(x, y, Mur.MurHor)
-                    murArray.add(mur)
-                } else if (level[i][j] == Mur.MurVer) {
-                    mur = Mur(x, y, Mur.MurVer)
-                    murArray.add(mur)
-                } else if (level[i][j] == Mur.MurUpToLeft) {
-                    mur = Mur(x, y, Mur.MurUpToLeft)
-                    murArray.add(mur)
-                } else if (level[i][j] == Mur.MurUpToRight) {
-                    mur = Mur(x, y, Mur.MurUpToRight)
-                    murArray.add(mur)
-                } else if (level[i][j] == Mur.MurDownToLeft) {
-                    mur = Mur(x, y, Mur.MurDownToLeft)
-                    murArray.add(mur)
-                } else if (level[i][j] == Mur.MurDownToRight) {
-                    mur = Mur(x, y, Mur.MurDownToRight)
-                    murArray.add(mur)
+                when(level[i][j]) {
+                     Mur.MurHor -> {
+                        mur = Mur(x, y, Mur.MurHor)
+                        murArray.add(mur)
+                    }
+                    Mur.MurVer -> {
+                        mur = Mur(x, y, Mur.MurVer)
+                        murArray.add(mur)
+                    }
+                    Mur.MurUpToLeft -> {
+                        mur = Mur(x, y, Mur.MurUpToLeft)
+                        murArray.add(mur)
+                    }
+                    Mur.MurUpToRight -> {
+                        mur = Mur(x, y, Mur.MurUpToRight)
+                        murArray.add(mur)
+                    }
+                    Mur.MurDownToLeft -> {
+                        mur = Mur(x, y, Mur.MurDownToLeft)
+                        murArray.add(mur)
+                    }
+                    Mur.MurDownToRight -> {
+                        mur = Mur(x, y, Mur.MurDownToRight)
+                        murArray.add(mur)
+                    }
                 }
             }
         }
