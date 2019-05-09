@@ -5,7 +5,9 @@ import android.view.SurfaceHolder
 import android.widget.Button
 import com.example.ninosproject.ObstacleObject.Mur
 
-class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView,m:ArrayList<Mur>) : Thread() {
+
+class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<Mur>) : Thread() {
+
     private val FPS : Long = 30
     private var avgFPS : Double = 0.0
     private var holder: SurfaceHolder = surfaceHolder
@@ -13,16 +15,18 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView,m:ArrayList<Mu
     private var gameEngine: GameEngine = GameEngine(gameView,m)
     private var isRunning: Boolean = true
     private var buttonArray: ArrayList<Button> = ArrayList<Button>(6)
+    private var paused: Boolean = false
 
     companion object { //Para poder llamar al objeto estaticamente (ex: GameThread.canvas)
         var canvas: Canvas? = null
+        var pauseLock: Object = Object()
     }
 
     init {
         isRunning = false
     }
 
-    override fun run(){
+    override fun run() {
         var startTime: Long
         var timeMilis: Long
         var waitMilis: Long
@@ -30,57 +34,73 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView,m:ArrayList<Mu
         var frameCount: Long = 0
         val targetTime: Long = 1000.div(FPS)
 
-        while(isRunning){
-            startTime = System.nanoTime()
-            canvas = null
-            try{
-                canvas = this.holder.lockCanvas()
-                synchronized(holder){ //Este es el loop del juego, lo demas es para prevenir errores
-                    //this.gameView.update(); //implementarlo
-
-                    if(buttonArray[0].isPressed){
-                        gameEngine.updateL()
-                    }
-                    if(buttonArray[1].isPressed){
-                        gameEngine.updateD()
-                    }
-                    if(buttonArray[2].isPressed){
-                        gameEngine.updateR()
-                    }
-                    if(buttonArray[3].isPressed){
-                        gameEngine.updateU()
-                    }
-
-                    gameEngine.draw()
-                }
-            }catch (e: Exception){
-                e.printStackTrace()
-            }finally {
-                if(canvas!=null){
-                    try{
-                        holder.unlockCanvasAndPost(canvas)
-                    }catch (e: Exception){
-                        e.printStackTrace()
+        while (isRunning) {
+            synchronized(pauseLock) {
+                if (isRunning && paused) { // isRunning podria haver canviat mentre es feia la syncro de pauseLock
+                    try {
+                        synchronized(pauseLock) {
+                            pauseLock.wait() //Aixo provoca que el thread esperi fins que algu el cridi
+                        }
+                    } catch (ex: InterruptedException) {
+                        ex.printStackTrace()
                     }
                 }
             }
+            if (isRunning) {
+                startTime = System.nanoTime()
+                canvas = null
+                try {
+                    canvas = this.holder.lockCanvas()
+                    synchronized(holder) {
+                        //Este es el loop del juego, lo demas es para prevenir errores
+                        //this.gameView.update(); //implementarlo
 
-            timeMilis = (System.nanoTime().minus(startTime)).div(1000000)
-            waitMilis = targetTime.minus(timeMilis)
+                        if (buttonArray[0].isPressed) {
+                            gameEngine.updateL()
+                        }
+                        if (buttonArray[1].isPressed) {
+                            gameEngine.updateD()
+                        }
+                        if (buttonArray[2].isPressed) {
+                            gameEngine.updateR()
+                        }
+                        if (buttonArray[3].isPressed) {
+                            gameEngine.updateU()
+                        }
+                        if (buttonArray[4].isPressed) {
+                            //((myContext as Activity).finish() )
+                        }
+                        gameEngine.draw()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    if (canvas != null) {
+                        try {
+                            holder.unlockCanvasAndPost(canvas)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
 
-            try{
-                sleep(waitMilis)
-            }catch (e: Exception){
-                e.printStackTrace()
-            }
+                timeMilis = (System.nanoTime().minus(startTime)).div(1000000)
+                waitMilis = targetTime.minus(timeMilis)
 
-            totalTime += System.nanoTime().minus(startTime)
-            frameCount++
-            if(frameCount == FPS){
-                avgFPS = (100/((totalTime/frameCount)/1000000)).toDouble()
-                frameCount = 0
-                totalTime = 0
-                System.out.println(FPS)
+                try {
+                    sleep(waitMilis)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
+                totalTime += System.nanoTime().minus(startTime)
+                frameCount++
+                if (frameCount == FPS) {
+                    avgFPS = (100 / ((totalTime / frameCount) / 1000000)).toDouble()
+                    frameCount = 0
+                    totalTime = 0
+                    System.out.println(FPS)
+                }
             }
         }
     }
@@ -89,11 +109,18 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView,m:ArrayList<Mu
         this.isRunning = isRunning
     }
 
+    fun pause(){
+        paused = true
+    }
+
+    fun resumeThread(){
+        synchronized(pauseLock){
+            paused = false
+            pauseLock.notifyAll() //Crida al Thread
+        }
+    }
+
     fun addButtons(b: ArrayList<Button>){
         this.buttonArray = b
     }
-
-
-
-
 }

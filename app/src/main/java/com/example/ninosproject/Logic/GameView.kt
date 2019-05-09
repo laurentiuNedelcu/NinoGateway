@@ -1,7 +1,8 @@
 package com.example.ninosproject.Logic
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
 import android.util.DisplayMetrics
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -9,17 +10,13 @@ import android.widget.Button
 import com.example.ninosproject.Data.Personaje
 import com.example.ninosproject.ObstacleObject.Mur
 import com.example.ninosproject.ObstacleObject.Trampa
-import com.example.ninosproject.R
 
 class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
 
     private var thread: GameThread
-    private var circle: Bitmap
-    private var px: Float
-    private var py: Float
     private var screenW: Int
     private var blockSize: Int
-    private var murArray: ArrayList<Mur> = ArrayList<Mur>()
+    private var murArray: ArrayList<Mur> = ArrayList()
 
     internal val level = arrayOf(
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
@@ -53,9 +50,6 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
         renderMap()
 
         thread = GameThread(holder,this,murArray)
-        circle = BitmapFactory.decodeResource(resources, R.drawable.circle)
-        px = 0.0F
-        py = 0.0F
         isFocusable = true
 
 
@@ -77,6 +71,13 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
         }
     }
 
+    fun pause(){
+        thread.pause()
+    }
+
+    fun resume(){
+        thread.resumeThread()
+    }
     override fun surfaceCreated(holder: SurfaceHolder?) {
         thread.setRunning(true)
         thread.start()
@@ -96,17 +97,12 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
         thread.addButtons(b)
     }
 
-    fun startGame(){
-        thread.setRunning(true)
-    }
-
 
     private fun drawMap(canvas: Canvas) {
         for (i in murArray){
             i.draw(this,canvas)
         }
     }
-
 
     private fun renderMap() {
         var x: Int

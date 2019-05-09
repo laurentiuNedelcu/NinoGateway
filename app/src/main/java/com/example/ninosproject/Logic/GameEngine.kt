@@ -49,6 +49,9 @@ class GameEngine{
             player.update(ar[0],ar[1])
         }
     }
+    fun updateInt(){
+        //gameView.updatePause()
+    }
 
     fun draw(){
         updateTrampas()
