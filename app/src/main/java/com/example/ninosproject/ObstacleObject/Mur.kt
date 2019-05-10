@@ -4,15 +4,20 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
 
-class Mur{
+class Mur: AbstObstaculo{
     private lateinit var rect: Bitmap
-    var pxInit: Int
-    var pyInit: Int
-    var pxFinal: Int
-    var pyFinal: Int
+    override var pxInit: Int
+    override var pyInit: Int
+    override var pxFinal: Int
+    override var pyFinal: Int
+    override var newPxInit: Int
+    override var newPyInit: Int
+    override var newPxFinal: Int
+    override var newPyFinal: Int
     private var type: Int
 
     init{
@@ -20,6 +25,10 @@ class Mur{
         pyInit = 0
         pxFinal = 25.dp
         pyFinal = 25.dp
+        newPxInit = 0
+        newPyInit = 0
+        newPxFinal = 25.dp
+        newPyFinal = 25.dp
     }
 
     constructor(px: Int, py: Int, type: Int){
@@ -30,7 +39,7 @@ class Mur{
         this.type = type
     }
 
-    fun draw(v: GameView, canvas: Canvas?){
+    override fun draw(v: GameView){
 
         when(type){
             1 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.mur)
@@ -41,7 +50,7 @@ class Mur{
             6 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.mur_up_to_right)
         }
 
-        canvas?.drawBitmap(rect,pxInit.toFloat(),pyInit.toFloat(),null)
+        GameThread.canvas?.drawBitmap(rect,pxInit.toFloat(),pyInit.toFloat(),null)
     }
 
     companion object {
@@ -52,6 +61,4 @@ class Mur{
         var MurUpToLeft = 5
         var MurUpToRight = 6
     }
-    val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt() // Metode per passar de density independent pixels (dp) a pixels
-
 }

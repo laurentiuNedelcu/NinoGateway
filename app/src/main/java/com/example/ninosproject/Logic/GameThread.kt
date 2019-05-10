@@ -4,9 +4,11 @@ import android.graphics.Canvas
 import android.view.SurfaceHolder
 import android.widget.Button
 import com.example.ninosproject.ObstacleObject.Mur
+import android.view.View
+import com.example.ninosproject.ObstacleObject.AbstObstaculo
 
 
-class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<Mur>) : Thread() {
+class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<AbstObstaculo>) : Thread() {
 
     private val FPS : Long = 30
     private var avgFPS : Double = 0.0
@@ -72,6 +74,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
                         }
                         gameEngine.draw()
                     }
+
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
@@ -122,5 +125,9 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
 
     fun addButtons(b: ArrayList<Button>){
         this.buttonArray = b
+    }
+
+    fun getButtons():ArrayList<Button>{
+        return buttonArray
     }
 }

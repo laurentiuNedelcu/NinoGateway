@@ -7,16 +7,19 @@ import android.util.DisplayMetrics
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
-import com.example.ninosproject.Data.Personaje
+import com.example.ninosproject.Activities.PlayActivity
+import com.example.ninosproject.ObstacleObject.AbstObstaculo
+import com.example.ninosproject.ObstacleObject.Personaje
 import com.example.ninosproject.ObstacleObject.Mur
 import com.example.ninosproject.ObstacleObject.Trampa
 
-class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
+class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context), SurfaceHolder.Callback{
 
+    private var playActivity: PlayActivity = playActivity
     private var thread: GameThread
     private var screenW: Int
     private var blockSize: Int
-    private var murArray: ArrayList<Mur> = ArrayList()
+    private var murArray: ArrayList<AbstObstaculo> = ArrayList()
 
     internal val level = arrayOf(
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
@@ -60,6 +63,8 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
+        thread.setRunning(false)
+        /*
         val retry = true
         while (retry){
             try {
@@ -68,7 +73,7 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
             } catch (e: InterruptedException){
                 e.printStackTrace()
             }
-        }
+        }*/
     }
 
     fun pause(){
@@ -78,17 +83,21 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
     fun resume(){
         thread.resumeThread()
     }
+
+    fun finish(){
+        thread.setRunning(false)
+        thread.interrupt()
+    }
+
     override fun surfaceCreated(holder: SurfaceHolder?) {
         thread.setRunning(true)
         thread.start()
     }
 
-    fun draw(personaje: Personaje, traps: ArrayList<Trampa>) {
+    fun draw(obs: ArrayList<AbstObstaculo>) {
         super.draw(GameThread.canvas)
         GameThread.canvas?.drawColor(Color.WHITE)
-        personaje.draw(this)
-        drawMap(GameThread.canvas!!)
-        for (i in traps){
+        for (i in obs){
             i.draw(this)
         }
     }
@@ -97,10 +106,13 @@ class GameView(context: Context): SurfaceView(context), SurfaceHolder.Callback{
         thread.addButtons(b)
     }
 
+    fun youLose(){
+        playActivity.finestraDerrota(thread.getButtons()[5])
+    }
 
-    private fun drawMap(canvas: Canvas) {
+    private fun drawMap() {
         for (i in murArray){
-            i.draw(this,canvas)
+            i.draw(this)
         }
     }
 

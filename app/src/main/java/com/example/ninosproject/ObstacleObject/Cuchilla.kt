@@ -1,32 +1,37 @@
 package com.example.ninosproject.ObstacleObject
 
+import android.content.res.Resources
 import android.graphics.BitmapFactory
 import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
 
 class Cuchilla : Trampa {
-    private var pxInit: Int = 0;
-    private var pyInit: Int = 0;
-    private var pxFinal: Int = pxInit+50
-    private var pyFinal: Int = pyInit+50
+    override var pxInit: Int
+    override var pyInit: Int
+    override var pxFinal: Int
+    override var pyFinal: Int
+    override var newPxInit: Int
+    override var newPyInit: Int
+    override var newPxFinal: Int
+    override var newPyFinal: Int
     private var times = 0
 
     constructor(px: Int, py: Int){
         pxInit = px
         pyInit = py
+        pxFinal = px+50.dp
+        pyFinal = py+50.dp
+        newPxInit = px
+        newPyInit = py
+        newPxFinal = px+50.dp
+        newPyFinal = py+50.dp
     }
 
-    override fun update(px: Int, py: Int) {
-        pxInit = px
-        pyInit = py
+    override fun update() {
     }
 
-    override fun newPosition(): ArrayList<Int> {
-        var ar: ArrayList<Int> = ArrayList<Int>(2)
-        ar.add(pxInit)
-        ar.add(pyInit)
-        return ar
+    override fun newPosition(){
     }
 
     override fun draw(v: GameView){

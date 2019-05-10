@@ -6,13 +6,13 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Window
-import android.view.WindowManager
+import android.system.Os.remove
+import android.view.*
 import android.widget.*
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
+import java.lang.Exception
+import kotlin.concurrent.thread
 
 class PlayActivity : AppCompatActivity() {
 
@@ -55,7 +55,6 @@ class PlayActivity : AppCompatActivity() {
         buttonPause.id = 555666
         buttonPause.setOnClickListener {
             if(!isPopupOn) {
-                gameView.pause()
                 finestraPause(buttonPause)
             } else {
                 gameView.resume()
@@ -70,8 +69,9 @@ class PlayActivity : AppCompatActivity() {
         buttonInteraction.id = 666777
 
 
+
         game = FrameLayout(this)
-        gameView = GameView(this)
+        gameView = GameView(this,this)
         gameButtons = RelativeLayout(this)
         auxLayout = RelativeLayout(this)
         leftDownRightLayout = LinearLayout(this)
@@ -144,15 +144,18 @@ class PlayActivity : AppCompatActivity() {
         buttons.add(buttonRight)
         buttons.add(buttonUp)
         buttons.add(buttonInteraction)
+        buttons.add(buttonPause)
 
         gameView.addButtons(buttons)
         setContentView(game)
+        val restart = Intent(this, PlayActivity::class.java)
     }
 
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
     fun finestraPause(buttonPause: Button) {
 
+        gameView.pause()
         isPopupOn = true
         buttonPause.setBackgroundResource(R.drawable.play_button)
 
@@ -182,8 +185,8 @@ class PlayActivity : AppCompatActivity() {
         menu_joc.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("vibration", vibration)
+            popupWindow.dismiss()
             finish()
-            //startActivity(intent) //torna al menu principal, no al menu dels nivells
         }
     }
 
@@ -208,6 +211,79 @@ class PlayActivity : AppCompatActivity() {
             vibration = button_vibracio.text.toString(); popupWindow.dismiss(); finestraPause(buttonPause)
         }
         button_deny.setOnClickListener { popupWindow.dismiss(); finestraPause(buttonPause) }
+    }
+
+    fun finestraDerrota(buttonPause: Button){
+
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+
+                    gameView.pause()
+                    buttonPause.isEnabled = false
+                    buttonPause.visibility = View.INVISIBLE
+                    isPopupOn = true
+
+                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                    val view = inflater.inflate(R.layout.activity_you_lose, null)
+
+                    popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
+                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
+
+                    val retry: Button = view.findViewById(R.id.retryButtonYL)
+                    val levels: Button = view.findViewById(R.id.levelsButtonYL)
+
+                    retry.setOnClickListener {
+                        //Recuperar estat del joc i tornar a la partida.
+                        //buttonPause.setBackgroundResource(R.drawable.pause_button)
+                        popupWindow.dismiss()
+
+                        finish()
+                        startActivity(intent)
+                    }
+
+                    levels.setOnClickListener {
+                    popupWindow.dismiss()
+                        finish()
+                    }
+                }
+            }
+        )
+
+    }
+
+
+    fun finestraVictoria(){
+
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+                    gameView.pause()
+                    isPopupOn = true
+
+                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                    val view = inflater.inflate(R.layout.activity_you_lose, null)
+
+                    popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
+                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
+
+                    val retry: Button = view.findViewById(R.id.retryButtonYL)
+
+                    retry.setOnClickListener {
+                        //Recuperar estat del joc i tornar a la partida.
+                        //buttonPause.setBackgroundResource(R.drawable.pause_button)
+                        popupWindow.dismiss()
+
+                        gameView.pause()
+                        finish()
+                        startActivity(intent)
+                    }
+                }
+            }
+        )
+
     }
 
     fun vibracio(button: Button) {
