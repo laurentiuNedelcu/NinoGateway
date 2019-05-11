@@ -1,34 +1,30 @@
 package com.example.ninosproject.ObstacleObject
 
+import android.graphics.BitmapFactory
+import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
+import com.example.ninosproject.R
 
-class Casilla : AbstObstaculo() {
-    override var newPxInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var newPyInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var newPxFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var newPyFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+class Casilla : AbstObstaculo {
+    override var newPxInit: Int = 0
+    override var newPyInit: Int = 0
+    override var newPxFinal: Int = 0
+    override var newPyFinal: Int  = 0
     override var pxInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
     override var pyInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var pxFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var pyFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+    override var pxFinal: Int = 0
+    override var pyFinal: Int = 0
+    var valor : Int
+
+    constructor(px: Int, py: Int, valor : Int){
+        pxInit = px
+        pyInit = py
+        this.valor = valor
+    }
+
 
     override fun draw(v: GameView) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_random)
+        GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
     }
 }

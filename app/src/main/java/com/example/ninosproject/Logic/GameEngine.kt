@@ -1,7 +1,6 @@
 package com.example.ninosproject.Logic
 
 import android.content.res.Resources
-import android.graphics.Canvas
 import com.example.ninosproject.ObstacleObject.*
 
 class GameEngine{
@@ -10,11 +9,21 @@ class GameEngine{
 
     private var player: Personaje =
         Personaje(50, 50)
+    private var valorActual : Int = 0 //variable donde se va sumando los valores de las casillas por las que pasa
 
     constructor(gameView: GameView, m: ArrayList<AbstObstaculo>){
         var b : Bola = Bola(1050,700)
         var c : Cuchilla = Cuchilla(1000,100)
         obstaculos = m
+        var x = 1000
+        var y = 300
+        for (i in 1..5) {
+            var casilla: Casilla = Casilla(x, y, i)
+            obstaculos.add(casilla)
+            x =(130..900).random()
+            y = (270..900).random()
+        }
+
         obstaculos.add(b)
         obstaculos.add(c)
         obstaculos.add(player)
@@ -51,17 +60,17 @@ class GameEngine{
         gameView.draw(obstaculos)
     }
 
-    fun updateTrampas(){
-        for(i in obstaculos){
-            if(i is Trampa){
+    fun updateTrampas() {
+        for (i in obstaculos) {
+            if (i is Trampa) {
                 var ar = i.newPosition()
-                if(!colision(i)) {
+                if (!colision(i)) {
                     i.update()
                 }
             }
-
         }
     }
+
 
     fun colision(p: AbstObstaculo):Boolean{
         for (i in obstaculos){
@@ -93,6 +102,8 @@ class GameEngine{
                     }
                     return true
                 }
+            }else if(i.equals(p)){
+                //colisionar
             }
         }
         return false
