@@ -12,7 +12,7 @@
         <item>Nivel 10 - Muy Difícil</item>
     </string-array>
     <string name="app_name">Nino\'s Project</string>
-    <string name="vibration">Vibración:</string>
+    <string name="sfx">Sfx:</string>
     <string name="on">Activado</string>
     <string name="off">Desactivado</string>
     <string name="accept">Acceptar</string>

@@ -3,8 +3,6 @@ package com.example.ninosproject.Logic
 import android.graphics.Canvas
 import android.view.SurfaceHolder
 import android.widget.Button
-import com.example.ninosproject.ObstacleObject.Mur
-import android.view.View
 import com.example.ninosproject.ObstacleObject.AbstObstaculo
 
 
@@ -13,7 +11,6 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
     private val FPS : Long = 30
     private var avgFPS : Double = 0.0
     private var holder: SurfaceHolder = surfaceHolder
-    private var gameView: GameView = gameView
     private var gameEngine: GameEngine = GameEngine(gameView,m)
     private var isRunning: Boolean = true
     var buttonArray: ArrayList<Button> = ArrayList<Button>(6)

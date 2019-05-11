@@ -7,18 +7,16 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.system.Os.remove
 import android.view.*
 import android.widget.*
+import com.example.ninosproject.Data.AudioPlay
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
-import java.lang.Exception
-import kotlin.concurrent.thread
 
 class PlayActivity : AppCompatActivity() {
 
 
-    private lateinit var vibration: String
+    private lateinit var sfx: String
 
     private lateinit var popupWindow: PopupWindow
     private var isPopupOn: Boolean = false
@@ -34,7 +32,12 @@ class PlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        vibration = intent.getStringExtra("vibration")
+        AudioPlay.playMusic(this,R.raw.megalovania,true)
+
+        val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
+        val clickOptions = AudioPlay.getSoundPool().load(this,R.raw.pause_button,1)
+
+        sfx = intent.getStringExtra("sfx")
 
         val buttonLeft = Button(this)
         buttonLeft.setBackgroundResource(android.R.drawable.btn_default)
@@ -61,9 +64,10 @@ class PlayActivity : AppCompatActivity() {
         buttonPause.id = 555666
         buttonPause.setOnClickListener {
             if(!isPopupOn) {
-                finestraPause(buttonPause)
+                finestraPause(buttonPause, clickButton, clickOptions)
             } else {
                 gameView.resume()
+                AudioPlay.resumeMusic()
                 isPopupOn = false
                 buttonPause.setBackgroundResource(R.drawable.pause_button)
                 popupWindow.dismiss()
@@ -158,8 +162,10 @@ class PlayActivity : AppCompatActivity() {
 
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
-    fun finestraPause(buttonPause: Button) {
+    fun finestraPause(buttonPause: Button, clickButton: Int, clickOptions: Int) {
 
+        AudioPlay.getSoundPool().play(clickOptions,1F,1F,2,0, 1F)
+        AudioPlay.pauseMusic()
         gameView.pause()
         isPopupOn = true
         buttonPause.setBackgroundResource(R.drawable.play_button)
@@ -175,6 +181,8 @@ class PlayActivity : AppCompatActivity() {
         //popupWindow.isOutsideTouchable = true
         val reprenJoc: Button = view.findViewById(R.id.repren_button)
         reprenJoc.setOnClickListener {
+            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.resumeMusic()
             //Recuperar estat del joc i tornar a la partida.
             buttonPause.setBackgroundResource(R.drawable.pause_button)
             gameView.resume()
@@ -183,19 +191,23 @@ class PlayActivity : AppCompatActivity() {
         }
         val opcionsJoc: Button = view.findViewById(R.id.opcions_button)
         opcionsJoc.setOnClickListener {
+            AudioPlay.getSoundPool().play(clickOptions,1F,1F,0,0, 1F)
             popupWindow.dismiss()
-            finestraOpcions(buttonPause)
+            finestraOpcions(buttonPause, clickButton, clickOptions)
         }
         val menu_joc: Button = view.findViewById(R.id.menu_button)
         menu_joc.setOnClickListener {
+            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.stopMusic()
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("vibration", vibration)
+            intent.putExtra("sfx", sfx)
             popupWindow.dismiss()
             finish()
+            startActivity(intent)
         }
     }
 
-    fun finestraOpcions(buttonPause: Button) {
+    fun finestraOpcions(buttonPause: Button, clickButton: Int, clickOptions: Int) {
 
         val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -204,26 +216,33 @@ class PlayActivity : AppCompatActivity() {
         popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
         popupWindow.showAtLocation(this.game, Gravity.CENTER, 0, 0)
 
-        val button_vibracio: Button = view.findViewById(R.id.button_vibracio)
+        val buttonSfx: Button = view.findViewById(R.id.button_sfx)
         val button_accept: Button = view.findViewById(R.id.button_accept)
         val button_deny: Button = view.findViewById(R.id.button_deny)
 
-        button_vibracio.text = vibration  //Esta linea peta tot el menu
+        buttonSfx.text = sfx  //Esta linea peta tot el menu
 
-        button_vibracio.setOnClickListener { vibracio(button_vibracio) }
+        buttonSfx.setOnClickListener { sfx(buttonSfx) }
 
         button_accept.setOnClickListener {
-            vibration = button_vibracio.text.toString(); popupWindow.dismiss(); finestraPause(buttonPause)
+            sfx = buttonSfx.text.toString()
+            popupWindow.dismiss(); finestraPause(buttonPause, clickButton, clickOptions)
         }
-        button_deny.setOnClickListener { popupWindow.dismiss(); finestraPause(buttonPause) }
+        button_deny.setOnClickListener {
+            popupWindow.dismiss()
+            finestraPause(buttonPause, clickButton, clickOptions) }
     }
 
     fun finestraDerrota(buttonPause: Button){
 
+        val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
+        val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
+
+        AudioPlay.stopMusic()
+        AudioPlay.playMusic(this,R.raw.you_lose_music,false)
         runOnUiThread(
             object : Runnable {
                 override fun run() {
-
                     gameView.pause()
                     buttonPause.isEnabled = false
                     buttonPause.visibility = View.INVISIBLE
@@ -233,22 +252,24 @@ class PlayActivity : AppCompatActivity() {
 
                     val view = inflater.inflate(R.layout.activity_you_lose, null)
 
-                    popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
+                    popupWindow = PopupWindow(view, 395.dp, 335.dp, false)
                     popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
 
                     val retry: Button = view.findViewById(R.id.retryButtonYL)
                     val levels: Button = view.findViewById(R.id.levelsButtonYL)
 
                     retry.setOnClickListener {
-                        //Recuperar estat del joc i tornar a la partida.
-                        //buttonPause.setBackgroundResource(R.drawable.pause_button)
+                        AudioPlay.getSoundPool().play(restartButton,1F,1F,0,0, 2F)
                         popupWindow.dismiss()
 
                         finish()
+                        AudioPlay.stopMusic()
                         startActivity(intent)
                     }
 
                     levels.setOnClickListener {
+                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+                        AudioPlay.stopMusic()
                         popupWindow.dismiss()
                         finish()
                     }
@@ -259,7 +280,9 @@ class PlayActivity : AppCompatActivity() {
     }
 
 
-    fun finestraVictoria(){
+    fun finestraVictoria(youWin: Int, clickButton: Int){
+
+        AudioPlay.getSoundPool().play(youWin,1F,1F,0,0, 1F)
 
         runOnUiThread(
             object : Runnable {
@@ -288,7 +311,6 @@ class PlayActivity : AppCompatActivity() {
                 }
             }
         )
-
     }
 
     fun actionButtonColor(b: Boolean){
@@ -304,9 +326,17 @@ class PlayActivity : AppCompatActivity() {
             })
     }
 
-    fun vibracio(button: Button) {
-        if (button.text.equals(getString(R.string.off))) button.text = getString(R.string.on)
-        else button.text = getString(R.string.off)
+    private fun sfx(button: Button) {
+        if (button.text.equals(getString(R.string.on))) {
+            button.text = getString(R.string.off)
+            AudioPlay.disableSFX()
+        }
+        else {
+            synchronized(AudioPlay){
+            button.text =  getString(R.string.on)
+            AudioPlay.enableSFX()
+            }
+        }
     }
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil

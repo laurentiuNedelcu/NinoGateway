@@ -1,14 +1,16 @@
 package com.example.ninosproject.Logic
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.util.DisplayMetrics
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
 import com.example.ninosproject.Activities.PlayActivity
-import com.example.ninosproject.ObstacleObject.*
+import com.example.ninosproject.ObstacleObject.AbstObstaculo
+import com.example.ninosproject.ObstacleObject.Cartel
+import com.example.ninosproject.ObstacleObject.Casilla
+import com.example.ninosproject.ObstacleObject.Mur
 
 class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context), SurfaceHolder.Callback{
 
@@ -62,16 +64,6 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
 
     override fun surfaceDestroyed(holder: SurfaceHolder?) {
         thread.setRunning(false)
-        /*
-        val retry = true
-        while (retry){
-            try {
-                thread.setRunning(false)
-                thread.join()
-            } catch (e: InterruptedException){
-                e.printStackTrace()
-            }
-        }*/
     }
 
     fun pause(){
@@ -104,7 +96,7 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         thread.addButtons(b)
     }
 
-    fun youLose(){
+    fun youLose() {
         playActivity.finestraDerrota(thread.getButtons()[5])
     }
 

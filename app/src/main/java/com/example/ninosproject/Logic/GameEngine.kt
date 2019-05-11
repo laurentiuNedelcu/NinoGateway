@@ -1,11 +1,10 @@
 package com.example.ninosproject.Logic
 
 import android.content.res.Resources
-import android.graphics.Color
 import com.example.ninosproject.ObstacleObject.*
 
 class GameEngine{
-    private lateinit var gameView: GameView
+    private var gameView: GameView
     private var obstaculos = ArrayList<AbstObstaculo>()
     private var actionColor = false
 
@@ -26,25 +25,25 @@ class GameEngine{
         this.gameView = gameView
     }
 
-    fun updateL(){
+    fun updateL() {
         player.updateL()
         if(!colision(player)) {
             player.update()
         }
     }
-    fun updateR(){
+    fun updateR() {
         player.updateR()
         if(!colision(player)) {
             player.update()
         }
     }
-    fun updateD(){
+    fun updateD() {
         player.updateD()
         if(!colision(player)) {
             player.update()
         }
     }
-    fun updateU(){
+    fun updateU() {
         player.updateU()
         if(!colision(player)) {
             player.update()
