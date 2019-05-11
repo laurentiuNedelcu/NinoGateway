@@ -36,6 +36,10 @@ class Mur: AbstObstaculo{
         this.pyInit = py
         this.pxFinal = px+25.dp
         this.pyFinal = py+25.dp
+        this.newPxInit = px
+        this.newPyInit = py
+        this.newPxFinal = px+25.dp
+        this.newPyFinal = py+25.dp
         this.type = type
     }
 

@@ -8,10 +8,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
 import com.example.ninosproject.Activities.PlayActivity
-import com.example.ninosproject.ObstacleObject.AbstObstaculo
-import com.example.ninosproject.ObstacleObject.Personaje
-import com.example.ninosproject.ObstacleObject.Mur
-import com.example.ninosproject.ObstacleObject.Trampa
+import com.example.ninosproject.ObstacleObject.*
 
 class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context), SurfaceHolder.Callback{
 
@@ -22,18 +19,18 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
     private var murArray: ArrayList<AbstObstaculo> = ArrayList()
 
     internal val level = arrayOf(
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0, 0, 0, 43, 0, 1, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 10, 11, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 13, 12, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 2, 7, 0, 0, 0, 8, 5, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 20, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 20, 1, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 21, 1, 0, 0, 0, 0, 0, 0, 0, 10, 11, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 13, 12, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
@@ -111,12 +108,6 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         playActivity.finestraDerrota(thread.getButtons()[5])
     }
 
-    private fun drawMap() {
-        for (i in murArray){
-            i.draw(this)
-        }
-    }
-
     private fun renderMap() {
         var x: Int
         var y: Int
@@ -182,8 +173,28 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
                         mur = Mur(x, y, Mur.Sofa2)
                         murArray.add(mur)
                     }
+                    30 -> {
+                        var cart = Cartel(x,y)
+                        murArray.add(cart)
+                    }
+                    41->{
+                        var casilla = Casilla(x,y,1)
+                        murArray.add(casilla)
+                    }
+                    42->{
+                        var casilla = Casilla(x,y,2)
+                        murArray.add(casilla)
+                    }
+                    43->{
+                        var casilla = Casilla(x,y,3)
+                        murArray.add(casilla)
+                    }
                 }
             }
         }
+    }
+
+    fun changeActionButtonColor(b: Boolean){
+        playActivity.actionButtonColor(b)
     }
 }

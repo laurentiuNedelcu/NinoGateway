@@ -16,7 +16,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
     private var gameView: GameView = gameView
     private var gameEngine: GameEngine = GameEngine(gameView,m)
     private var isRunning: Boolean = true
-    private var buttonArray: ArrayList<Button> = ArrayList<Button>(6)
+    var buttonArray: ArrayList<Button> = ArrayList<Button>(6)
     private var paused: Boolean = false
 
     companion object { //Para poder llamar al objeto estaticamente (ex: GameThread.canvas)
@@ -70,7 +70,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
                             gameEngine.updateU()
                         }
                         if (buttonArray[4].isPressed) {
-                            //((myContext as Activity).finish() )
+                            gameEngine.actionButton()
                         }
                         gameEngine.draw()
                     }

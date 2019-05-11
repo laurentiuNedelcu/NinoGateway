@@ -1,5 +1,6 @@
 package com.example.ninosproject.ObstacleObject
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
@@ -15,16 +16,54 @@ class Casilla : AbstObstaculo {
     override var pxFinal: Int = 0
     override var pyFinal: Int = 0
     var valor : Int
+    var pressed: Boolean
 
     constructor(px: Int, py: Int, valor : Int){
         pxInit = px
         pyInit = py
+        pxFinal = px+50.dp
+        pyFinal = py+50.dp
+        newPxInit = px
+        newPyInit = py
+        newPxFinal = px+50.dp
+        newPyFinal = py+50.dp
         this.valor = valor
+        pressed = false
     }
 
 
     override fun draw(v: GameView) {
-        var p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_random)
-        GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+        var p: Bitmap
+        if(!pressed){
+            when(valor){
+                1-> {
+                    p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_1)
+                    GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                }
+                2->{
+                    p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_2)
+                    GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                }
+                3->{
+                    p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_3)
+                    GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                }
+            }
+        }else{
+            when(valor){
+                1->{
+                    p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_1)
+                    GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                }
+                2->{
+                    p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_2)
+                    GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                }
+                3->{
+                    p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_3)
+                    GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                }
+            }
+        }
     }
 }

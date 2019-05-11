@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.system.Os.remove
@@ -27,6 +28,7 @@ class PlayActivity : AppCompatActivity() {
     private lateinit var auxLayout: RelativeLayout
     private lateinit var leftDownRightLayout: LinearLayout
     private lateinit var upLayout: LinearLayout
+    private val buttons: ArrayList<Button> = ArrayList()
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,18 +37,22 @@ class PlayActivity : AppCompatActivity() {
         vibration = intent.getStringExtra("vibration")
 
         val buttonLeft = Button(this)
+        buttonLeft.setBackgroundResource(android.R.drawable.btn_default)
         buttonLeft.text = "L"
         buttonLeft.id = 111222
 
         val buttonDown = Button(this)
+        buttonDown.setBackgroundResource(android.R.drawable.btn_default)
         buttonDown.text = "D"
         buttonDown.id = 222333
 
         val buttonRight = Button(this)
+        buttonRight.setBackgroundResource(android.R.drawable.btn_default)
         buttonRight.text = "R"
         buttonRight.id = 333444
 
         val buttonUp = Button(this)
+        buttonUp.setBackgroundResource(android.R.drawable.btn_default)
         buttonUp.text = "U"
         buttonUp.id = 444555
 
@@ -65,6 +71,7 @@ class PlayActivity : AppCompatActivity() {
         }
 
         val buttonInteraction = Button(this)
+        buttonInteraction.setBackgroundResource(android.R.drawable.btn_default)
         buttonInteraction.text = "A"
         buttonInteraction.id = 666777
 
@@ -138,7 +145,6 @@ class PlayActivity : AppCompatActivity() {
         game.addView(gameView)
         game.addView(gameButtons)
 
-        val buttons: ArrayList<Button> = ArrayList()
         buttons.add(buttonLeft)
         buttons.add(buttonDown)
         buttons.add(buttonRight)
@@ -148,7 +154,6 @@ class PlayActivity : AppCompatActivity() {
 
         gameView.addButtons(buttons)
         setContentView(game)
-        val restart = Intent(this, PlayActivity::class.java)
     }
 
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
@@ -244,7 +249,7 @@ class PlayActivity : AppCompatActivity() {
                     }
 
                     levels.setOnClickListener {
-                    popupWindow.dismiss()
+                        popupWindow.dismiss()
                         finish()
                     }
                 }
@@ -284,6 +289,19 @@ class PlayActivity : AppCompatActivity() {
             }
         )
 
+    }
+
+    fun actionButtonColor(b: Boolean){
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+                    if(b){
+                        buttons[4].setBackgroundColor(Color.YELLOW)
+                    }else{
+                        buttons[4].setBackgroundResource(android.R.drawable.btn_default)
+                    }
+                }
+            })
     }
 
     fun vibracio(button: Button) {

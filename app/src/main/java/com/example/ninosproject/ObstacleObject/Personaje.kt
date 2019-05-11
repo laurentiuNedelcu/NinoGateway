@@ -31,7 +31,7 @@ class Personaje: AbstObstaculo{
     fun update(){
         pxInit = newPxInit
         pyInit = newPyInit
-        pxFinal = newPyFinal
+        pxFinal = newPxFinal
         pyFinal = newPyFinal
     }
 

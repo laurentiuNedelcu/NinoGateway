@@ -1,11 +1,13 @@
 package com.example.ninosproject.Logic
 
 import android.content.res.Resources
+import android.graphics.Color
 import com.example.ninosproject.ObstacleObject.*
 
 class GameEngine{
     private lateinit var gameView: GameView
     private var obstaculos = ArrayList<AbstObstaculo>()
+    private var actionColor = false
 
     private var player: Personaje =
         Personaje(50, 50)
@@ -17,12 +19,6 @@ class GameEngine{
         obstaculos = m
         var x = 1000
         var y = 300
-        for (i in 1..5) {
-            var casilla: Casilla = Casilla(x, y, i)
-            obstaculos.add(casilla)
-            x =(130..900).random()
-            y = (270..900).random()
-        }
 
         obstaculos.add(b)
         obstaculos.add(c)
@@ -56,17 +52,20 @@ class GameEngine{
     }
 
     fun draw(){
-        updateTrampas()
+        update()
         gameView.draw(obstaculos)
     }
 
-    fun updateTrampas() {
+    fun update() {
         for (i in obstaculos) {
             if (i is Trampa) {
                 var ar = i.newPosition()
                 if (!colision(i)) {
                     i.update()
                 }
+            }
+            else if(i is Cartel){
+                actionRange(i)
             }
         }
     }
@@ -80,32 +79,95 @@ class GameEngine{
                     if(i is Trampa && p is Personaje){
                             gameView.youLose()
                         }
+                    else if(i is Casilla && p is Personaje){
+                        i.pressed = true
+                        return false
+                    }
                     return true
                 } else if (i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) {
                     if(i is Trampa && p is Personaje){
                         gameView.youLose()
+                    }
+                    else if(i is Casilla && p is Personaje){
+                        i.pressed = true
+                        return false
                     }
                     return true
                 } else if (i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) {
                     if(i is Trampa && p is Personaje){
                         gameView.youLose()
                     }
+                    else if(i is Casilla && p is Personaje){
+                        i.pressed = true
+                        return false
+                    }
                     return true
                 } else if (i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal) {
                     if(i is Trampa && p is Personaje){
                         gameView.youLose()
                     }
+                    else if(i is Casilla && p is Personaje){
+                        i.pressed = true
+                        return false
+                    }
                     return true
                 } else if (i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal) {
                     if(i is Trampa && p is Personaje){
                         gameView.youLose()
+                    }else if(i is Casilla && p is Personaje){
+                        i.pressed = true
+                        return false
                     }
                     return true
                 }
-            }else if(i.equals(p)){
-                //colisionar
             }
         }
         return false
     }
+
+    fun actionRange(o: AbstObstaculo): Boolean{
+            if (o.pxInit >= player.newPxInit-20.dp  && o.pxInit <= player.newPxFinal+20.dp   && o.pyInit >= player.newPyInit-20.dp   && o.pyInit <= player.newPyFinal+20.dp  ) {
+                if(!actionColor) {
+                    actionColor = true
+                    gameView.changeActionButtonColor(actionColor)
+                }
+                return true
+            } else if (o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp && o.pyInit >= player.newPyInit-20.dp && o.pyInit <= player.newPyFinal+20.dp) {
+                if(!actionColor) {
+                    actionColor = true
+                    gameView.changeActionButtonColor(actionColor)
+                }
+                return true
+            } else if (o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp  && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) {
+                if(!actionColor) {
+                    actionColor = true
+                    gameView.changeActionButtonColor(actionColor)
+                }
+                return true
+            } else if (o.pxInit >= player.newPxInit-20.dp && o.pxInit <= player.newPxFinal+20.dp && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) {
+                if(!actionColor) {
+                    actionColor = true
+                    gameView.changeActionButtonColor(actionColor)
+                }
+                return true
+            }
+        if(actionColor){
+            actionColor = false
+            gameView.changeActionButtonColor(actionColor)
+        }
+        return false
+    }
+
+    fun actionButton(){
+        for (i in obstaculos){
+            if(i is Cartel){
+                if(actionRange(i)) {
+                    gameView.youLose()
+                }
+            }
+        }
+    }
+
+    val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt() // Metode per passar de density independent pixels (dp) a pixels
+
 }
