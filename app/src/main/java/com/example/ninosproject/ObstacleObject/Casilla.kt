@@ -2,6 +2,8 @@ package com.example.ninosproject.ObstacleObject
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.example.ninosproject.Activities.PlayActivity
+import com.example.ninosproject.Data.AudioPlay
 import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
@@ -17,8 +19,10 @@ class Casilla : AbstObstaculo {
     override var pyFinal: Int = 0
     var valor : Int
     var pressed: Boolean
+    private var alreadyPressed: Boolean = false
+    lateinit var playActivity: PlayActivity
 
-    constructor(px: Int, py: Int, valor : Int){
+    constructor(px: Int, py: Int, valor : Int, playActivity: PlayActivity){
         pxInit = px
         pyInit = py
         pxFinal = px+50.dp
@@ -29,11 +33,12 @@ class Casilla : AbstObstaculo {
         newPyFinal = py+50.dp
         this.valor = valor
         pressed = false
+        this.playActivity = playActivity
     }
 
 
     override fun draw(v: GameView) {
-        var p: Bitmap
+        val p: Bitmap
         if(!pressed){
             when(valor){
                 1-> {
@@ -50,18 +55,39 @@ class Casilla : AbstObstaculo {
                 }
             }
         }else{
+            if(!alreadyPressed){
+                val casillaPissed = AudioPlay.getSoundPool().load(playActivity,R.raw.switch_pissed,1)
+                AudioPlay.getSoundPool().play(casillaPissed,1F,1F,0,0, 1F)
+            }
             when(valor){
                 1->{
                     p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_1)
                     GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                if (!alreadyPressed){
+                    alreadyPressed = true
+                    playActivity.setPuntuacio(1)
+                    playActivity.updateTextViewSuma()
+                } else{
+
+                }
                 }
                 2->{
                     p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_2)
                     GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                    if (!alreadyPressed){
+                        alreadyPressed = true
+                        playActivity.setPuntuacio(2)
+                        playActivity.updateTextViewSuma()
+                    }
                 }
                 3->{
                     p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_3)
                     GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+                    if (!alreadyPressed){
+                        alreadyPressed = true
+                        playActivity.setPuntuacio(3)
+                        playActivity.updateTextViewSuma()
+                    }
                 }
             }
         }

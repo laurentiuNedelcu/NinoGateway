@@ -14,12 +14,14 @@ object AudioPlay{
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var soundPool: SoundPool
     private var length: Int = 0
+    private var isAudioPlaying: Boolean = false
 
     fun playMusic(c: Context, id: Int, loop: Boolean) {
-        mediaPlayer = MediaPlayer.create(c,id)
-        mediaPlayer.isLooping = loop
-        if (!mediaPlayer.isPlaying) {
+        if (!isAudioPlaying){
+            mediaPlayer = MediaPlayer.create(c,id)
+            mediaPlayer.isLooping = loop
             mediaPlayer.start()
+            isAudioPlaying = true
         }
     }
 
@@ -49,9 +51,11 @@ object AudioPlay{
     }
 
     fun stopMusic() {
-        if(mediaPlayer.isPlaying){
-        mediaPlayer.stop()
-        mediaPlayer.release()}
+        if(isAudioPlaying){
+            mediaPlayer.stop()
+            mediaPlayer.release()
+            isAudioPlaying = false
+        }
     }
 
     fun getSoundPool(): SoundPool {

@@ -170,15 +170,15 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
                         murArray.add(cart)
                     }
                     41->{
-                        var casilla = Casilla(x,y,1)
+                        var casilla = Casilla(x,y,1,playActivity)
                         murArray.add(casilla)
                     }
                     42->{
-                        var casilla = Casilla(x,y,2)
+                        var casilla = Casilla(x,y,2,playActivity)
                         murArray.add(casilla)
                     }
                     43->{
-                        var casilla = Casilla(x,y,3)
+                        var casilla = Casilla(x,y,3,playActivity)
                         murArray.add(casilla)
                     }
                 }

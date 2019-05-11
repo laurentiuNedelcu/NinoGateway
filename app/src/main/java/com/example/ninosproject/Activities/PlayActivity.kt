@@ -26,7 +26,11 @@ class PlayActivity : AppCompatActivity() {
     private lateinit var auxLayout: RelativeLayout
     private lateinit var leftDownRightLayout: LinearLayout
     private lateinit var upLayout: LinearLayout
+    private lateinit var scoreLayout: LinearLayout
+    private lateinit var puntuacio: TextView
+    private lateinit var sumaText: TextView
     private val buttons: ArrayList<Button> = ArrayList()
+    var suma: Int = 0
 
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +91,20 @@ class PlayActivity : AppCompatActivity() {
         auxLayout = RelativeLayout(this)
         leftDownRightLayout = LinearLayout(this)
         upLayout = LinearLayout(this)
+        scoreLayout = LinearLayout(this)
+
+        puntuacio = TextView(this)
+        puntuacio.text = getString(R.string.zero)
+        puntuacio.textSize = 20F
+        puntuacio.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+        puntuacio.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+        puntuacio.setTextColor(Color.BLACK)
+
+        sumaText = TextView(this)
+        sumaText.text = getString(R.string.suma)
+        sumaText.textSize = 20F
+        sumaText.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+        sumaText.setTextColor(Color.RED)
 
         leftDownRightLayout.orientation = LinearLayout.HORIZONTAL
         upLayout.orientation = LinearLayout.VERTICAL
@@ -95,6 +113,8 @@ class PlayActivity : AppCompatActivity() {
         val layoutButtonUp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(210, 180)
         val layoutButtonPause: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(210, 180)
         val layoutButtonInt: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(210, 180)
+        val layoutSumaText: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(300,200)
+        val layoutPuntuacio: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(200,200)
 
         val params: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -108,12 +128,18 @@ class PlayActivity : AppCompatActivity() {
             RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
         )
+        val paramsLayoutScore: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.WRAP_CONTENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
 
         leftDownRightLayout.layoutParams = paramsButtons
         layoutButtonUp.leftMargin = 210
         upLayout.layoutParams = paramsButtons
         gameButtons.layoutParams = params
         auxLayout.layoutParams = paramsAux
+        scoreLayout.layoutParams = paramsLayoutScore
+        scoreLayout.orientation = LinearLayout.HORIZONTAL
 
         buttonLeft.layoutParams = layoutButton
         buttonDown.layoutParams = layoutButton
@@ -121,11 +147,15 @@ class PlayActivity : AppCompatActivity() {
         buttonUp.layoutParams = layoutButtonUp
         buttonPause.layoutParams = layoutButtonPause
         buttonInteraction.layoutParams = layoutButtonInt
+        puntuacio.layoutParams = layoutPuntuacio
+        sumaText.layoutParams = layoutSumaText
 
         layoutButtonPause.addRule(RelativeLayout.ALIGN_PARENT_TOP)
         layoutButtonPause.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
         layoutButtonInt.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
         layoutButtonInt.addRule(RelativeLayout.ALIGN_PARENT_RIGHT)
+        paramsLayoutScore.addRule(RelativeLayout.ALIGN_PARENT_TOP)
+        paramsLayoutScore.addRule(RelativeLayout.ALIGN_LEFT)
         paramsAux.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
         paramsAux.addRule(RelativeLayout.ALIGN_PARENT_LEFT)
 
@@ -138,9 +168,13 @@ class PlayActivity : AppCompatActivity() {
 
         auxLayout.addView(upLayout)
 
+        scoreLayout.addView(sumaText)
+        scoreLayout.addView(puntuacio)
+
         gameButtons.addView(auxLayout)
         gameButtons.addView(buttonPause)
         gameButtons.addView(buttonInteraction)
+        gameButtons.addView(scoreLayout)
 
 
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -271,12 +305,18 @@ class PlayActivity : AppCompatActivity() {
                         AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
                         popupWindow.dismiss()
-                        finish()
+                        backToLevels()
                     }
                 }
             }
         )
+    }
 
+    fun backToLevels(){
+        val intent = Intent(this, LevelActivity::class.java)
+        intent.putExtra("sfx",sfx)
+        finish()
+        startActivity(intent)
     }
 
 
@@ -337,6 +377,15 @@ class PlayActivity : AppCompatActivity() {
             AudioPlay.enableSFX()
             }
         }
+    }
+
+    fun setPuntuacio(i: Int) {
+        suma += i
+    }
+
+    fun updateTextViewSuma(){
+        if(suma<10) puntuacio.text = "0$suma"
+        else puntuacio.text = suma.toString()
     }
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil

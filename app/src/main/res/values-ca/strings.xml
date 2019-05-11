@@ -47,4 +47,6 @@
     <string name="you_lose">¡Has perdut!</string>
     <string name="levels">Nivells</string>
     <string name="function">La funció encara no està implementada</string>
+    <string name="zero">00</string>
+    <string name="suma">SUMA</string>
 </resources>

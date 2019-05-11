@@ -25,6 +25,7 @@
     <string name="game_version_0_x_x">Game Version: 0.x.x</string>
     <string name="game_paused">Game Paused</string>
     <string name="resume">Resume</string>
+    <string name="suma">Sum</string>
     <string name="options">Options</string>
     <string name="menu">Menu</string>
     <string name="language">Language:</string>
@@ -47,4 +48,5 @@
     <string name="you_lose">You Lose</string>
     <string name="levels">Levels</string>
     <string name="function">The function is not yet implemented</string>
+    <string name="zero">00</string>
 </resources>
