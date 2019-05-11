@@ -23,18 +23,19 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
 
     internal val level = arrayOf(
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 10, 11, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 13, 12, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(2, 2, 2, 2, 0, 0, 0, 2, 2, 5, 0, 0, 0, 6, 2, 2, 2, 0, 0, 0, 2, 5, 0, 0, 0),
+        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 2, 7, 0, 0, 0, 8, 5, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(2, 2, 2, 2, 0, 0, 0, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 20, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 21, 1, 0, 0, 0, 0, 0, 0, 0, 10, 11, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 13, 12, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     )
 
@@ -120,7 +121,7 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         var x: Int
         var y: Int
         var mur: Mur
-        for (i in 0..13) {
+        for (i in 0..14) {
             for (j in 0..24) {
                 x = j * blockSize
                 y = (i * (blockSize))
@@ -147,6 +148,38 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
                     }
                     Mur.MurDownToRight -> {
                         mur = Mur(x, y, Mur.MurDownToRight)
+                        murArray.add(mur)
+                    }
+                    Mur.MurHorTD -> {
+                        mur = Mur(x, y, Mur.MurHorTD)
+                        murArray.add(mur)
+                    }
+                    Mur.MurHorTI-> {
+                        mur = Mur(x, y, Mur.MurHorTI)
+                        murArray.add(mur)
+                    }
+                    Mur.Caixa1 -> {
+                        mur = Mur(x, y, Mur.Caixa1)
+                        murArray.add(mur)
+                    }
+                    Mur.Caixa2 -> {
+                        mur = Mur(x, y, Mur.Caixa2)
+                        murArray.add(mur)
+                    }
+                    Mur.Caixa3 -> {
+                        mur = Mur(x, y, Mur.Caixa3)
+                        murArray.add(mur)
+                    }
+                    Mur.Caixa4 -> {
+                        mur = Mur(x, y, Mur.Caixa4)
+                        murArray.add(mur)
+                    }
+                    Mur.Sofa1 -> {
+                        mur = Mur(x, y, Mur.Sofa1)
+                        murArray.add(mur)
+                    }
+                    Mur.Sofa2-> {
+                        mur = Mur(x, y, Mur.Sofa2)
                         murArray.add(mur)
                     }
                 }
