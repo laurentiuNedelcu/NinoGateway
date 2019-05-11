@@ -68,27 +68,27 @@ class GameEngine{
             if (!i.equals(p)) {
                 //Punts del mur amb l'area de l'objecte
                 if (p.newPxInit <= 0 || p.newPxFinal >= Resources.getSystem().displayMetrics.widthPixels || p.newPyInit <= 0 || p.newPyFinal >= Resources.getSystem().displayMetrics.heightPixels) {
-                    if((p is Trampa && i is Personaje) || (i is Trampa && p is Personaje)){
+                    if(i is Trampa && p is Personaje){
                             gameView.youLose()
                         }
                     return true
                 } else if (i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) {
-                    if((p is Trampa && i is Personaje) || (i is Trampa && p is Personaje)){
+                    if(i is Trampa && p is Personaje){
                         gameView.youLose()
                     }
                     return true
                 } else if (i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) {
-                    if((p is Trampa && i is Personaje) || (i is Trampa && p is Personaje)){
+                    if(i is Trampa && p is Personaje){
                         gameView.youLose()
                     }
                     return true
                 } else if (i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal) {
-                    if((p is Trampa && i is Personaje) || (i is Trampa && p is Personaje)){
+                    if(i is Trampa && p is Personaje){
                         gameView.youLose()
                     }
                     return true
                 } else if (i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal) {
-                    if((p is Trampa && i is Personaje) || (i is Trampa && p is Personaje)){
+                    if(i is Trampa && p is Personaje){
                         gameView.youLose()
                     }
                     return true
