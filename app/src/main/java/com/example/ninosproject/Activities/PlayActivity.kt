@@ -384,8 +384,13 @@ class PlayActivity : AppCompatActivity() {
     }
 
     fun updateTextViewSuma(){
-        if(suma<10) puntuacio.text = "0$suma"
-        else puntuacio.text = suma.toString()
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+                    if(suma<10) puntuacio.text = "0$suma"
+                    else puntuacio.text = suma.toString()
+                }
+            })
     }
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil

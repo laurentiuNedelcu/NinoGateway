@@ -56,8 +56,11 @@ class Casilla : AbstObstaculo {
             }
         }else{
             if(!alreadyPressed){
+                AudioPlay.playMusicAux(playActivity,R.raw.switch_pissed)
+                /*
                 val casillaPissed = AudioPlay.getSoundPool().load(playActivity,R.raw.switch_pissed,1)
                 AudioPlay.getSoundPool().play(casillaPissed,1F,1F,0,0, 1F)
+                */
             }
             when(valor){
                 1->{

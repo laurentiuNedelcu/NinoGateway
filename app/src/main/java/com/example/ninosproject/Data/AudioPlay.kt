@@ -12,9 +12,12 @@ import android.os.Build
 object AudioPlay{
 
     private lateinit var mediaPlayer: MediaPlayer
+    private lateinit var mediaPlayerAux: MediaPlayer
     private lateinit var soundPool: SoundPool
     private var length: Int = 0
     private var isAudioPlaying: Boolean = false
+
+
 
     fun playMusic(c: Context, id: Int, loop: Boolean) {
         if (!isAudioPlaying){
@@ -23,6 +26,12 @@ object AudioPlay{
             mediaPlayer.start()
             isAudioPlaying = true
         }
+    }
+
+    fun playMusicAux(c: Context, id: Int){
+        mediaPlayerAux = MediaPlayer.create(c,id)
+        mediaPlayerAux.isLooping = false
+        mediaPlayerAux.start()
     }
 
     fun pauseMusic() {
@@ -61,4 +70,5 @@ object AudioPlay{
     fun getSoundPool(): SoundPool {
         return soundPool
     }
+
 }

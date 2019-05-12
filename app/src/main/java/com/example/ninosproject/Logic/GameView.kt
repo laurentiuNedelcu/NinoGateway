@@ -22,19 +22,19 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
 
     internal val level = arrayOf(
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0, 0, 0, 43, 0, 1, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 10, 11, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 13, 12, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 10, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 2, 7, 0, 0, 0, 8, 5, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
+        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 20, 1, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 21, 1, 0, 0, 0, 0, 0, 0, 0, 10, 11, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 13, 12, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     )
 
@@ -141,28 +141,12 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
                         mur = Mur(x, y, Mur.MurHorTI)
                         murArray.add(mur)
                     }
-                    Mur.Caixa1 -> {
-                        mur = Mur(x, y, Mur.Caixa1)
+                    Mur.Caixa -> {
+                        mur = Mur(x, y, Mur.Caixa)
                         murArray.add(mur)
                     }
-                    Mur.Caixa2 -> {
-                        mur = Mur(x, y, Mur.Caixa2)
-                        murArray.add(mur)
-                    }
-                    Mur.Caixa3 -> {
-                        mur = Mur(x, y, Mur.Caixa3)
-                        murArray.add(mur)
-                    }
-                    Mur.Caixa4 -> {
-                        mur = Mur(x, y, Mur.Caixa4)
-                        murArray.add(mur)
-                    }
-                    Mur.Sofa1 -> {
-                        mur = Mur(x, y, Mur.Sofa1)
-                        murArray.add(mur)
-                    }
-                    Mur.Sofa2-> {
-                        mur = Mur(x, y, Mur.Sofa2)
+                    Mur.Sofa -> {
+                        mur = Mur(x, y, Mur.Sofa)
                         murArray.add(mur)
                     }
                     30 -> {

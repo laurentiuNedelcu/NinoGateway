@@ -9,6 +9,8 @@ import com.example.ninosproject.ObstacleObject.Mur
 import com.example.ninosproject.R
 
 class Personaje: AbstObstaculo{
+    private var pxDraw: Int
+    private var pyDraw: Int
     override var pxInit: Int = 0;
     override var pyInit: Int = 0;
     override var pxFinal: Int = pxInit+50
@@ -19,16 +21,26 @@ class Personaje: AbstObstaculo{
     override var newPyFinal: Int = pyInit+50
 
     constructor(px: Int, py: Int){
-        pxInit = px
-        pyInit = py
+        pxDraw = px
+        pyDraw = py
+        pxInit = px+8.dp //esto es para conseguir un area de 34x34 pixeles
+        pyInit = py+8.dp
+        pxFinal = px+34.dp
+        pyFinal = py+34.dp
+        newPxInit = px+8.dp
+        newPyInit = py+8.dp
+        newPxFinal = px+34.dp
+        newPyFinal = py+34.dp
     }
 
     override fun draw(v: GameView){
         var p = BitmapFactory.decodeResource(v.resources, R.drawable.circle)
-        GameThread.canvas?.drawBitmap(p,pxInit.toFloat(),pyInit.toFloat(),null)
+        GameThread.canvas?.drawBitmap(p,pxDraw.toFloat(),pyDraw.toFloat(),null)
     }
 
     fun update(){
+        pxDraw = newPxInit-8.dp
+        pyDraw = newPyInit-8.dp
         pxInit = newPxInit
         pyInit = newPyInit
         pxFinal = newPxFinal
@@ -36,28 +48,29 @@ class Personaje: AbstObstaculo{
     }
 
     fun updateL(){
+
         newPxInit = pxInit-10
-        newPxFinal = newPxInit+50.dp
+        newPxFinal = newPxInit+34.dp
         newPyInit = pyInit
-        newPyFinal = newPyInit+50.dp
+        newPyFinal = newPyInit+34.dp
     }
     fun updateD(){
         newPxInit = pxInit
-        newPxFinal = newPxInit+50.dp
+        newPxFinal = newPxInit+34.dp
         newPyInit = pyInit+10
-        newPyFinal = newPyInit+50.dp
+        newPyFinal = newPyInit+34.dp
     }
     fun updateR(){
         newPxInit = pxInit+10
-        newPxFinal = newPxInit+50.dp
+        newPxFinal = newPxInit+34.dp
         newPyInit = pyInit
-        newPyFinal = newPyInit+50.dp
+        newPyFinal = newPyInit+34.dp
     }
     fun updateU(){
         newPxInit = pxInit
-        newPxFinal = newPxInit+50.dp
+        newPxFinal = newPxInit+34.dp
         newPyInit = pyInit-10
-        newPyFinal = newPyInit+50.dp
+        newPyFinal = newPyInit+34.dp
     }
 
 }

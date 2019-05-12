@@ -55,13 +55,9 @@ class Mur: AbstObstaculo{
             7 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.mur_hor_tancat_d)
             8 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.mur_hor_tancat_i)
 
-            10 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.caixa1)
-            11 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.caixa2)
-            12 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.caixa3)
-            13 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.caixa4)
+            10 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.caixa)
 
-            20 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.sofa1)
-            21 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.sofa2)
+            20 -> rect = BitmapFactory.decodeResource(v.resources, R.drawable.sofa)
         }
 
         GameThread.canvas?.drawBitmap(rect,pxInit.toFloat(),pyInit.toFloat(),null)
@@ -77,12 +73,8 @@ class Mur: AbstObstaculo{
         var MurHorTD = 7
         var MurHorTI = 8
 
-        var Caixa1 = 10
-        var Caixa2 = 11
-        var Caixa3 = 12
-        var Caixa4 = 13
+        var Caixa = 10
 
-        var Sofa1 = 20
-        var Sofa2 = 21
+        var Sofa = 20
     }
 }

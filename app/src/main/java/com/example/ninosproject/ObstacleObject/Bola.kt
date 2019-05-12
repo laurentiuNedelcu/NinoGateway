@@ -9,6 +9,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class Bola : Trampa{
+    private var pxDraw:Int
+    private var pyDraw:Int
     override var pxInit: Int
     override var pyInit: Int
     override var pxFinal: Int
@@ -22,17 +24,21 @@ class Bola : Trampa{
     private var sumY:Int  = 0;
 
     constructor(px: Int, py: Int){
-        pxInit = px
-        pyInit = py
-        pxFinal = px+50.dp
-        pyFinal = py+50.dp
-        newPxInit = px
-        newPyInit = py
-        newPxFinal = px+50.dp
-        newPyFinal = py+50.dp
+        pxDraw = px
+        pyDraw = py
+        pxInit = px+8.dp
+        pyInit = py+8.dp
+        pxFinal = px+34.dp
+        pyFinal = py+34.dp
+        newPxInit = px+8.dp
+        newPyInit = py+8.dp
+        newPxFinal = px+34.dp
+        newPyFinal = py+34.dp
     }
 
     override fun update() {
+        pxDraw = newPxInit-8.dp
+        pyDraw = newPyInit-8.dp
         pxInit = newPxInit
         pyInit = newPyInit
         pxFinal = newPxFinal
@@ -41,7 +47,7 @@ class Bola : Trampa{
 
     override fun draw(v: GameView){
         var p = BitmapFactory.decodeResource(v.resources, R.drawable.bola_pinchos)
-        GameThread.canvas?.drawBitmap(p,pxInit.toFloat(),pyInit.toFloat(),null)
+        GameThread.canvas?.drawBitmap(p,pxDraw.toFloat(),pyDraw.toFloat(),null)
     }
 
     override  fun newPosition(){
@@ -69,7 +75,7 @@ class Bola : Trampa{
         }
         newPxInit = (pxInit+sumX)
         newPyInit = (pyInit+sumY)
-        newPxFinal = (pxInit+sumX)+50.dp
-        newPyFinal = (pyInit+sumY)+50.dp
+        newPxFinal = (pxInit+sumX)+34.dp
+        newPyFinal = (pyInit+sumY)+34.dp
     }
 }

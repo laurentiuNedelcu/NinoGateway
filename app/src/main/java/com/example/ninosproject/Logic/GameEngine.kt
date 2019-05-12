@@ -75,46 +75,56 @@ class GameEngine{
             if (!i.equals(p)) {
                 //Punts del mur amb l'area de l'objecte
                 if (p.newPxInit <= 0 || p.newPxFinal >= Resources.getSystem().displayMetrics.widthPixels || p.newPyInit <= 0 || p.newPyFinal >= Resources.getSystem().displayMetrics.heightPixels) {
-                    if(i is Trampa && p is Personaje){
-                            gameView.youLose()
-                        }
-                    else if(i is Casilla && p is Personaje){
-                        i.pressed = true
-                        return false
-                    }
                     return true
-                } else if (i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) {
-                    if(i is Trampa && p is Personaje){
+                } else if ((i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) ||
+                    (p.newPxInit >= i.pxInit && p.newPxInit<= i.pxFinal && p.newPyInit >= i.pyInit && p.newPyInit <= i.pyFinal)) {
+                    if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
                         gameView.youLose()
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
                         return false
+                    }else if(i is Personaje && p is Casilla){
+                        p.pressed = true
+                        return false
                     }
                     return true
-                } else if (i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) {
-                    if(i is Trampa && p is Personaje){
+                } else if ((i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal)  ||
+                    (p.newPxFinal >= i.pxInit && p.newPxFinal<= i.pxFinal && p.newPyInit >= i.pyInit && p.newPyInit <= i.pyFinal)){
+                    if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
                         gameView.youLose()
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
                         return false
+                    }else if(i is Personaje && p is Casilla){
+                        p.pressed = true
+                        return false
                     }
                     return true
-                } else if (i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal) {
-                    if(i is Trampa && p is Personaje){
+                } else if ((i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal)   ||
+                    (p.newPxFinal >= i.pxInit && p.newPxFinal<= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)){
+                    if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
                         gameView.youLose()
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
                         return false
+                    }else if(i is Personaje && p is Casilla){
+                        p.pressed = true
+                        return false
                     }
                     return true
-                } else if (i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal) {
-                    if(i is Trampa && p is Personaje){
+                } else if ((i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal)  ||
+                    (p.newPxInit >= i.pxInit && p.newPxInit<= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)) {
+                    if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
                         gameView.youLose()
-                    }else if(i is Casilla && p is Personaje){
+                    }
+                    else if(i is Casilla && p is Personaje){
                         i.pressed = true
+                        return false
+                    }else if(i is Personaje && p is Casilla){
+                        p.pressed = true
                         return false
                     }
                     return true
