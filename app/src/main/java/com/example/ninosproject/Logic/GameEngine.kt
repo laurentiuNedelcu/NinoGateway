@@ -56,6 +56,7 @@ class GameEngine{
     }
 
     fun update() {
+        var colorChange = false
         for (i in obstaculos) {
             if (i is Trampa) {
                 var ar = i.newPosition()
@@ -63,10 +64,13 @@ class GameEngine{
                     i.update()
                 }
             }
-            else if(i is Cartel){
-                actionRange(i)
+            if(!colorChange) {
+                if (i is Cartel || i is Puerta) {
+                    colorChange = actionRange(i)
+                }
             }
         }
+        gameView.changeActionButtonColor(colorChange)
     }
 
 
@@ -138,31 +142,26 @@ class GameEngine{
             if (o.pxInit >= player.newPxInit-20.dp  && o.pxInit <= player.newPxFinal+20.dp   && o.pyInit >= player.newPyInit-20.dp   && o.pyInit <= player.newPyFinal+20.dp  ) {
                 if(!actionColor) {
                     actionColor = true
-                    gameView.changeActionButtonColor(actionColor)
                 }
                 return true
             } else if (o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp && o.pyInit >= player.newPyInit-20.dp && o.pyInit <= player.newPyFinal+20.dp) {
                 if(!actionColor) {
                     actionColor = true
-                    gameView.changeActionButtonColor(actionColor)
                 }
                 return true
             } else if (o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp  && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) {
                 if(!actionColor) {
                     actionColor = true
-                    gameView.changeActionButtonColor(actionColor)
                 }
                 return true
             } else if (o.pxInit >= player.newPxInit-20.dp && o.pxInit <= player.newPxFinal+20.dp && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) {
                 if(!actionColor) {
                     actionColor = true
-                    gameView.changeActionButtonColor(actionColor)
                 }
                 return true
             }
         if(actionColor){
             actionColor = false
-            gameView.changeActionButtonColor(actionColor)
         }
         return false
     }
@@ -172,6 +171,10 @@ class GameEngine{
             if(i is Cartel){
                 if(actionRange(i)) {
                     gameView.youLose()
+                }
+            }else if(i is Puerta){
+                if(actionRange(i)) {
+                    i.changeLock()
                 }
             }
         }

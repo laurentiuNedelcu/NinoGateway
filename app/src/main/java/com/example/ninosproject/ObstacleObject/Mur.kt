@@ -41,6 +41,16 @@ class Mur: AbstObstaculo{
         this.newPxFinal = px+25.dp
         this.newPyFinal = py+25.dp
         this.type = type
+
+        if(type == Mur.Caixa){
+            pxFinal = px+50.dp
+            pyFinal = py+50.dp
+            newPxFinal = px+50.dp
+            newPyFinal = py+50.dp
+        }else if(type == Mur.Sofa){
+            pyFinal = py+50.dp
+            newPyFinal = py+50.dp
+        }
     }
 
     override fun draw(v: GameView){

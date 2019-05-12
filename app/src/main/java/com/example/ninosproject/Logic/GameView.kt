@@ -7,10 +7,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
 import com.example.ninosproject.Activities.PlayActivity
-import com.example.ninosproject.ObstacleObject.AbstObstaculo
-import com.example.ninosproject.ObstacleObject.Cartel
-import com.example.ninosproject.ObstacleObject.Casilla
-import com.example.ninosproject.ObstacleObject.Mur
+import com.example.ninosproject.ObstacleObject.*
 
 class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context), SurfaceHolder.Callback{
 
@@ -27,7 +24,7 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
@@ -164,6 +161,10 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
                     43->{
                         var casilla = Casilla(x,y,3,playActivity)
                         murArray.add(casilla)
+                    }
+                    50->{
+                        var puerta = Puerta(x,y)
+                        murArray.add(puerta)
                     }
                 }
             }
