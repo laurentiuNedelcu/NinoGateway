@@ -270,6 +270,9 @@ class PlayActivity : AppCompatActivity() {
     fun finestraVictoria(buttonPause: Button){
 
 
+        val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
+        val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
+
         AudioPlay.stopMusic()
         AudioPlay.playMusic(this,R.raw.you_win_okno,false)
 
@@ -293,6 +296,8 @@ class PlayActivity : AppCompatActivity() {
                     val next: Button = view.findViewById(R.id.nextButtonYW)
 
                     retry.setOnClickListener {
+                        AudioPlay.getSoundPool().play(restartButton,1F,1F,0,0, 2F)
+
                         popupWindow.dismiss()
 
                         finish()
@@ -301,12 +306,14 @@ class PlayActivity : AppCompatActivity() {
                     }
 
                     lvls.setOnClickListener {
+                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
                         popupWindow.dismiss()
-                        backToLevels()
+                        finish()
                     }
 
                     next.setOnClickListener {
+                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         popupWindow.dismiss()
 
                         finish()
@@ -344,6 +351,7 @@ class PlayActivity : AppCompatActivity() {
                     val levels: Button = view.findViewById(R.id.levelsButtonYL)
 
                     retry.setOnClickListener {
+                        AudioPlay.getSoundPool().play(restartButton,1F,1F,0,0, 2F)
                         popupWindow.dismiss()
 
                         finish()
@@ -352,9 +360,10 @@ class PlayActivity : AppCompatActivity() {
                     }
 
                     levels.setOnClickListener {
+                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
                         popupWindow.dismiss()
-                        backToLevels()
+                        finish()
                     }
                 }
             }
@@ -387,13 +396,6 @@ class PlayActivity : AppCompatActivity() {
                 }
             }
         )
-    }
-
-    fun backToLevels(){
-        val intent = Intent(this, LevelActivity::class.java)
-        intent.putExtra("sfx",sfx)
-        finish()
-        startActivity(intent)
     }
 
 

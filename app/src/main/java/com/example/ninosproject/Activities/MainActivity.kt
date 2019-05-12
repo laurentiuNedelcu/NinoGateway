@@ -29,28 +29,28 @@ class MainActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main_menu)
 
-        AudioPlay.playMusic(this,R.raw.sm,true) //PONED LA CANCION QUE QUERAIS PARA EL MENU
+        AudioPlay.playMusic(this, R.raw.sm, true) //PONED LA CANCION QUE QUERAIS PARA EL MENU
         AudioPlay.enableSFX()
 
-        val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
-        val clickOptions = AudioPlay.getSoundPool().load(this,R.raw.pause_button,1)
+        val clickButton = AudioPlay.getSoundPool().load(this, R.raw.press_button, 1)
+        val clickOptions = AudioPlay.getSoundPool().load(this, R.raw.pause_button, 1)
 
         button_jugar = findViewById(R.id.jugar)
         button_exit = findViewById(R.id.button_exit)
         button_options = findViewById(R.id.button_options)
 
-        sfx = if (intent.getStringExtra("sfx")!=null) intent.getStringExtra("sfx")
+        sfx = if (intent.getStringExtra("sfx") != null) intent.getStringExtra("sfx")
         else getString(R.string.on)
 
         button_jugar.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             val intent = Intent(this, ModeActivity::class.java)
-            intent.putExtra("sfx",sfx)
+            intent.putExtra("sfx", sfx)
             startActivity(intent)
         }
 
         button_exit.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             AudioPlay.stopMusic()
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_HOME)
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_options.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickOptions,1F,1F,0,0, 1F)
+            AudioPlay.getSoundPool().play(clickOptions, 1F, 1F, 0, 0, 1F)
             popup(clickButton)
         }
     }
@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         AudioPlay.getSoundPool().release()
     }
+
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt() // Metode per passar de density independent pixels (dp) a pixels
 
     fun popup(clickButton: Int) {
@@ -100,27 +101,31 @@ class MainActivity : AppCompatActivity() {
         buttonSfx.setOnClickListener { sfx(buttonSfx) }
 
         button_accept.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             sfx = buttonSfx.text.toString(); popupWindow.dismiss()
         }
 
         button_deny.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             popupWindow.dismiss()
         }
     }
 
     private fun sfx(button: Button) {
-        if (button.text.equals(getString(R.string.on))) {
-            button.text = getString(R.string.off)
-            AudioPlay.disableSFX()
-        }
-        else {
-            synchronized(AudioPlay.getSoundPool()){
-                button.text =  getString(R.string.on)
-                AudioPlay.enableSFX()
-            }
-        }
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+                    if (button.text.equals(getString(R.string.on))) {
+                        button.text = getString(R.string.off)
+                        AudioPlay.disableSFX()
+                    } else {
+                        synchronized(AudioPlay.getSoundPool()) {
+                            button.text = getString(R.string.on)
+                            AudioPlay.enableSFX()
+                        }
+                    }
+                }
+            })
     }
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil

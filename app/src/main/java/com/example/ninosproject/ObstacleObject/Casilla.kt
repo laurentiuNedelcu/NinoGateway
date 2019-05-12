@@ -66,13 +66,11 @@ class Casilla : AbstObstaculo {
                 1->{
                     p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_1)
                     GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
-                if (!alreadyPressed){
-                    alreadyPressed = true
-                    playActivity.setPuntuacio(1)
-                    playActivity.updateTextViewSuma()
-                } else{
-
-                }
+                    if (!alreadyPressed){
+                        alreadyPressed = true
+                        playActivity.setPuntuacio(1)
+                        playActivity.updateTextViewSuma()
+                    }
                 }
                 2->{
                     p = BitmapFactory.decodeResource(v.resources, R.drawable.casilla_pressed_2)
