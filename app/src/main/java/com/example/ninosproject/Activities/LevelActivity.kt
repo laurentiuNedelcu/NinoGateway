@@ -24,7 +24,7 @@ class LevelActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_level_selector)
 
-        AudioPlay.playMusic(this,R.raw.sm,true)
+        AudioPlay.playMusic(this,R.raw.florian_bur_no_name,true)
 
         val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
 

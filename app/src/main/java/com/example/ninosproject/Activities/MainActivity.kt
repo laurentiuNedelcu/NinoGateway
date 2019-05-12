@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main_menu)
 
-        AudioPlay.playMusic(this, R.raw.sm, true) //PONED LA CANCION QUE QUERAIS PARA EL MENU
+        AudioPlay.playMusic(this, R.raw.florian_bur_no_name, true)
         AudioPlay.enableSFX()
 
         val clickButton = AudioPlay.getSoundPool().load(this, R.raw.press_button, 1)

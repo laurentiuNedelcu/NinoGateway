@@ -36,7 +36,7 @@ class PlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AudioPlay.playMusic(this,R.raw.megalovania,true)
+        AudioPlay.playMusic(this,R.raw.wonderful_world,true)
 
         val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
         val clickOptions = AudioPlay.getSoundPool().load(this,R.raw.pause_button,1)
@@ -70,6 +70,7 @@ class PlayActivity : AppCompatActivity() {
             if(!isPopupOn) {
                 finestraPause(buttonPause, clickButton, clickOptions)
             } else {
+                AudioPlay.playMusicAux(this,R.raw.resume_button)
                 gameView.resume()
                 AudioPlay.resumeMusic()
                 isPopupOn = false
@@ -200,6 +201,7 @@ class PlayActivity : AppCompatActivity() {
 
         AudioPlay.getSoundPool().play(clickOptions,1F,1F,2,0, 1F)
         AudioPlay.pauseMusic()
+        AudioPlay.playMusicAux(this,R.raw.pause_button)
         gameView.pause()
         isPopupOn = true
         buttonPause.setBackgroundResource(R.drawable.play_button)
@@ -219,6 +221,7 @@ class PlayActivity : AppCompatActivity() {
             AudioPlay.resumeMusic()
             //Recuperar estat del joc i tornar a la partida.
             buttonPause.setBackgroundResource(R.drawable.pause_button)
+            AudioPlay.playMusicAux(this,R.raw.resume_button)
             gameView.resume()
             isPopupOn = false
             popupWindow.dismiss()
@@ -274,8 +277,8 @@ class PlayActivity : AppCompatActivity() {
         val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
 
         AudioPlay.stopMusic()
-        AudioPlay.playMusic(this,R.raw.you_win_okno,false)
-
+        AudioPlay.playMusic(this,R.raw.you_win_music,false)
+        var context = this
         runOnUiThread(
             object : Runnable {
                 override fun run() {
@@ -308,6 +311,7 @@ class PlayActivity : AppCompatActivity() {
                     lvls.setOnClickListener {
                         AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
+                        AudioPlay.playMusic(context,R.raw.florian_bur_no_name,true)
                         popupWindow.dismiss()
                         finish()
                     }
@@ -332,6 +336,8 @@ class PlayActivity : AppCompatActivity() {
 
         AudioPlay.stopMusic()
         AudioPlay.playMusic(this,R.raw.you_lose_music,false)
+        var context = this
+
         runOnUiThread(
             object : Runnable {
                 override fun run() {
@@ -362,6 +368,7 @@ class PlayActivity : AppCompatActivity() {
                     levels.setOnClickListener {
                         AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
+                        AudioPlay.playMusic(context,R.raw.florian_bur_no_name,true)
                         popupWindow.dismiss()
                         finish()
                     }

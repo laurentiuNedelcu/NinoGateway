@@ -2,6 +2,7 @@ package com.example.ninosproject.ObstacleObject
 
 import android.graphics.BitmapFactory
 import com.example.ninosproject.Activities.PlayActivity
+import com.example.ninosproject.Data.AudioPlay
 import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
@@ -50,6 +51,9 @@ class ResetButton: AbstObstaculo, ActionObject {
             GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
         }else if(pulsat){
             if(times>=0 && times<=2) {
+                if (times == 0){
+                    AudioPlay.playMusicAux(playActivity,R.raw.press_button)
+                }
                 var p = BitmapFactory.decodeResource(v.resources, R.drawable.reset_button_pulsat)
                 times += 1
                 if(times == 3) {

@@ -1,6 +1,7 @@
 package com.example.ninosproject.ObstacleObject
 
 import android.graphics.BitmapFactory
+import com.example.ninosproject.Activities.PlayActivity
 import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
