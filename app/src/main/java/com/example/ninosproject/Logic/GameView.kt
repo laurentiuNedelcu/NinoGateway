@@ -18,17 +18,17 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
     private var murArray: ArrayList<AbstObstaculo> = ArrayList()
 
     internal val level = arrayOf(
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0, 0, 0, 43, 0, 1, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 10, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0),
-        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 10, 0, 1, 0, 0, 0, 1, 30, 0, 0, 0, 0, 43, 0, 0, 0, 1, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 70, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
+        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 7, 0, 0, 0, 8, 2, 2, 2, 5, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 41, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 41, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 20, 1, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -95,6 +95,14 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
 
     fun youLose() {
         playActivity.finestraDerrota(thread.getButtons()[5])
+    }
+
+    fun youWin(){
+        playActivity.finestraVictoria(thread.getButtons()[5])
+    }
+
+    fun showEnigma(){
+        playActivity.popup_enigma(thread.getButtons()[5])
     }
 
     private fun renderMap() {
@@ -166,11 +174,26 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
                         var puerta = Puerta(x,y)
                         murArray.add(puerta)
                     }
+                    60->{
+                        var cuchilla = Cuchilla(x,y)
+                        murArray.add(cuchilla)
+                    }
+                    61->{
+                        var bola = Bola(x,y)
+                        murArray.add(bola)
+                    }
+                    70->{
+                        var button = ResetButton(x,y,playActivity)
+                        murArray.add(button)
+                    }
                 }
             }
         }
     }
 
+    fun getSuma(): Int{
+        return playActivity.suma
+    }
     fun changeActionButtonColor(b: Boolean){
         playActivity.actionButtonColor(b)
     }

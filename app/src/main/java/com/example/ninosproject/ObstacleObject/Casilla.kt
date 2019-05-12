@@ -19,7 +19,7 @@ class Casilla : AbstObstaculo {
     override var pyFinal: Int = 0
     var valor : Int
     var pressed: Boolean
-    private var alreadyPressed: Boolean = false
+    var alreadyPressed: Boolean = false
     lateinit var playActivity: PlayActivity
 
     constructor(px: Int, py: Int, valor : Int, playActivity: PlayActivity){

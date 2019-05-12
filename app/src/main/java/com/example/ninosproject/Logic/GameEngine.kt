@@ -10,19 +10,12 @@ class GameEngine{
 
     private var player: Personaje =
         Personaje(50, 50)
-    private var valorActual : Int = 0 //variable donde se va sumando los valores de las casillas por las que pasa
 
     constructor(gameView: GameView, m: ArrayList<AbstObstaculo>){
-        var b : Bola = Bola(1050,700)
-        var c : Cuchilla = Cuchilla(1000,100)
         obstaculos = m
-        var x = 1000
-        var y = 300
-
-        obstaculos.add(b)
-        obstaculos.add(c)
         obstaculos.add(player)
         this.gameView = gameView
+
     }
 
     fun updateL() {
@@ -59,19 +52,20 @@ class GameEngine{
         var colorChange = false
         for (i in obstaculos) {
             if (i is Trampa) {
-                var ar = i.newPosition()
+                i.newPosition()
                 if (!colision(i)) {
                     i.update()
                 }
             }
             if(!colorChange) {
-                if (i is Cartel || i is Puerta) {
+                if (i is ActionObject){
                     colorChange = actionRange(i)
                 }
             }
         }
         gameView.changeActionButtonColor(colorChange)
     }
+
 
 
     fun colision(p: AbstObstaculo):Boolean{
@@ -139,22 +133,26 @@ class GameEngine{
     }
 
     fun actionRange(o: AbstObstaculo): Boolean{
-            if (o.pxInit >= player.newPxInit-20.dp  && o.pxInit <= player.newPxFinal+20.dp   && o.pyInit >= player.newPyInit-20.dp   && o.pyInit <= player.newPyFinal+20.dp  ) {
+            if ((o.pxInit >= player.newPxInit-20.dp  && o.pxInit <= player.newPxFinal+20.dp   && o.pyInit >= player.newPyInit-20.dp   && o.pyInit <= player.newPyFinal+20.dp) ||
+                (player.newPxInit-20.dp >= o.pxInit && player.newPxInit-20.dp<= o.pxFinal && player.newPyInit-20.dp >= o.pyInit && player.newPyInit-20.dp <= o.pyFinal)){
                 if(!actionColor) {
                     actionColor = true
                 }
                 return true
-            } else if (o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp && o.pyInit >= player.newPyInit-20.dp && o.pyInit <= player.newPyFinal+20.dp) {
+            } else if ((o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp && o.pyInit >= player.newPyInit-20.dp && o.pyInit <= player.newPyFinal+20.dp) ||
+                (player.newPxFinal+20.dp >= o.pxInit && player.newPxFinal+20.dp<= o.pxFinal && player.newPyInit-20.dp >= o.pyInit && player.newPyInit-20.dp <= o.pyFinal)) {
                 if(!actionColor) {
                     actionColor = true
                 }
                 return true
-            } else if (o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp  && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) {
+            } else if ((o.pxFinal >= player.newPxInit-20.dp && o.pxFinal <= player.newPxFinal+20.dp  && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) ||
+                (player.newPxFinal+20.dp >= o.pxInit && player.newPxFinal+20.dp<= o.pxFinal && player.newPyFinal+20.dp >= o.pyInit && player.newPyFinal+20.dp <= o.pyFinal)) {
                 if(!actionColor) {
                     actionColor = true
                 }
                 return true
-            } else if (o.pxInit >= player.newPxInit-20.dp && o.pxInit <= player.newPxFinal+20.dp && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) {
+            } else if ((o.pxInit >= player.newPxInit-20.dp && o.pxInit <= player.newPxFinal+20.dp && o.pyFinal >= player.newPyInit-20.dp  && o.pyFinal <= player.newPyFinal+20.dp ) ||
+                (player.newPxInit-20.dp >= o.pxInit && player.newPxInit-20.dp<= o.pxFinal && player.newPyFinal+20.dp >= o.pyInit && player.newPyFinal+-20.dp <= o.pyFinal)) {
                 if(!actionColor) {
                     actionColor = true
                 }
@@ -168,13 +166,19 @@ class GameEngine{
 
     fun actionButton(){
         for (i in obstaculos){
-            if(i is Cartel){
+            if (i is ActionObject){
                 if(actionRange(i)) {
-                    gameView.youLose()
-                }
-            }else if(i is Puerta){
-                if(actionRange(i)) {
-                    i.changeLock()
+                    i.action(gameView)
+
+
+                    if(i is ResetButton){
+                        for (i in obstaculos){
+                            if(i is Casilla){
+                                i.pressed = false
+                                i.alreadyPressed = false
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -183,3 +187,5 @@ class GameEngine{
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt() // Metode per passar de density independent pixels (dp) a pixels
 
 }
+
+

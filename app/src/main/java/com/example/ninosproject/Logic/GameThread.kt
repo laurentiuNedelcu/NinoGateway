@@ -66,7 +66,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
                         if (buttonArray[3].isPressed) {
                             gameEngine.updateU()
                         }
-                        if (buttonArray[4].isPressed) {
+                        buttonArray[4].setOnClickListener {
                             gameEngine.actionButton()
                         }
                         gameEngine.draw()

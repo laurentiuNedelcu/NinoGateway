@@ -267,6 +267,57 @@ class PlayActivity : AppCompatActivity() {
             finestraPause(buttonPause, clickButton, clickOptions) }
     }
 
+    fun finestraVictoria(buttonPause: Button){
+
+
+        AudioPlay.stopMusic()
+        AudioPlay.playMusic(this,R.raw.you_win_okno,false)
+
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+                    gameView.pause()
+                    buttonPause.isEnabled = false
+                    buttonPause.visibility = View.INVISIBLE
+                    isPopupOn = true
+
+                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                    val view = inflater.inflate(R.layout.activity_you_win, null)
+
+                    popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
+                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
+
+                    val retry: Button = view.findViewById(R.id.retryButtonYW)
+                    val lvls: Button = view.findViewById(R.id.levelsbuttonYW)
+                    val next: Button = view.findViewById(R.id.nextButtonYW)
+
+                    retry.setOnClickListener {
+                        popupWindow.dismiss()
+
+                        finish()
+                        AudioPlay.stopMusic()
+                        startActivity(intent)
+                    }
+
+                    lvls.setOnClickListener {
+                        AudioPlay.stopMusic()
+                        popupWindow.dismiss()
+                        backToLevels()
+                    }
+
+                    next.setOnClickListener {
+                        popupWindow.dismiss()
+
+                        finish()
+                        AudioPlay.stopMusic()
+                        startActivity(intent)
+                    }
+                }
+            }
+        )
+    }
+
     fun finestraDerrota(buttonPause: Button){
 
         val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
@@ -293,7 +344,6 @@ class PlayActivity : AppCompatActivity() {
                     val levels: Button = view.findViewById(R.id.levelsButtonYL)
 
                     retry.setOnClickListener {
-                        AudioPlay.getSoundPool().play(restartButton,1F,1F,0,0, 2F)
                         popupWindow.dismiss()
 
                         finish()
@@ -302,10 +352,37 @@ class PlayActivity : AppCompatActivity() {
                     }
 
                     levels.setOnClickListener {
-                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
                         popupWindow.dismiss()
                         backToLevels()
+                    }
+                }
+            }
+        )
+    }
+
+    fun popup_enigma(buttonPause: Button){
+        runOnUiThread(
+            object : Runnable {
+                override fun run() {
+                    isPopupOn = true
+                    buttonPause.isEnabled = false
+                    buttonPause.visibility = View.INVISIBLE
+
+                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+                    val view = inflater.inflate(R.layout.popup_enigma, null)
+
+                    popupWindow = PopupWindow(view, 375.dp, 200.dp, true)
+                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
+
+                    val enigma: ImageView = view.findViewById(R.id.enigmaImage)
+                    enigma.setImageResource(R.drawable.enigma1)
+
+                    popupWindow.setOnDismissListener {
+                        buttonPause.isEnabled = true
+                        buttonPause.visibility = View.VISIBLE
+                        isPopupOn = false
                     }
                 }
             }
@@ -319,39 +396,6 @@ class PlayActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
-    fun finestraVictoria(youWin: Int, clickButton: Int){
-
-        AudioPlay.getSoundPool().play(youWin,1F,1F,0,0, 1F)
-
-        runOnUiThread(
-            object : Runnable {
-                override fun run() {
-                    gameView.pause()
-                    isPopupOn = true
-
-                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-                    val view = inflater.inflate(R.layout.activity_you_lose, null)
-
-                    popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
-                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
-
-                    val retry: Button = view.findViewById(R.id.retryButtonYL)
-
-                    retry.setOnClickListener {
-                        //Recuperar estat del joc i tornar a la partida.
-                        //buttonPause.setBackgroundResource(R.drawable.pause_button)
-                        popupWindow.dismiss()
-
-                        gameView.pause()
-                        finish()
-                        startActivity(intent)
-                    }
-                }
-            }
-        )
-    }
 
     fun actionButtonColor(b: Boolean){
         runOnUiThread(
@@ -381,6 +425,10 @@ class PlayActivity : AppCompatActivity() {
 
     fun setPuntuacio(i: Int) {
         suma += i
+    }
+
+    fun resetPuntuacio(){
+        suma = 0
     }
 
     fun updateTextViewSuma(){

@@ -5,7 +5,8 @@ import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
 
-class Cartel : AbstObstaculo {
+class Cartel : AbstObstaculo, ActionObject {
+
     override var pxInit: Int
     override var pyInit: Int
     override var pxFinal: Int
@@ -62,5 +63,9 @@ class Cartel : AbstObstaculo {
                 times = 0
             GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
         }
+    }
+
+    override fun action(v: GameView) {
+        v.showEnigma()
     }
 }

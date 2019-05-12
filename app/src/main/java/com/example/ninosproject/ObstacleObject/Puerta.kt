@@ -5,7 +5,7 @@ import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
 
-class Puerta : AbstObstaculo {
+class Puerta : AbstObstaculo, ActionObject {
     override var pxInit: Int
     override var pyInit: Int
     override var pxFinal: Int
@@ -15,6 +15,7 @@ class Puerta : AbstObstaculo {
     override var newPxFinal: Int
     override var newPyFinal: Int
     private var open = false
+    private var solucio = 1
 
     init{
         pxInit = 0
@@ -39,7 +40,7 @@ class Puerta : AbstObstaculo {
     }
 
     override fun draw(v: GameView) {
-        if(open){
+        if(!open){
             var p = BitmapFactory.decodeResource(v.resources, R.drawable.puerta1)
             GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
         }else{
@@ -51,4 +52,12 @@ class Puerta : AbstObstaculo {
     fun changeLock(){
         open = !open
     }
+
+    override fun action(v: GameView) {
+        if(v.getSuma() == solucio) {
+            changeLock()
+            v.youWin()
+        }
+    }
+
 }
