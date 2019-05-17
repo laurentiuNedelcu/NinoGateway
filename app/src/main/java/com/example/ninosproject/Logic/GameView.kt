@@ -42,8 +42,6 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
 
         screenW = matrix.widthPixels
 
-        //blockSize = screenW.div(25.dp)
-
         blockSize = screenW.div(25)
         blockSize = (blockSize.div(5)).times(5)
 
@@ -51,8 +49,6 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
 
         thread = GameThread(holder,this,murArray)
         isFocusable = true
-
-
     }
 
     override fun surfaceChanged(holder: SurfaceHolder?, format: Int, width: Int, height: Int) {

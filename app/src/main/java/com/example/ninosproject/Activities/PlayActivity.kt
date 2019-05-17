@@ -168,7 +168,6 @@ class PlayActivity : AppCompatActivity() {
         upLayout.addView(leftDownRightLayout)
 
         auxLayout.addView(upLayout)
-
         scoreLayout.addView(sumaText)
         scoreLayout.addView(puntuacio)
 
@@ -257,7 +256,7 @@ class PlayActivity : AppCompatActivity() {
         val button_accept: Button = view.findViewById(R.id.button_accept)
         val button_deny: Button = view.findViewById(R.id.button_deny)
 
-        buttonSfx.text = sfx  //Esta linea peta tot el menu
+        buttonSfx.text = sfx
 
         buttonSfx.setOnClickListener { sfx(buttonSfx) }
 

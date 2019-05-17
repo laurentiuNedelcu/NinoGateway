@@ -49,4 +49,13 @@
     <string name="levels">Levels</string>
     <string name="function">The function is not yet implemented</string>
     <string name="zero">00</string>
+    <string name="Ingresar_username">You must enter a nickname</string>
+    <string name="Ingresar_email">You must enter an e-mail</string>
+    <string name="Ingresar_password">You must enter a password</string>
+    <string name="retry_password">You must confirm your password</string>
+    <string name="check_password">The password does not match, please check that it is well written</string>
+    <string name="registered_correctly">You have registered correctly</string>
+    <string name="user_exists">This user already exists</string>
+    <string name="password_weak">Your password is too weak</string>
+    <string name="incorrect_user_password">Your username or password is incorrect</string>
 </resources>

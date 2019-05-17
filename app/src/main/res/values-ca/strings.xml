@@ -49,4 +49,13 @@
     <string name="function">La funció encara no està implementada</string>
     <string name="zero">00</string>
     <string name="suma">SUMA</string>
+    <string name="Ingresar_username">Has d\'ingressar un nom d\'usuari</string>
+    <string name="Ingresar_email">Has d\'ingressar un e-mail</string>
+    <string name="Ingresar_password">Has d\'ingressar una contrasenya</string>
+    <string name="retry_password">Has de confirmar la contrasenya</string>
+    <string name="check_password">La contrasenya no coincideix, comproveu que estigui ben escrita</string>
+    <string name="registered_correctly">T\'has registrat correctament</string>
+    <string name="user_exists">Aquest usuari ja existeix</string>
+    <string name="password_weak">La teva contrasenya és massa feble</string>
+    <string name="incorrect_user_password">El teu nom d\'usuari o la teva contrasenya és incorrecta</string>
 </resources>

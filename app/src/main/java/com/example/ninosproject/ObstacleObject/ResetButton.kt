@@ -47,14 +47,14 @@ class ResetButton: AbstObstaculo, ActionObject {
 
     override fun draw(v: GameView) {
         if(!pulsat){
-            var p = BitmapFactory.decodeResource(v.resources, R.drawable.reset_button)
+            val p = BitmapFactory.decodeResource(v.resources, R.drawable.reset_button)
             GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
         }else if(pulsat){
-            if(times>=0 && times<=2) {
+            if (times in 0..2) {
                 if (times == 0){
                     AudioPlay.playMusicAux(playActivity,R.raw.press_button)
                 }
-                var p = BitmapFactory.decodeResource(v.resources, R.drawable.reset_button_pulsat)
+                val p = BitmapFactory.decodeResource(v.resources, R.drawable.reset_button_pulsat)
                 times += 1
                 if(times == 3) {
                     times = 0

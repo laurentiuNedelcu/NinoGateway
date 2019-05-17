@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "523532046169",
+    "firebase_url": "https://pis20-6a736.firebaseio.com",
+    "project_id": "pis20-6a736",
+    "storage_bucket": "pis20-6a736.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523532046169:android:54e01fef823763d5",
+        "android_client_info": {
+          "package_name": "com.example.ninosproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523532046169-q4q7tvnqt86v1dnuabkj0rp41pbfq9ud.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2BdTYQwy1p6lY1Ci4vAQRyqOnAowYB4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523532046169-q4q7tvnqt86v1dnuabkj0rp41pbfq9ud.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

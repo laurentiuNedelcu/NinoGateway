@@ -1,11 +1,8 @@
 package com.example.ninosproject.ObstacleObject
 
-import android.content.res.Resources
 import android.graphics.BitmapFactory
-import android.graphics.Canvas
 import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
-import com.example.ninosproject.ObstacleObject.Mur
 import com.example.ninosproject.R
 
 class Personaje: AbstObstaculo{
