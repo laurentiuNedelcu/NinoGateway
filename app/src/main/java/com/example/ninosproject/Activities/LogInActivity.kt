@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.ninosproject.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 
 class LogInActivity : AppCompatActivity() {
@@ -21,6 +22,8 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var emailText: TextView
     private lateinit var passwordText: TextView
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var firebaseRef: DatabaseReference
+    private lateinit var dataBase: FirebaseDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -30,6 +33,8 @@ class LogInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_log_in)
 
         mAuth = FirebaseAuth.getInstance()
+        dataBase = FirebaseDatabase.getInstance()
+        firebaseRef = dataBase.reference.child("User")
 
         logInButton = findViewById(R.id.logIn_id)
         registerButton = findViewById(R.id.register_id)
@@ -49,10 +54,10 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun logIn() {
-        val email: String = emailText.text.toString().trim()
+        val username: String = emailText.text.toString().trim()
         val password: String = passwordText.text.toString().trim()
 
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(username)) {
             Toast.makeText(this, getString(R.string.Ingresar_email), Toast.LENGTH_LONG).show()
             return
         }
@@ -62,31 +67,67 @@ class LogInActivity : AppCompatActivity() {
             return
         }
 
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user = mAuth.currentUser
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    //updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Toast.makeText(
-                        this, getString(R.string.incorrect_user_password),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    //updateUI(null)
-                }
+        //Comprovem si l'usuari ha introduit un correu
+        if ((android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches())) {
+            performLogin(username, password)
+        } else {
+            //Sino busquem el correu electronic associat al nom d'usuari
+            firebaseRef.addListenerForSingleValueEvent(
+                object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (id in dataSnapshot.children) {
+                                val aux = id.key.toString()
+                                firebaseRef.child(aux).child("Nickname").child(username)
+                                    .addListenerForSingleValueEvent(
+                                        object : ValueEventListener {
+                                            override fun onCancelled(p0: DatabaseError) {
+                                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                            }
 
-                // ...
-            }
+                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                if (dataSnapshot.exists()) {
+                                                    val userId = dataSnapshot.getValue(String::class.java)
+                                                    performLogin(userId, password)
+                                                }
+                                            }
+                                        })
+                            }
+                        }
+                    }
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        // Failed to read value
+                    }
+                }
+            )
+        }
+    }
+
+
+    fun performLogin(username: String?, password: String) {
+        if (username != null) {
+            mAuth.signInWithEmailAndPassword(username, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        //updateUI(user)
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Toast.makeText(
+                            this, getString(R.string.incorrect_user_password),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        } else {
+            Toast.makeText(this, "Username is null", Toast.LENGTH_SHORT).show()
+        }
     }
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = mAuth.currentUser
-        //updateUI(currentUser)
     }
 }

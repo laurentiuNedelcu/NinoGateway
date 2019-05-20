@@ -18,7 +18,7 @@
     <string name="accept">Accept</string>
     <string name="cancel">Cancel</string>
     <string name="volume">Volume:</string>
-    <string name="email">Email:</string>
+    <string name="email">Email or user name:</string>
     <string name="title">Nino\'s Gateway</string>
     <string name="guest">Guest</string>
     <string name="log_in">Log In</string>
@@ -58,4 +58,5 @@
     <string name="user_exists">This user already exists</string>
     <string name="password_weak">Your password is too weak</string>
     <string name="incorrect_user_password">Your username or password is incorrect</string>
+    <string name="username_taken">This username is already taken</string>
 </resources>

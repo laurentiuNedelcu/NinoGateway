@@ -29,7 +29,7 @@
                 android:layout_height="match_parent">
             <TextView
                     android:text="@string/email"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content" android:id="@+id/emailView" android:layout_weight="1"
                     android:fontFamily="@font/fuente1" android:textSize="24sp" android:layout_gravity="center"
                     android:gravity="center"/>
@@ -40,7 +40,7 @@
                     android:ems="10"
                     android:id="@+id/emailText" android:layout_weight="1" android:fontFamily="@font/fuente1"
                     android:layout_gravity="center"
-                    android:gravity="center" android:layout_marginStart="28dp"
+                    android:gravity="center" android:layout_marginStart="8dp"
                     android:layout_marginBottom="8dp" android:layout_marginEnd="8dp" android:maxLength="40"/>
         </LinearLayout>
         <LinearLayout
@@ -49,7 +49,7 @@
                 android:layout_height="match_parent">
             <TextView
                     android:text="@string/password"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250dp"
                     android:layout_height="wrap_content" android:id="@+id/passwordView" android:layout_weight="1"
                     android:fontFamily="@font/fuente1" android:textSize="24sp" android:layout_gravity="center"
                     android:gravity="center"/>

@@ -18,7 +18,7 @@
     <string name="accept">Acceptar</string>
     <string name="cancel">Cancel·lar</string>
     <string name="volume">Volum:</string>
-    <string name="email">Correu:</string>
+    <string name="email">Correu o nom d\'usuari:</string>
     <string name="title">Nino\'s Gateway</string>
     <string name="guest">Convidat</string>
     <string name="log_in">Iniciar sessió</string>
@@ -58,4 +58,5 @@
     <string name="user_exists">Aquest usuari ja existeix</string>
     <string name="password_weak">La teva contrasenya és massa feble</string>
     <string name="incorrect_user_password">El teu nom d\'usuari o la teva contrasenya és incorrecta</string>
+    <string name="username_taken">Aquest nom d\'usuari ja està agafat</string>
 </resources>

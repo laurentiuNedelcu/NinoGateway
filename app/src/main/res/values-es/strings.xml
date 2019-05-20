@@ -18,7 +18,7 @@
     <string name="accept">Acceptar</string>
     <string name="cancel">Cancelar</string>
     <string name="volume">Volumen:</string>
-    <string name="email">Correo:</string>
+    <string name="email">Correo o nombre de usuario:</string>
     <string name="title">Nino\'s Gateway</string>
     <string name="guest">Invitado</string>
     <string name="log_in">Iniciar sessión</string>
@@ -58,4 +58,5 @@
     <string name="user_exists">Este usuario ya existe</string>
     <string name="password_weak">Tu contraseña es demasiado débil</string>
     <string name="incorrect_user_password">Tu nombre de usuario o tu contraseña es incorrecta</string>
+    <string name="username_taken">Este nombre de usuario ya está cogido</string>
 </resources>

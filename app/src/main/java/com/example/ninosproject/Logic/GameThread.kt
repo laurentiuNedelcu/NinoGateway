@@ -8,10 +8,10 @@ import com.example.ninosproject.ObstacleObject.AbstObstaculo
 
 class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<AbstObstaculo>) : Thread() {
 
-    private val FPS : Long = 30
-    private var avgFPS : Double = 0.0
+    private val FPS: Long = 30
+    private var avgFPS: Double = 0.0
     private var holder: SurfaceHolder = surfaceHolder
-    private var gameEngine: GameEngine = GameEngine(gameView,m)
+    private var gameEngine: GameEngine = GameEngine(gameView, m)
     private var isRunning: Boolean = true
     var buttonArray: ArrayList<Button> = ArrayList<Button>(6)
     private var paused: Boolean = false
@@ -105,26 +105,26 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
         }
     }
 
-    fun setRunning(isRunning: Boolean){
+    fun setRunning(isRunning: Boolean) {
         this.isRunning = isRunning
     }
 
-    fun pause(){
+    fun pause() {
         paused = true
     }
 
-    fun resumeThread(){
-        synchronized(pauseLock){
+    fun resumeThread() {
+        synchronized(pauseLock) {
             paused = false
             pauseLock.notifyAll() //Crida al Thread
         }
     }
 
-    fun addButtons(b: ArrayList<Button>){
+    fun addButtons(b: ArrayList<Button>) {
         this.buttonArray = b
     }
 
-    fun getButtons():ArrayList<Button>{
+    fun getButtons(): ArrayList<Button> {
         return buttonArray
     }
 }

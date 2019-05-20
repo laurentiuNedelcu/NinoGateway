@@ -1,6 +1,7 @@
 package com.example.ninosproject.Activities
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.Window
@@ -9,12 +10,8 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.example.ninosproject.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.auth.*
+import com.google.firebase.database.*
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -28,6 +25,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var dbReference: DatabaseReference
     private lateinit var dataBase: FirebaseDatabase
+    private var handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +53,7 @@ class RegisterActivity : AppCompatActivity() {
         val password: String = passwordText.text.toString().trim()
         val email: String = emailText.text.toString().trim()
         val confirmPassword: String = confirmPasswordText.text.toString().trim()
+        var success = true
 
         if (TextUtils.isEmpty(userName)) {
             Toast.makeText(this, getString(R.string.Ingresar_username), Toast.LENGTH_LONG).show()
@@ -80,18 +79,47 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, getString(R.string.check_password), Toast.LENGTH_LONG).show()
             return
         }
+
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    val user: FirebaseUser? = mAuth.currentUser
-                    //updateUI(user)
 
-                    val userBD = user?.uid?.let { dbReference.child(it) }
-                    userBD?.child("Nickname")?.setValue(userName)
-                    Toast.makeText(this, getString(R.string.registered_correctly), Toast.LENGTH_LONG).show()
-                    finish()
+                    //Comprovem que no hi hagi 2 usuaris amb el mateix nickname
+                    dbReference.addListenerForSingleValueEvent(
+                        object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
 
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    for (id in dataSnapshot.children) {
+                                        val aux = id.key.toString()
+                                        dbReference.child(aux).child("Nickname").child(userName)
+                                            .addListenerForSingleValueEvent(
+                                                object : ValueEventListener {
+                                                    override fun onCancelled(p0: DatabaseError) {
+                                                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                                    }
+
+                                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                                        if (dataSnapshot.exists()) {
+                                                            val nickname = dataSnapshot.key.toString()
+                                                            if (nickname == userName) {
+                                                                success = false
+                                                            }
+                                                        }
+                                                        if (success) {
+                                                            performRegister(userName, email)
+                                                        } else {
+                                                            error(email, password)
+                                                        }
+                                                    }
+                                                })
+                                    }
+                                }
+                            }
+                        })
                 } else {
                     if (task.exception is FirebaseAuthUserCollisionException) {
                         Toast.makeText(this, getString(R.string.user_exists), Toast.LENGTH_LONG).show()
@@ -104,8 +132,36 @@ class RegisterActivity : AppCompatActivity() {
                         this, "Authentication failed.",
                         Toast.LENGTH_SHORT
                     ).show()
-                    //updateUI(null)
                 }
+            }
+    }
+
+    private fun performRegister(userName: String, email: String) {
+
+        // Sign in success, update UI with the signed-in user's information
+        val user: FirebaseUser? = mAuth.currentUser
+        val userBD = user?.uid?.let { dbReference.child(it) }
+
+        userBD?.child("Nickname")?.child(userName)?.setValue(email)
+        Toast.makeText(this, getString(R.string.registered_correctly), Toast.LENGTH_LONG).show()
+        finish()
+    }
+
+    private fun error(email: String, password: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+
+        // Get auth credentials from the user for re-authentication.
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        // Prompt the user to re-provide their sign-in credentials
+        user!!.reauthenticate(credential)
+            .addOnCompleteListener {
+                user.delete()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, getString(R.string.username_taken), Toast.LENGTH_LONG).show()
+                        }
+                    }
             }
     }
 }
