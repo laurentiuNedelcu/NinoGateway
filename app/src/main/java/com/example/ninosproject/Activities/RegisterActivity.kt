@@ -19,6 +19,7 @@ import com.google.firebase.database.*
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var backButton: Button
+    private lateinit var registerButton: Button
     private lateinit var validateButton: Button
     private lateinit var userNameText: TextView
     private lateinit var emailText: TextView
@@ -30,6 +31,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var userName: String
     private lateinit var email: String
     private lateinit var password: String
+    private lateinit var confirmPassword: String
     private var success = true
     private var validate = false
 
@@ -44,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         dbReference = dataBase.reference.child("User")
 
         backButton = findViewById(R.id.button_back)
+        registerButton = findViewById(R.id.button_register)
         validateButton = findViewById(R.id.button_validate)
         userNameText = findViewById(R.id.userNameText)
         emailText = findViewById(R.id.emailText)
@@ -53,59 +56,64 @@ class RegisterActivity : AppCompatActivity() {
         backButton.setOnClickListener { finish() }
         validateButton.setOnClickListener {
             if (!validate) {
-                register()
-                validate = true
+                val aux = validate()
+                if (aux && success) {
+                    validate = true
+                    validateSuccess()
+                }
             } else {
-                if (success) {
-                    performRegister(userName, email, password)
-                } else {
-                    error()
+                validateCompleted()
+            }
+        }
+        registerButton.setOnClickListener {
+            if (!validate) {
+                validateNotCompleted()
+            } else {
+                if (!validateRegister()) {
                     validate = false
+                } else {
+                    performRegister(userName, email, password)
                 }
             }
         }
     }
 
-    fun register() {
+    private fun validate(): Boolean {
 
         userName = userNameText.text.toString().trim()
         password = passwordText.text.toString().trim()
         email = emailText.text.toString().trim()
-        val confirmPassword: String = confirmPasswordText.text.toString().trim()
 
-        if (TextUtils.isEmpty(userName)) {
-            Toast.makeText(this, getString(R.string.Ingresar_username), Toast.LENGTH_LONG).show()
-            return
+        confirmPassword = confirmPasswordText.text.toString().trim()
+
+        when {
+            TextUtils.isEmpty(userName) -> {
+                Toast.makeText(this, getString(R.string.Ingresar_username), Toast.LENGTH_LONG).show()
+                return false
+            }
+            TextUtils.isEmpty(email) -> {
+                Toast.makeText(this, getString(R.string.Ingresar_email), Toast.LENGTH_LONG).show()
+                return false
+            }
+            TextUtils.isEmpty(password) -> {
+                Toast.makeText(this, getString(R.string.Ingresar_password), Toast.LENGTH_LONG).show()
+                return false
+            }
+            TextUtils.isEmpty(confirmPassword) -> {
+                Toast.makeText(this, getString(R.string.retry_password), Toast.LENGTH_LONG).show()
+                return false
+            }
+            confirmPassword != password -> {
+                Toast.makeText(this, getString(R.string.check_password), Toast.LENGTH_LONG).show()
+                return false
+            }
+            else -> {
+                search(userName)
+
+                return true
+
+            }
         }
-
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(this, getString(R.string.Ingresar_email), Toast.LENGTH_LONG).show()
-            return
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(this, getString(R.string.Ingresar_password), Toast.LENGTH_LONG).show()
-            return
-        }
-
-        if (TextUtils.isEmpty(confirmPassword)) {
-            Toast.makeText(this, getString(R.string.retry_password), Toast.LENGTH_LONG).show()
-            return
-        }
-
-        if (confirmPassword != password) {
-            Toast.makeText(this, getString(R.string.check_password), Toast.LENGTH_LONG).show()
-            return
-        }
-
-        search(userName)
-
-
-        /*if (complete) {
-            //performRegister(userName, email, password)
-        } else {
-            //error()
-        }*/
     }
 
     private fun search(userName: String) {
@@ -131,6 +139,8 @@ class RegisterActivity : AppCompatActivity() {
                                                 val nickname = dataSnapshot.key.toString()
                                                 if (nickname == userName) {
                                                     success = false
+                                                    error()
+                                                    validate = false
                                                     return
                                                 }
                                             }
@@ -147,10 +157,8 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
-                    // Sign in success, update UI with the signed-in user's information
                     val user: FirebaseUser? = mAuth.currentUser
                     val userBD = user?.uid?.let { dbReference.child(it) }
-
 
                     userBD?.child("Nickname")?.child(userName)?.setValue(email)
 
@@ -158,22 +166,64 @@ class RegisterActivity : AppCompatActivity() {
                     finish()
 
                 } else {
-                    if (task.exception is FirebaseAuthUserCollisionException) {
-                        Toast.makeText(this, getString(R.string.user_exists), Toast.LENGTH_LONG).show()
+                    when {
+                        task.exception is FirebaseAuthUserCollisionException -> Toast.makeText(
+                            this,
+                            getString(R.string.user_exists),
+                            Toast.LENGTH_LONG
+                        ).show()
+                        task.exception is FirebaseAuthWeakPasswordException -> Toast.makeText(
+                            this,
+                            getString(R.string.password_weak),
+                            Toast.LENGTH_LONG
+                        ).show()
+                        else -> // If sign un fails, display a message to the user.
+                            Toast.makeText(
+                                this, "Authentication failed.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                     }
-                    if (task.exception is FirebaseAuthWeakPasswordException) {
-                        Toast.makeText(this, getString(R.string.password_weak), Toast.LENGTH_LONG).show()
-                    }
-                    // If sign un fails, display a message to the user.
-                    Toast.makeText(
-                        this, "Authentication failed.",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
             }
     }
 
     private fun error() {
         Toast.makeText(this, getString(R.string.username_taken), Toast.LENGTH_LONG).show()
+    }
+
+    private fun validateCompleted() {
+        Toast.makeText(this, getString(R.string.validate_completed), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun validateNotCompleted() {
+        Toast.makeText(this, getString(R.string.pls_val_before), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun validateSuccess() {
+        Toast.makeText(this, getString(R.string.validate_success), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun validateRegister(): Boolean {
+
+        when {
+            userName != userNameText.text.toString() -> {
+                Toast.makeText(this, getString(R.string.username_changed), Toast.LENGTH_LONG).show()
+                return false
+            }
+            email != emailText.text.toString() -> {
+                Toast.makeText(this, getString(R.string.email_changed), Toast.LENGTH_LONG).show()
+                return false
+            }
+            password != passwordText.text.toString() -> {
+                Toast.makeText(this, getString(R.string.password_changed), Toast.LENGTH_LONG).show()
+                return false
+            }
+            confirmPassword != confirmPasswordText.text.toString() -> {
+                Toast.makeText(this, getString(R.string.confirm_password_changed), Toast.LENGTH_LONG)
+                    .show()
+                return false
+            }
+            else -> return true
+        }
     }
 }

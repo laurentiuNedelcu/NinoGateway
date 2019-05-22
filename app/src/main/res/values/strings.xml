@@ -55,8 +55,16 @@
     <string name="retry_password">You must confirm your password</string>
     <string name="check_password">The password does not match, please check that it is well written</string>
     <string name="registered_correctly">You have registered correctly</string>
-    <string name="user_exists">This user already exists</string>
+    <string name="user_exists">There is already a user with this email</string>
     <string name="password_weak">Your password is too weak</string>
     <string name="incorrect_user_password">Your username or password is incorrect</string>
     <string name="username_taken">This username is already taken</string>
+    <string name="Validate">Validate</string>
+    <string name="validate_completed">Validation completed!</string>
+    <string name="pls_val_before">Please, validate before!</string>
+    <string name="username_changed">Your username have changed, please validate again!</string>
+    <string name="email_changed">Your email have changed, please validate again!</string>
+    <string name="password_changed">Your password have changed, please validate again!</string>
+    <string name="confirm_password_changed">Your confirmed password have changed, please validate again!</string>
+    <string name="validate_success">It has been validated successfully</string>
 </resources>
