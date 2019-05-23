@@ -1,32 +1,33 @@
 package com.example.ninosproject.ObstacleObject
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
+import com.example.ninosproject.R
 
-class Hielo : Trampa() {
-    override var newPxInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var newPyInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var newPxFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var newPyFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+class Hielo : Trampa {
+    override var newPxInit: Int = 0
+    override var newPyInit: Int = 0
+    override var newPxFinal: Int = 0
+    override var newPyFinal: Int  = 0
     override var pxInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
     override var pyInit: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var pxFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
-    override var pyFinal: Int
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-        set(value) {}
+    override var pxFinal: Int = 0
+    override var pyFinal: Int = 0
+
+
+    constructor(px: Int, py: Int){
+        pxInit = px
+        pyInit = py
+        pxFinal = px+50.dp
+        pyFinal = py+50.dp
+        newPxInit = px
+        newPyInit = py
+        newPxFinal = px+50.dp
+        newPyFinal = py+50.dp
+
+    }
 
     override fun update() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -37,6 +38,7 @@ class Hielo : Trampa() {
     }
 
     override fun draw(v: GameView) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val p: Bitmap = BitmapFactory.decodeResource(v.resources, R.drawable.hielo_rand)
+        GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
     }
 }

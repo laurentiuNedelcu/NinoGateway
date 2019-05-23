@@ -25,7 +25,7 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 7, 0, 0, 0, 8, 2, 2, 2, 5, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 41, 0, 0, 0),
+        intArrayOf(0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 41, 0, 0, 0),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
         intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
         intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
@@ -101,6 +101,19 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         playActivity.popup_enigma(thread.getButtons()[5])
     }
 
+    fun disableButtons(){
+        thread.getButtons()[0].isEnabled = false
+        thread.getButtons()[1].isEnabled = false
+        thread.getButtons()[2].isEnabled = false
+        thread.getButtons()[3].isEnabled = false
+    }
+
+    fun enableButtons(){
+        thread.getButtons()[0].isEnabled = true
+        thread.getButtons()[1].isEnabled = true
+        thread.getButtons()[2].isEnabled = true
+        thread.getButtons()[3].isEnabled = true
+    }
     private fun renderMap() {
         var x: Int
         var y: Int
@@ -181,6 +194,10 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
                     70->{
                         var button = ResetButton(x,y,playActivity)
                         murArray.add(button)
+                    }
+                    14->{
+                        var hielo = Hielo(x,y)
+                        murArray.add(hielo)
                     }
                 }
             }
