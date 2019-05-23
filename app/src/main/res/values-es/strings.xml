@@ -67,5 +67,5 @@
     <string name="password_changed">Tu contraseña ha cambiado, por favor vuelve a validar!</string>
     <string name="confirm_password_changed">Tu contraseña de confirmación ha cambiado, por favor vuelve a validar!
     </string>
-    <string name="validate_success">Se ha validado con éxito</string>
+    <string name="validate_success">Validación completada</string>
 </resources>

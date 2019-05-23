@@ -57,7 +57,7 @@ class RegisterActivity : AppCompatActivity() {
         validateButton.setOnClickListener {
             if (!validate) {
                 val aux = validate()
-                if (aux && success) {
+                if (aux) {
                     validate = true
                     validateSuccess()
                 }
@@ -226,4 +226,5 @@ class RegisterActivity : AppCompatActivity() {
             else -> return true
         }
     }
+
 }

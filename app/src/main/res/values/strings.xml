@@ -66,5 +66,5 @@
     <string name="email_changed">Your email have changed, please validate again!</string>
     <string name="password_changed">Your password have changed, please validate again!</string>
     <string name="confirm_password_changed">Your confirmed password have changed, please validate again!</string>
-    <string name="validate_success">It has been validated successfully</string>
+    <string name="validate_success">Validation completed</string>
 </resources>
