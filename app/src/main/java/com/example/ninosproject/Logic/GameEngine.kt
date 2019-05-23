@@ -52,9 +52,11 @@ class GameEngine{
         var colorChange = false
         for (i in obstaculos) {
             if (i is Trampa) {
-                i.newPosition()
-                if (!colision(i)) {
-                    i.update()
+                if (i !is Hielo) {
+                    i.newPosition()
+                    if (!colision(i)) {
+                        i.update()
+                    }
                 }
             }
             if(!colorChange) {
@@ -77,7 +79,13 @@ class GameEngine{
                 } else if ((i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) ||
                     (p.newPxInit >= i.pxInit && p.newPxInit<= i.pxFinal && p.newPyInit >= i.pyInit && p.newPyInit <= i.pyFinal)) {
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        gameView.youLose()
+                        if ( i is Hielo){
+                            gameView.disableButtons()
+                            Thread.sleep(2000)
+                            gameView.enableButtons()
+                        }else {
+                            gameView.youLose()
+                        }
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
@@ -90,7 +98,13 @@ class GameEngine{
                 } else if ((i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal)  ||
                     (p.newPxFinal >= i.pxInit && p.newPxFinal<= i.pxFinal && p.newPyInit >= i.pyInit && p.newPyInit <= i.pyFinal)){
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        gameView.youLose()
+                        if ( i is Hielo){
+                            gameView.disableButtons()
+                            Thread.sleep(2000)
+                            gameView.enableButtons()
+                        }else {
+                            gameView.youLose()
+                        }
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
@@ -103,7 +117,13 @@ class GameEngine{
                 } else if ((i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal)   ||
                     (p.newPxFinal >= i.pxInit && p.newPxFinal<= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)){
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        gameView.youLose()
+                        if ( i is Hielo){
+                            gameView.disableButtons()
+                            Thread.sleep(2000)
+                            gameView.enableButtons()
+                        }else {
+                            gameView.youLose()
+                        }
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
@@ -116,7 +136,13 @@ class GameEngine{
                 } else if ((i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal)  ||
                     (p.newPxInit >= i.pxInit && p.newPxInit<= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)) {
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        gameView.youLose()
+                        if ( i is Hielo){
+                            gameView.disableButtons()
+                            Thread.sleep(2000)
+                            gameView.enableButtons()
+                        }else {
+                            gameView.youLose()
+                        }
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
