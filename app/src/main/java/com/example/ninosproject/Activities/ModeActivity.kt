@@ -24,6 +24,7 @@ class ModeActivity : AppCompatActivity() {
         val back_button : Button = findViewById<Button>(R.id.button_back)
         val single_button : Button = findViewById<Button>(R.id.button_singleplayer)
         val multi_button : Button = findViewById<Button>(R.id.button_multiplayer)
+        val tutorial_button : Button = findViewById<Button>(R.id.button_tutorial)
 
         val sfx: String = intent.getStringExtra("sfx")
 
@@ -46,6 +47,13 @@ class ModeActivity : AppCompatActivity() {
         back_button.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
             finish()
+        }
+        tutorial_button.setOnClickListener {
+            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            val intent: Intent = Intent(this, TutorialActivity::class.java)
+            intent.putExtra("mode",tutorial_button.text.toString())
+            intent.putExtra("sfx",sfx)
+            startActivity(intent)
         }
 
     }

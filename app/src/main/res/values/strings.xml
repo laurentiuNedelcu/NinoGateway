@@ -1,5 +1,5 @@
 <resources>
-    <string-array name="levels" >
+    <string-array name="levels">
         <item>Level 1 - Very Easy</item>
         <item>Level 2 - Very Easy</item>
         <item>Level 3 - Easy</item>
@@ -43,6 +43,7 @@
     <string name="exit">Exit</string>
     <string name="single_player">1 - Player</string>
     <string name="multi_players">2 - Players</string>
+    <string name="tutorialtext">Tutorial</string>
     <string name="win">Win</string>
     <string name="lose">Lose</string>
     <string name="you_lose">You Lose</string>
@@ -67,4 +68,20 @@
     <string name="password_changed">Your password have changed, please validate again!</string>
     <string name="confirm_password_changed">Your confirmed password have changed, please validate again!</string>
     <string name="validate_success">Validation completed</string>
+    <string name="tutorial">Objective: \n
+        1.Reach with the player until the position where the poster is and press the button (A). \n
+        2. When you arrive, pressing the action button will open a Popup with the puzzle to be solved. \n
+        3.Pick the box with the number that solves the puzzle. \n
+        4. Go to the exit door and press the button (A). \n
+        \t \t 4.1.In case the box with the correct number has been hit, the door will open to pass the level, \n \t \t otherwise a message will be displayed. \n
+        5. At all times you can reset the sum of boxes by clicking the reset button. \n
+        AND ABOVE ALL, BE CAREFUL WITH THE TRAPS !! \n</string>
+    <string name="player"> Player </string>
+    <string name="cartell">Poster with the riddle</string>
+    <string name="casillas">Boxes to pick up </string>
+    <string name="trampas">Traps</string>
+    <string name="salida"> Exit </string>
+    <string name="Reset">Reset button</string>
+    <string name="Accion"> Action button </string>
+
 </resources>

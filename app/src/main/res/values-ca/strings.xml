@@ -42,6 +42,7 @@
     <string name="exit">Sortir</string>
     <string name="single_player">1 - Jugador</string>
     <string name="multi_players">2 - Jugadors</string>
+    <string name="tutorialtext">Tutorial</string>
     <string name="win">Victòria</string>
     <string name="lose">Derrota</string>
     <string name="you_lose">¡Has perdut!</string>
@@ -68,4 +69,19 @@
     <string name="confirm_password_changed">La teva contrasenya de confirmació ha canviat, per favor torna a validar!
     </string>
     <string name="validate_success">Validació completada</string>
+    <string name="tutorial">Objectiu:\n
+1. Arribar amb el jugador fins a la posició on es troba el cartell i accionar el botó (A). \n
+        2.En arribar, accionant el botó d\'acció s\'obrirà un Popup amb l\'enigma a resoldre. \n
+        3.Recollir la casella amb el número que resol l\'enigma. \n
+        4.dirijirse a la porta de sortida i prémer el botó (A). \n
+        \t 4.1.En cas que s\'hagi agafat la casella amb el número correcte s\'obrirà la porta per passar de nivell, \n \t \t sinó es mostrés un missatge. \n
+        5. En tot moment es podrà reiniciar el sumatori de caselles acionando el botó de reset. \n
+        I SOBRETOT VIGILA AMB LES TRAMPES!! \n</string>
+    <string name="player"> Jugador </string>
+    <string name="cartell">Cartell amb l\'enigma</string>
+    <string name="casillas">Caselles a recollir </string>
+    <string name="trampas">Trampes</string>
+    <string name="salida"> Sortida </string>
+    <string name="Reset">Botó per resetejar</string>
+    <string name="Accion">Botó d\'acció </string>
 </resources>

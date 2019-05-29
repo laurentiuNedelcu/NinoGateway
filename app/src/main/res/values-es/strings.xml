@@ -42,6 +42,7 @@
     <string name="exit">Salir</string>
     <string name="single_player">1 - Jugador</string>
     <string name="multi_players">2 - Jugadores</string>
+    <string name="tutorialtext">Tutorial</string>
     <string name="win">Victoria</string>
     <string name="lose">Derrota</string>
     <string name="you_lose">¡Has perdido!</string>
@@ -68,4 +69,19 @@
     <string name="confirm_password_changed">Tu contraseña de confirmación ha cambiado, por favor vuelve a validar!
     </string>
     <string name="validate_success">Validación completada</string>
+    <string name="tutorial">Objetivo:\n
+    1.LLegar con el jugador hasta la posicion donde se encuentra el cartel y accionar el boton (A). \n
+    2.Al llegar, accionando el boton de accion se abrira un Popup con el enigma a resolver. \n
+    3.Recojer la casilla con el numero que resuelve el enigma. \n
+    4.Dirijir-se a la puerta de salida y pulsar el boton (A). \n
+        \t \t 4.1.En caso de que se haya cojido la casilla con el numero correcto se abrira la puerta para pasar de nivel,\n \t \t sino se mostrara un mensaje. \n
+    5.En todo momento se podra resetear el sumatorio de casillas acionando el boton de reset. \n
+    Y SOBRETODO CUIDADO CON LAS TRAMPAS!! \n</string>
+    <string name="player"> Jugador </string>
+    <string name="cartell">Cartel con el enigma</string>
+    <string name="casillas">Casillas a recojer </string>
+    <string name="trampas">Trampas</string>
+    <string name="salida"> Saliida </string>
+    <string name="Reset">Botón para resetear</string>
+    <string name="Accion">Botón de acción </string>
 </resources>
