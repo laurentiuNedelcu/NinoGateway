@@ -1,15 +1,15 @@
 <resources>
     <string-array name="levels" >
-        <item>Nivell 1 - Molt Fàcil</item>
-        <item>Nivell 2 - Molt Fàcil</item>
-        <item>Nivell 3 - Fàcil</item>
-        <item>Nivell 4 - Fàcil</item>
-        <item>Nivell 5 - Normal</item>
-        <item>Nivell 6 - Normal</item>
-        <item>Nivell 7 - Difícil</item>
-        <item>Nivell 8 - Difícil</item>
-        <item>Nivell 9 - Molt Difícil</item>
-        <item>Nivell 10 - Molt Difícil</item>
+        <item>Nivell 1 - ✮✰✰</item>
+        <item>Nivell 2 - ✮✰✰</item>
+        <item>Nivell 3 - ✮✬✰</item>
+        <item>Nivell 4 - ✮✬✰</item>
+        <item>Nivell 5 - ✮✮✰</item>
+        <item>Nivell 6 - ✮✮✰</item>
+        <item>Nivell 7 - ✮✮✬</item>
+        <item>Nivell 8 - ✮✮✬</item>
+        <item>Nivell 9 - ✮✮✮</item>
+        <item>Nivell 10 - ✮✮✮</item>
     </string-array>
     <string name="app_name">Nino\'s Project</string>
     <string name="sfx">Sfx:</string>
@@ -33,6 +33,7 @@
     <string name="you_win">¡Has guanyat!</string>
     <string name="register">Registre</string>
     <string name="game_mode">-Mode de joc-</string>
+    <string name="create_server">Crear servidor</string>
     <string name="sign_up">Registre</string>
     <string name="user_name">Nom Usuari:</string>
     <string name="email_address">Correu Electrònic:</string>

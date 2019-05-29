@@ -1,15 +1,15 @@
 <resources>
-    <string-array name="levels">
-        <item>Level 1 - Very Easy</item>
-        <item>Level 2 - Very Easy</item>
-        <item>Level 3 - Easy</item>
-        <item>Level 4 - Easy</item>
-        <item>Level 5 - Normal</item>
-        <item>Level 6 - Normal</item>
-        <item>Level 7 - Hard</item>
-        <item>Level 8 - Hard</item>
-        <item>Level 9 - Very Hard</item>
-        <item>Level 10 - Very Hard</item>
+    <string-array name="levels" >
+        <item>Level 1 - ✮✰✰</item>
+        <item>Level 2 - ✮✰✰</item>
+        <item>Level 3 - ✮✬✰</item>
+        <item>Level 4 - ✮✬✰</item>
+        <item>Level 5 - ✮✮✰</item>
+        <item>Level 6 - ✮✮✰</item>
+        <item>Level 7 - ✮✮✬</item>
+        <item>Level 8 - ✮✮✬</item>
+        <item>Level 9 - ✮✮✮</item>
+        <item>Level 10 - ✮✮✮</item>
     </string-array>
     <string name="app_name">Nino\'s Project</string>
     <string name="sfx">Sfx:</string>
@@ -34,6 +34,7 @@
     <string name="you_win">You Win</string>
     <string name="register">Register</string>
     <string name="game_mode">-Game Mode-</string>
+    <string name="create_server">Create server</string>
     <string name="sign_up">SIGN UP</string>
     <string name="user_name">User Name:</string>
     <string name="email_address">Email Address:</string>
