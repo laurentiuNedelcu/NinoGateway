@@ -16,12 +16,12 @@ import com.example.ninosproject.R
 
 class LevelActivity : AppCompatActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
 
-        super.onCreate(savedInstanceState)
+            super.onCreate(savedInstanceState)
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_level_selector)
 
         AudioPlay.playMusic(this,R.raw.florian_bur_no_name,true)
@@ -29,7 +29,7 @@ class LevelActivity : AppCompatActivity() {
         val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
 
         val text_mode : TextView = findViewById(R.id.textV_mode)
-        val list_lvl : ListView = this.findViewById(R.id.lvl_selector)
+        val list_lvl : ListView = findViewById(R.id.lvl_selector)
         val button_back : Button = findViewById(R.id.button_back)
 
         if (intent.getStringExtra("mode")!= null)
@@ -47,6 +47,7 @@ class LevelActivity : AppCompatActivity() {
             AudioPlay.stopMusic()
             val intent = Intent(this, PlayActivity::class.java)
             intent.putExtra("sfx",sfx)
+            intent.putExtra("level",position.toString())
             startActivity(intent)
         }
 

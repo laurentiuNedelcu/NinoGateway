@@ -38,7 +38,7 @@ class Hielo : Trampa {
     }
 
     override fun draw(v: GameView) {
-        val p: Bitmap = BitmapFactory.decodeResource(v.resources, R.drawable.hielo_rand)
-        GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+        //val p: Bitmap = BitmapFactory.decodeResource(v.resources, R.drawable.hielo_rand)
+        //GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
     }
 }

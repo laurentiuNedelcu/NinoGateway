@@ -7,33 +7,17 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.Button
 import com.example.ninosproject.Activities.PlayActivity
+import com.example.ninosproject.Data.LevelGallery
 import com.example.ninosproject.ObstacleObject.*
+import java.util.logging.Level
 
-class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context), SurfaceHolder.Callback{
+class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): SurfaceView(context), SurfaceHolder.Callback{
 
     private var playActivity: PlayActivity = playActivity
     private var thread: GameThread
     private var screenW: Int
     private var blockSize: Int
     private var murArray: ArrayList<AbstObstaculo> = ArrayList()
-
-    internal val level = arrayOf(
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 10, 0, 1, 0, 0, 0, 1, 30, 0, 0, 0, 0, 43, 0, 0, 0, 1, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 70, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0),
-        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 5, 0, 0, 0, 6, 2, 7, 0, 0, 0, 8, 2, 2, 2, 5, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 41, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 20, 1, 0, 42, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-    )
 
     init {
         holder.addCallback(this)
@@ -45,7 +29,7 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         blockSize = screenW.div(25)
         blockSize = (blockSize.div(5)).times(5)
 
-        renderMap()
+        renderMap(lvlSelected)
 
         thread = GameThread(holder,this,murArray)
         isFocusable = true
@@ -114,10 +98,12 @@ class GameView(context: Context,playActivity: PlayActivity): SurfaceView(context
         thread.getButtons()[2].isEnabled = true
         thread.getButtons()[3].isEnabled = true
     }
-    private fun renderMap() {
+    private fun renderMap(lvlSelected: Int) {
+        var level = LevelGallery.levels[lvlSelected].map
         var x: Int
         var y: Int
         var mur: Mur
+
         for (i in 0..14) {
             for (j in 0..24) {
                 x = j * blockSize

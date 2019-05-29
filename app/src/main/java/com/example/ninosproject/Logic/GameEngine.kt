@@ -71,91 +71,68 @@ class GameEngine{
 
 
     fun colision(p: AbstObstaculo):Boolean{
+        var col = false
         for (i in obstaculos){
             if (!i.equals(p)) {
                 //Punts del mur amb l'area de l'objecte
                 if (p.newPxInit <= 0 || p.newPxFinal >= Resources.getSystem().displayMetrics.widthPixels || p.newPyInit <= 0 || p.newPyFinal >= Resources.getSystem().displayMetrics.heightPixels) {
-                    return true
+                    col = true
                 } else if ((i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal) ||
                     (p.newPxInit >= i.pxInit && p.newPxInit<= i.pxFinal && p.newPyInit >= i.pyInit && p.newPyInit <= i.pyFinal)) {
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        if ( i is Hielo){
-                            gameView.disableButtons()
-                            Thread.sleep(2000)
-                            gameView.enableButtons()
-                        }else {
-                            gameView.youLose()
-                        }
+                        gameView.youLose()
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
-                        return false
                     }else if(i is Personaje && p is Casilla){
                         p.pressed = true
-                        return false
                     }
-                    return true
+                    else{
+                        col = true
+                    }
                 } else if ((i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyInit >= p.newPyInit && i.pyInit <= p.newPyFinal)  ||
                     (p.newPxFinal >= i.pxInit && p.newPxFinal<= i.pxFinal && p.newPyInit >= i.pyInit && p.newPyInit <= i.pyFinal)){
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        if ( i is Hielo){
-                            gameView.disableButtons()
-                            Thread.sleep(2000)
-                            gameView.enableButtons()
-                        }else {
-                            gameView.youLose()
-                        }
+                        gameView.youLose()
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
-                        return false
                     }else if(i is Personaje && p is Casilla){
                         p.pressed = true
-                        return false
                     }
-                    return true
+                    else{
+                        col = true
+                    }
                 } else if ((i.pxFinal >= p.newPxInit && i.pxFinal <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal)   ||
                     (p.newPxFinal >= i.pxInit && p.newPxFinal<= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)){
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        if ( i is Hielo){
-                            gameView.disableButtons()
-                            Thread.sleep(2000)
-                            gameView.enableButtons()
-                        }else {
-                            gameView.youLose()
-                        }
+                        gameView.youLose()
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
-                        return false
                     }else if(i is Personaje && p is Casilla){
                         p.pressed = true
-                        return false
                     }
-                    return true
+                    else{
+                        col = true
+                    }
                 } else if ((i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal)  ||
                     (p.newPxInit >= i.pxInit && p.newPxInit<= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)) {
                     if((i is Trampa && p is Personaje)||(i is Personaje && p is Trampa)){
-                        if ( i is Hielo){
-                            gameView.disableButtons()
-                            Thread.sleep(2000)
-                            gameView.enableButtons()
-                        }else {
-                            gameView.youLose()
-                        }
+                        gameView.youLose()
                     }
                     else if(i is Casilla && p is Personaje){
                         i.pressed = true
-                        return false
                     }else if(i is Personaje && p is Casilla){
                         p.pressed = true
-                        return false
                     }
-                    return true
+                    else{
+                        col = true
+                    }
                 }
             }
         }
-        return false
+        return col
     }
 
     fun actionRange(o: AbstObstaculo): Boolean{

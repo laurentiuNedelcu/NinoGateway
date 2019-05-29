@@ -76,6 +76,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     private fun validate(): Boolean {

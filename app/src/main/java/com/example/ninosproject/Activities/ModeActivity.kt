@@ -1,7 +1,7 @@
 @file:Suppress("DEPRECATION")
 
 package com.example.ninosproject.Activities
-
+import com.example.ninosproject.Activities.MultiPlayerActivities.ServerActivity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -37,7 +37,8 @@ class ModeActivity : AppCompatActivity() {
 
         multi_button.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
-            val intent: Intent = Intent(this, LevelActivity::class.java)
+            //val intent: Intent = Intent(this, LevelActivity::class.java)
+            val intent: Intent = Intent(this, ServerActivity::class.java)
             intent.putExtra("mode",multi_button.text.toString())
             intent.putExtra("sfx",sfx)
             startActivity(intent)

@@ -10,8 +10,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.*
 import com.example.ninosproject.Data.AudioPlay
+import com.example.ninosproject.Data.LevelGallery
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
+import com.example.ninosproject.Data.Nivel
 
 class PlayActivity : AppCompatActivity() {
 
@@ -29,6 +31,7 @@ class PlayActivity : AppCompatActivity() {
     private lateinit var scoreLayout: LinearLayout
     private lateinit var puntuacio: TextView
     private lateinit var sumaText: TextView
+    private lateinit var level: Nivel
     private val buttons: ArrayList<Button> = ArrayList()
     var suma: Int = 0
 
@@ -42,6 +45,8 @@ class PlayActivity : AppCompatActivity() {
         val clickOptions = AudioPlay.getSoundPool().load(this,R.raw.pause_button,1)
 
         sfx = intent.getStringExtra("sfx")
+        val lvlSelected = intent.getStringExtra("level").toInt()
+        level = LevelGallery.levels[lvlSelected]
 
         val buttonLeft = Button(this)
         buttonLeft.setBackgroundResource(android.R.drawable.btn_default)
@@ -87,7 +92,7 @@ class PlayActivity : AppCompatActivity() {
 
 
         game = FrameLayout(this)
-        gameView = GameView(this,this)
+        gameView = GameView(this,this,lvlSelected)
         gameButtons = RelativeLayout(this)
         auxLayout = RelativeLayout(this)
         leftDownRightLayout = LinearLayout(this)
@@ -392,7 +397,7 @@ class PlayActivity : AppCompatActivity() {
                     popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
 
                     val enigma: ImageView = view.findViewById(R.id.enigmaImage)
-                    enigma.setImageResource(R.drawable.enigma1)
+                    enigma.setImageResource(level.enigmaResource)
 
                     popupWindow.setOnDismissListener {
                         buttonPause.isEnabled = true
