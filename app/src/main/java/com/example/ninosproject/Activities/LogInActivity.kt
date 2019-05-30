@@ -4,14 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import com.example.ninosproject.Data.Firebase
 import com.example.ninosproject.R
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 
 class LogInActivity : AppCompatActivity() {
@@ -21,9 +25,7 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var guestButton: Button
     private lateinit var emailText: TextView
     private lateinit var passwordText: TextView
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var firebaseRef: DatabaseReference
-    private lateinit var dataBase: FirebaseDatabase
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -32,15 +34,14 @@ class LogInActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_log_in)
 
-        mAuth = FirebaseAuth.getInstance()
-        dataBase = FirebaseDatabase.getInstance()
-        firebaseRef = dataBase.reference.child("User")
-
         logInButton = findViewById(R.id.logIn_id)
         registerButton = findViewById(R.id.register_id)
         guestButton = findViewById(R.id.guest_id)
         emailText = findViewById(R.id.emailText)
         passwordText = findViewById(R.id.passwordText)
+        progressBar = findViewById(R.id.progressBar)
+
+        progressBar.visibility = View.GONE
 
         logInButton.setOnClickListener { logIn() }
         registerButton.setOnClickListener {
@@ -48,6 +49,7 @@ class LogInActivity : AppCompatActivity() {
             startActivity(intent)
         }
         guestButton.setOnClickListener {
+            Firebase.setGuest(true)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -67,18 +69,20 @@ class LogInActivity : AppCompatActivity() {
             return
         }
 
+        progressBar.visibility = View.VISIBLE
+
         //Comprovem si l'usuari ha introduit un correu
         if ((android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches())) {
             performLogin(username, password)
         } else {
             //Sino busquem el correu electronic associat al nom d'usuari
-            firebaseRef.addListenerForSingleValueEvent(
+            Firebase.getReferenceUser().addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.exists()) {
                             for (id in dataSnapshot.children) {
                                 val aux = id.key.toString()
-                                firebaseRef.child(aux).child("Nickname").child(username)
+                                Firebase.getReferenceUser().child(aux).child("Nickname").child(username)
                                     .addListenerForSingleValueEvent(
                                         object : ValueEventListener {
                                             override fun onCancelled(p0: DatabaseError) {
@@ -107,14 +111,18 @@ class LogInActivity : AppCompatActivity() {
 
     fun performLogin(username: String?, password: String) {
         if (username != null) {
-            mAuth.signInWithEmailAndPassword(username, password)
+            Firebase.getAuth().signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
+                        progressBar.visibility = View.GONE
+                        Firebase.setGuest(false)
                         // Sign in success, update UI with the signed-in user's information
                         val intent = Intent(this, MainActivity::class.java)
                         startActivity(intent)
                         //updateUI(user)
                     } else {
+
+                        progressBar.visibility = View.GONE
                         // If sign in fails, display a message to the user.
                         Toast.makeText(
                             this, getString(R.string.incorrect_user_password),

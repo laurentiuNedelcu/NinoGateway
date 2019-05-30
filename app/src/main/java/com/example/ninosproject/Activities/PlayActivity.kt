@@ -10,10 +10,14 @@ import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.*
 import com.example.ninosproject.Data.AudioPlay
+import com.example.ninosproject.Data.Firebase
 import com.example.ninosproject.Data.LevelGallery
+import com.example.ninosproject.Data.Nivel
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
-import com.example.ninosproject.Data.Nivel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 class PlayActivity : AppCompatActivity() {
 
@@ -44,7 +48,10 @@ class PlayActivity : AppCompatActivity() {
         val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
         val clickOptions = AudioPlay.getSoundPool().load(this,R.raw.pause_button,1)
 
-        sfx = intent.getStringExtra("sfx")
+        //Recogemos el valor del sfx
+        if (Firebase.getGuest()) sfx = Firebase.getSFX()
+        else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
+
         val lvlSelected = intent.getStringExtra("level").toInt()
         level = LevelGallery.levels[lvlSelected]
 
@@ -241,7 +248,6 @@ class PlayActivity : AppCompatActivity() {
             AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
             AudioPlay.stopMusic()
             val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("sfx", sfx)
             popupWindow.dismiss()
             finish()
             startActivity(intent)
@@ -267,6 +273,10 @@ class PlayActivity : AppCompatActivity() {
 
         button_accept.setOnClickListener {
             sfx = buttonSfx.text.toString()
+            //Escribimos el valor del sfx
+            if (!Firebase.getGuest())
+                searchSFX(Firebase.getAuth().uid.toString(), 2)
+            Firebase.setSFXValue(sfx)
             popupWindow.dismiss(); finestraPause(buttonPause, clickButton, clickOptions)
         }
         button_deny.setOnClickListener {
@@ -453,6 +463,35 @@ class PlayActivity : AppCompatActivity() {
                 }
             })
     }
+
+    private fun searchSFX(key: String, action: Int) {
+        Firebase.getReferenceUser().addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (action == 1) {
+                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").addListenerForSingleValueEvent(
+                        object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                sfx = dataSnapshot.value.toString()
+                            }
+
+                        }
+                    )
+                } else if (action == 2) {
+                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").setValue(sfx)
+                }
+            }
+
+        })
+    }
+
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil
 }

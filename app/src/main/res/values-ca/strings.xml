@@ -70,6 +70,8 @@
     <string name="confirm_password_changed">La teva contrasenya de confirmació ha canviat, per favor torna a validar!
     </string>
     <string name="validate_success">Validació completada</string>
+    <string name="on_music">Activat</string>
+    <string name="log_out_text">Tancar sessió</string>
     <string name="tutorial">Objectiu:\n
 1. Arribar amb el jugador fins a la posició on es troba el cartell i accionar el botó (A). \n
         2.En arribar, accionant el botó d\'acció s\'obrirà un Popup amb l\'enigma a resoldre. \n

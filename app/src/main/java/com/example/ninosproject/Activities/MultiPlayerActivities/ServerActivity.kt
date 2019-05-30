@@ -12,7 +12,7 @@ import com.example.ninosproject.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_server_selector.*
-import java.util.ArrayList
+import java.util.*
 
 class ServerActivity : AppCompatActivity() {
 
@@ -41,9 +41,9 @@ class ServerActivity : AppCompatActivity() {
 
         adapter = MyAdapter(servers, this)
 
-        var listView: RecyclerView = findViewById(R.id.server_selector)
+        val listView: RecyclerView = findViewById(R.id.server_selector)
         listView.adapter = adapter
-        listView.setLayoutManager(LinearLayoutManager(this))
+        listView.layoutManager = LinearLayoutManager(this)
 
         dbReference.addValueEventListener(
             object : ValueEventListener{
@@ -56,7 +56,7 @@ class ServerActivity : AppCompatActivity() {
                         servers.clear()
                         for (server in dataSnapshot.children) {
                             val serverName = server.key.toString()
-                            var open: Int = server.getValue().toString().toInt()
+                            val open: Int = server.value.toString().toInt()
                             if(open == 1){
                                 servers.add(serverName)
                             }

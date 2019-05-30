@@ -20,7 +20,7 @@ class Casilla : AbstObstaculo {
     var valor : Int
     var pressed: Boolean
     var alreadyPressed: Boolean = false
-    lateinit var playActivity: PlayActivity
+    var playActivity: PlayActivity
 
     constructor(px: Int, py: Int, valor : Int, playActivity: PlayActivity){
         pxInit = px

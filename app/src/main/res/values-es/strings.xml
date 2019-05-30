@@ -70,6 +70,8 @@
     <string name="confirm_password_changed">Tu contraseña de confirmación ha cambiado, por favor vuelve a validar!
     </string>
     <string name="validate_success">Validación completada</string>
+    <string name="on_music">Activado</string>
+    <string name="log_out_text">Cerrar sesión</string>
     <string name="tutorial">Objetivo:\n
     1.LLegar con el jugador hasta la posicion donde se encuentra el cartel y accionar el boton (A). \n
     2.Al llegar, accionando el boton de accion se abrira un Popup con el enigma a resolver. \n

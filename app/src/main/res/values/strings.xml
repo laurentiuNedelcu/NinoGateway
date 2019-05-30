@@ -69,6 +69,8 @@
     <string name="password_changed">Your password have changed, please validate again!</string>
     <string name="confirm_password_changed">Your confirmed password have changed, please validate again!</string>
     <string name="validate_success">Validation completed</string>
+    <string name="on_music">On</string>
+    <string name="log_out_text">Log Out</string>
     <string name="tutorial">Objective: \n
         1.Reach with the player until the position where the poster is and press the button (A). \n
         2. When you arrive, pressing the action button will open a Popup with the puzzle to be solved. \n

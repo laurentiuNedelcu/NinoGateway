@@ -12,7 +12,11 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.PopupWindow
 import com.example.ninosproject.Data.AudioPlay
+import com.example.ninosproject.Data.Firebase
 import com.example.ninosproject.R
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var button_jugar: Button
     private lateinit var button_exit: Button
     private lateinit var button_options: Button
+    private lateinit var log_out: Button
     private lateinit var sfx: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,9 +43,11 @@ class MainActivity : AppCompatActivity() {
         button_jugar = findViewById(R.id.jugar)
         button_exit = findViewById(R.id.button_exit)
         button_options = findViewById(R.id.button_options)
+        log_out = findViewById(R.id.log_out_button)
 
-        sfx = if (intent.getStringExtra("sfx") != null) intent.getStringExtra("sfx")
-        else getString(R.string.on)
+        //Recogemos el valor del sfx
+        if (Firebase.getGuest()) sfx = getString(R.string.on)
+        else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
 
         button_jugar.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
@@ -62,6 +69,11 @@ class MainActivity : AppCompatActivity() {
         button_options.setOnClickListener {
             AudioPlay.getSoundPool().play(clickOptions, 1F, 1F, 0, 0, 1F)
             popup(clickButton)
+        }
+
+        log_out.setOnClickListener {
+            Firebase.performLogOut()
+            finish()
         }
     }
 
@@ -102,7 +114,11 @@ class MainActivity : AppCompatActivity() {
 
         button_accept.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
-            sfx = buttonSfx.text.toString(); popupWindow.dismiss()
+            sfx = buttonSfx.text.toString()
+            if (!Firebase.getGuest())
+                searchSFX(Firebase.getAuth().uid.toString(), 2)
+            Firebase.setSFXValue(sfx)
+            popupWindow.dismiss()
         }
 
         button_deny.setOnClickListener {
@@ -112,20 +128,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sfx(button: Button) {
-        runOnUiThread(
-            object : Runnable {
-                override fun run() {
-                    if (button.text.equals(getString(R.string.on))) {
-                        button.text = getString(R.string.off)
-                        AudioPlay.disableSFX()
-                    } else {
-                        synchronized(AudioPlay.getSoundPool()) {
-                            button.text = getString(R.string.on)
-                            AudioPlay.enableSFX()
-                        }
-                    }
+        runOnUiThread {
+            if (button.text == getString(R.string.on)) {
+                button.text = getString(R.string.off)
+                AudioPlay.disableSFX()
+            } else {
+                synchronized(AudioPlay.getSoundPool()) {
+                    button.text = getString(R.string.on)
+                    AudioPlay.enableSFX()
                 }
-            })
+            }
+        }
+    }
+
+    private fun searchSFX(key: String, action: Int) {
+        Firebase.getReferenceUser().addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (action == 1) {
+                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").addListenerForSingleValueEvent(
+                        object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                sfx = dataSnapshot.value.toString()
+                            }
+                        }
+                    )
+                } else if (action == 2) {
+                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").setValue(sfx)
+                }
+            }
+        })
     }
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil

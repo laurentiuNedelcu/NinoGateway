@@ -8,12 +8,14 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.ninosproject.Data.Firebase
 import com.example.ninosproject.R
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -25,9 +27,6 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var emailText: TextView
     private lateinit var passwordText: TextView
     private lateinit var confirmPasswordText: TextView
-    private lateinit var mAuth: FirebaseAuth
-    private lateinit var dbReference: DatabaseReference
-    private lateinit var dataBase: FirebaseDatabase
     private lateinit var userName: String
     private lateinit var email: String
     private lateinit var password: String
@@ -41,10 +40,6 @@ class RegisterActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_register)
 
-        mAuth = FirebaseAuth.getInstance()
-        dataBase = FirebaseDatabase.getInstance()
-        dbReference = dataBase.reference.child("User")
-
         backButton = findViewById(R.id.button_back)
         registerButton = findViewById(R.id.button_register)
         validateButton = findViewById(R.id.button_validate)
@@ -56,8 +51,7 @@ class RegisterActivity : AppCompatActivity() {
         backButton.setOnClickListener { finish() }
         validateButton.setOnClickListener {
             if (!validate) {
-                val aux = validate()
-                if (aux) {
+                if (validate()) {
                     validate = true
                     validateSuccess()
                 }
@@ -118,7 +112,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun search(userName: String) {
-        dbReference.addListenerForSingleValueEvent(
+        Firebase.getReferenceUser().addListenerForSingleValueEvent(
             object : ValueEventListener {
                 override fun onCancelled(p0: DatabaseError) {
                     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -128,7 +122,7 @@ class RegisterActivity : AppCompatActivity() {
                     if (dataSnapshot.exists()) {
                         for (id in dataSnapshot.children) {
                             val aux = id.key.toString()
-                            dbReference.child(aux).child("Nickname").child(userName)
+                            Firebase.getReferenceUser().child(aux).child("Nickname").child(userName)
                                 .addListenerForSingleValueEvent(
                                     object : ValueEventListener {
                                         override fun onCancelled(p0: DatabaseError) {
@@ -154,14 +148,23 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun performRegister(userName: String, email: String, password: String) {
-        mAuth.createUserWithEmailAndPassword(email, password)
+        Firebase.getAuth().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
-                    val user: FirebaseUser? = mAuth.currentUser
-                    val userBD = user?.uid?.let { dbReference.child(it) }
+                    val user: FirebaseUser? = Firebase.getAuth().currentUser
+                    val userBD = user?.uid?.let { Firebase.getReferenceUser().child(it) }
 
                     userBD?.child("Nickname")?.child(userName)?.setValue(email)
+                    userBD?.child("Levels")?.child("level1")?.setValue(1)
+                    var i = 2
+                    while (i < 11) {
+                        userBD?.child("Levels")?.child("level$i")?.setValue(0)
+                        i++
+                    }
+
+                    userBD?.child("Music")?.child("sfx")?.setValue(getString(R.string.on_music))
+                    userBD?.child("Music")?.child("audio")?.setValue(getString(R.string.on_music))
 
                     Toast.makeText(this, getString(R.string.registered_correctly), Toast.LENGTH_LONG).show()
                     finish()
