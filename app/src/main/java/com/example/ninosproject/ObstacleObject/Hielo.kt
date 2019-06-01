@@ -6,7 +6,7 @@ import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
 
-class Hielo : Trampa {
+class Hielo : AbstObstaculo {
     override var newPxInit: Int = 0
     override var newPyInit: Int = 0
     override var newPxFinal: Int = 0
@@ -15,6 +15,9 @@ class Hielo : Trampa {
     override var pyInit: Int
     override var pxFinal: Int = 0
     override var pyFinal: Int = 0
+
+    var pissed: Boolean
+    var alreadyPissed: Boolean
 
 
     constructor(px: Int, py: Int){
@@ -27,18 +30,13 @@ class Hielo : Trampa {
         newPxFinal = px+50.dp
         newPyFinal = py+50.dp
 
-    }
+        pissed = false
+        alreadyPissed = false
 
-    override fun update() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun newPosition(){
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun draw(v: GameView) {
-        //val p: Bitmap = BitmapFactory.decodeResource(v.resources, R.drawable.hielo_rand)
-        //GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
+        val p: Bitmap = BitmapFactory.decodeResource(v.resources, R.drawable.hielo_rand)
+        GameThread.canvas?.drawBitmap(p, pxInit.toFloat(), pyInit.toFloat(), null)
     }
 }

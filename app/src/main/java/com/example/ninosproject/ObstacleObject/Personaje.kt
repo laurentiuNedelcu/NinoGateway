@@ -8,12 +8,12 @@ import com.example.ninosproject.R
 class Personaje: AbstObstaculo{
     private var pxDraw: Int
     private var pyDraw: Int
-    override var pxInit: Int = 0;
-    override var pyInit: Int = 0;
+    override var pxInit: Int = 0
+    override var pyInit: Int = 0
     override var pxFinal: Int = pxInit+50
     override var pyFinal: Int = pyInit+50
-    override var newPxInit: Int = 0;
-    override var newPyInit: Int = 0;
+    override var newPxInit: Int = 0
+    override var newPyInit: Int = 0
     override var newPxFinal: Int = pxInit+50
     override var newPyFinal: Int = pyInit+50
 
@@ -31,7 +31,7 @@ class Personaje: AbstObstaculo{
     }
 
     override fun draw(v: GameView){
-        var p = BitmapFactory.decodeResource(v.resources, R.drawable.circle)
+        val p = BitmapFactory.decodeResource(v.resources, R.drawable.circle)
         GameThread.canvas?.drawBitmap(p,pxDraw.toFloat(),pyDraw.toFloat(),null)
     }
 

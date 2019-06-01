@@ -9,7 +9,6 @@ import android.widget.Button
 import com.example.ninosproject.Activities.PlayActivity
 import com.example.ninosproject.Data.LevelGallery
 import com.example.ninosproject.ObstacleObject.*
-import java.util.logging.Level
 
 class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): SurfaceView(context), SurfaceHolder.Callback{
 
@@ -51,11 +50,6 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
         thread.resumeThread()
     }
 
-    fun finish(){
-        thread.setRunning(false)
-        thread.interrupt()
-    }
-
     override fun surfaceCreated(holder: SurfaceHolder?) {
         thread.setRunning(true)
         thread.start()
@@ -74,11 +68,11 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
     }
 
     fun youLose() {
-        playActivity.finestraDerrota(thread.getButtons()[5])
+        playActivity.finestraDerrota()
     }
 
     fun youWin(){
-        playActivity.finestraVictoria(thread.getButtons()[5])
+        playActivity.finestraVictoria()
     }
 
     fun showEnigma(){
@@ -99,7 +93,7 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
         thread.getButtons()[3].isEnabled = true
     }
     private fun renderMap(lvlSelected: Int) {
-        var level = LevelGallery.levels[lvlSelected].map
+        val level = LevelGallery.levels[lvlSelected].map
         var x: Int
         var y: Int
         var mur: Mur
@@ -150,31 +144,31 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
                         murArray.add(mur)
                     }
                     30 -> {
-                        var cart = Cartel(x,y)
+                        val cart = Cartel(x, y)
                         murArray.add(cart)
                     }
                     41->{
-                        var casilla = Casilla(x,y,1,playActivity)
+                        val casilla = Casilla(x, y, 1, playActivity)
                         murArray.add(casilla)
                     }
                     42->{
-                        var casilla = Casilla(x,y,2,playActivity)
+                        val casilla = Casilla(x, y, 2, playActivity)
                         murArray.add(casilla)
                     }
                     43->{
-                        var casilla = Casilla(x,y,3,playActivity)
+                        val casilla = Casilla(x, y, 3, playActivity)
                         murArray.add(casilla)
                     }
                     50->{
-                        var puerta = Puerta(x,y)
+                        val puerta = Puerta(x, y)
                         murArray.add(puerta)
                     }
                     60->{
-                        var cuchilla = Cuchilla(x,y)
+                        val cuchilla = Cuchilla(x, y)
                         murArray.add(cuchilla)
                     }
                     61->{
-                        var bola = Bola(x,y)
+                        val bola = Bola(x, y)
                         murArray.add(bola)
                     }
                     62->{
@@ -190,11 +184,11 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
                         murArray.add(obs)
                     }
                     70->{
-                        var button = ResetButton(x,y,playActivity)
+                        val button = ResetButton(x, y, playActivity)
                         murArray.add(button)
                     }
                     14->{
-                        var hielo = Hielo(x,y)
+                        val hielo = Hielo(x, y)
                         murArray.add(hielo)
                     }
                 }

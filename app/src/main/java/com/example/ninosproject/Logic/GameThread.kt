@@ -54,22 +54,36 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
                         //Este es el loop del juego, lo demas es para prevenir errores
                         //this.gameView.update(); //implementarlo
 
-                        if (buttonArray[0].isPressed) {
-                            gameEngine.updateL()
-                        }
-                        if (buttonArray[1].isPressed) {
-                            gameEngine.updateD()
-                        }
-                        if (buttonArray[2].isPressed) {
-                            gameEngine.updateR()
-                        }
-                        if (buttonArray[3].isPressed) {
-                            gameEngine.updateU()
+                        if (gameEngine.hieloPissed()) {
+                            when {
+                                gameEngine.direccio == 0 -> gameEngine.updateL()
+                                gameEngine.direccio == 1 -> gameEngine.updateD()
+                                gameEngine.direccio == 2 -> gameEngine.updateR()
+                                gameEngine.direccio == 3 -> gameEngine.updateU()
+                            }
+                        } else {
+                            if (buttonArray[0].isPressed) {
+                                gameEngine.direccio = 0
+                                gameEngine.updateL()
+                            }
+                            if (buttonArray[1].isPressed) {
+                                gameEngine.direccio = 1
+                                gameEngine.updateD()
+                            }
+                            if (buttonArray[2].isPressed) {
+                                gameEngine.direccio = 2
+                                gameEngine.updateR()
+                            }
+                            if (buttonArray[3].isPressed) {
+                                gameEngine.direccio = 3
+                                gameEngine.updateU()
+                            }
                         }
                         buttonArray[4].setOnClickListener {
                             gameEngine.actionButton()
                         }
                         gameEngine.draw()
+
                     }
 
                 } catch (e: Exception) {

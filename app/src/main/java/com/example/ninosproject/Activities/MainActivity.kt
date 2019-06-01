@@ -76,6 +76,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         log_out.setOnClickListener {
+            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.stopMusic()
             LevelsArrays.resetList()
             Firebase.performLogOut()
             val intent = Intent(this, LogInActivity::class.java)

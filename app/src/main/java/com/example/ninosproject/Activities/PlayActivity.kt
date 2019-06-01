@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.*
+import android.view.KeyEvent.KEYCODE_HOME
 import android.widget.*
 import com.example.ninosproject.Data.*
 import com.example.ninosproject.Logic.GameView
@@ -15,6 +16,7 @@ import com.example.ninosproject.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+
 
 class PlayActivity : AppCompatActivity() {
 
@@ -33,6 +35,7 @@ class PlayActivity : AppCompatActivity() {
     private lateinit var puntuacio: TextView
     private lateinit var sumaText: TextView
     private lateinit var level: Nivel
+    private lateinit var buttonPause: Button
     private val buttons: ArrayList<Button> = ArrayList()
     private lateinit var lvlSelected: String
     var suma: Int = 0
@@ -73,12 +76,12 @@ class PlayActivity : AppCompatActivity() {
         buttonUp.text = "U"
         buttonUp.id = 444555
 
-        val buttonPause = Button(this)
+        buttonPause = Button(this)
         buttonPause.setBackgroundResource(R.drawable.pause_button)
         buttonPause.id = 555666
         buttonPause.setOnClickListener {
             if(!isPopupOn) {
-                finestraPause(buttonPause, clickButton, clickOptions)
+                finestraPause(clickButton, clickOptions)
             } else {
                 AudioPlay.playMusicAux(this,R.raw.resume_button)
                 gameView.resume()
@@ -206,7 +209,7 @@ class PlayActivity : AppCompatActivity() {
 
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
-    fun finestraPause(buttonPause: Button, clickButton: Int, clickOptions: Int) {
+    fun finestraPause(clickButton: Int, clickOptions: Int) {
 
         AudioPlay.getSoundPool().play(clickOptions,1F,1F,2,0, 1F)
         AudioPlay.pauseMusic()
@@ -239,7 +242,7 @@ class PlayActivity : AppCompatActivity() {
         opcionsJoc.setOnClickListener {
             AudioPlay.getSoundPool().play(clickOptions,1F,1F,0,0, 1F)
             popupWindow.dismiss()
-            finestraOpcions(buttonPause, clickButton, clickOptions)
+            finestraOpcions(clickButton, clickOptions)
         }
         val menu_joc: Button = view.findViewById(R.id.menu_button)
         menu_joc.setOnClickListener {
@@ -252,7 +255,7 @@ class PlayActivity : AppCompatActivity() {
         }
     }
 
-    fun finestraOpcions(buttonPause: Button, clickButton: Int, clickOptions: Int) {
+    fun finestraOpcions(clickButton: Int, clickOptions: Int) {
 
         val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -275,14 +278,15 @@ class PlayActivity : AppCompatActivity() {
             if (!Guest.getGuest())
                 searchSFX(Firebase.getAuth().uid.toString(), 2)
             AudioPlay.setSFXValue(sfx)
-            popupWindow.dismiss(); finestraPause(buttonPause, clickButton, clickOptions)
+            popupWindow.dismiss(); finestraPause(clickButton, clickOptions)
         }
         button_deny.setOnClickListener {
             popupWindow.dismiss()
-            finestraPause(buttonPause, clickButton, clickOptions) }
+            finestraPause(clickButton, clickOptions)
+        }
     }
 
-    fun finestraVictoria(buttonPause: Button){
+    fun finestraVictoria() {
 
 
         val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
@@ -351,7 +355,7 @@ class PlayActivity : AppCompatActivity() {
         )
     }
 
-    fun finestraDerrota(buttonPause: Button){
+    fun finestraDerrota() {
 
         val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
         val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
@@ -391,8 +395,11 @@ class PlayActivity : AppCompatActivity() {
                         AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
                         AudioPlay.playMusic(context,R.raw.florian_bur_no_name,true)
+
                         popupWindow.dismiss()
+                        val intent = Intent(context, LevelActivity::class.java)
                         finish()
+                        startActivity(intent)
                     }
                 }
             }
@@ -495,6 +502,14 @@ class PlayActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode == KEYCODE_HOME) {
+            finestraPause(0, 0)
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil
