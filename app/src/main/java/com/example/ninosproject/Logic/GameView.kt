@@ -177,6 +177,18 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
                         var bola = Bola(x,y)
                         murArray.add(bola)
                     }
+                    62->{
+                        var laser = Laser(x,y)
+                        murArray.add(laser)
+                    }
+                    63->{
+                        var obs = Pendulo(x,y)
+                        murArray.add(obs)
+                    }
+                    64->{
+                        var obs = CasillaPinchitos(x,y)
+                        murArray.add(obs)
+                    }
                     70->{
                         var button = ResetButton(x,y,playActivity)
                         murArray.add(button)

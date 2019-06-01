@@ -28,6 +28,7 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var passwordText: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var numbOfUsers: String
+    private var userList: HashMap<String,String> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -57,6 +58,31 @@ class LogInActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+        Firebase.getReferenceUser().addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (id in dataSnapshot.children) {
+                            for(dades in id.children){
+                                if(dades.key.toString().equals("Nickname")){
+                                    var aux = dades.value.toString() //retorna un string tal que: {nickname=email}
+                                    var nickname = aux.subSequence(1,aux.indexOf('='))
+                                    var mail = aux.subSequence(aux.indexOf('=')+1,aux.length-1)
+                                    if(!userList.containsKey(nickname)){
+                                        userList.put(nickname.toString(),mail.toString())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Failed to read value
+                }
+            }
+        )
     }
 
     fun logIn() {
@@ -77,46 +103,21 @@ class LogInActivity : AppCompatActivity() {
 
         //Comprovem si l'usuari ha introduit un correu
         if ((android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches())) {
-            performLogin(username, password)
+            if(userList.containsValue(username)){
+                performLogin(username, password)
+            }
         } else {
-            //Sino busquem el correu electronic associat al nom d'usuari
-            Firebase.getReferenceUser().addListenerForSingleValueEvent(
-                object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            for (id in dataSnapshot.children) {
-                                val aux = id.key.toString()
-                                Firebase.getReferenceUser().child(aux).child("Nickname").child(username)
-                                    .addListenerForSingleValueEvent(
-                                        object : ValueEventListener {
-                                            override fun onCancelled(p0: DatabaseError) {
-                                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                                            }
-
-                                            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                                if (dataSnapshot.exists()) {
-                                                    val userId = dataSnapshot.getValue(String::class.java)
-                                                    performLogin(userId, password)
-                                                }
-                                                progressBar.visibility = View.GONE
-                                                userIncorrect()
-                                            }
-                                        })
-                            }
-                        }
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        // Failed to read value
-                    }
-                }
-            )
+            if(userList.containsKey(username)){
+                performLogin(userList[username], password)
+            }else{
+                userIncorrect()
+                progressBar.visibility = View.GONE
+            }
         }
     }
 
 
     fun performLogin(username: String?, password: String) {
-        progressBar.visibility = View.GONE
         if (username != null) {
             Firebase.getAuth().signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this) { task ->
@@ -126,11 +127,12 @@ class LogInActivity : AppCompatActivity() {
                         val intent = Intent(this, MainActivity::class.java)
                         finish()
                         startActivity(intent)
+                        progressBar.visibility = View.GONE
+                    }else {
+                        userIncorrect()
+                        progressBar.visibility = View.GONE
                     }
-                    userIncorrect()
                 }
-        } else {
-            Toast.makeText(this, "Username is null", Toast.LENGTH_SHORT).show()
         }
     }
 
