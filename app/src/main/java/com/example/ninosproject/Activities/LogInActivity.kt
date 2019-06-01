@@ -94,13 +94,9 @@ class LogInActivity : AppCompatActivity() {
                                             }
 
                                             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                                var i = 0
-                                                while (i < numbOfUsers.toInt()) {
-                                                    if (dataSnapshot.exists()) {
-                                                        val userId = dataSnapshot.getValue(String::class.java)
-                                                        performLogin(userId, password)
-                                                    }
-                                                    i++
+                                                if (dataSnapshot.exists()) {
+                                                    val userId = dataSnapshot.getValue(String::class.java)
+                                                    performLogin(userId, password)
                                                 }
                                                 progressBar.visibility = View.GONE
                                                 userIncorrect()

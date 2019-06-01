@@ -43,7 +43,9 @@ class ModeActivity : AppCompatActivity() {
 
         back_button.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            val intent = Intent(this, MainActivity::class.java)
             finish()
+            startActivity(intent)
         }
         tutorial_button.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)

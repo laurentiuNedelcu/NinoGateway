@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         button_jugar.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             val intent = Intent(this, ModeActivity::class.java)
-            intent.putExtra("sfx", sfx)
+            finish()
             startActivity(intent)
         }
 
@@ -76,8 +76,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         log_out.setOnClickListener {
+            LevelsArrays.resetList()
             Firebase.performLogOut()
+            val intent = Intent(this, LogInActivity::class.java)
             finish()
+            startActivity(intent)
         }
     }
 

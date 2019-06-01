@@ -57,7 +57,6 @@ class LevelActivity : AppCompatActivity() {
             else {
                 val intent = Intent(this, PlayActivity::class.java)
                 intent.putExtra("level", position.toString())
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
             }
@@ -65,7 +64,9 @@ class LevelActivity : AppCompatActivity() {
 
         button_back.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            val intent = Intent(this, ModeActivity::class.java)
             finish()
+            startActivity(intent)
         }
 
     }

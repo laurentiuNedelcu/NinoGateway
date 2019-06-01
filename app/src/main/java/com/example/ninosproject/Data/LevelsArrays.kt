@@ -24,6 +24,10 @@ object LevelsArrays {
         }
     }
 
+    fun resetList() {
+        levelsUnlocked.clear()
+    }
+
     fun setLevel(pos: Int, value: String) {
         levelsUnlocked[pos] = value
     }
