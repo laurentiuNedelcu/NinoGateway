@@ -2,6 +2,7 @@ package com.example.ninosproject.ObstacleObject
 
 import android.graphics.BitmapFactory
 import com.example.ninosproject.Activities.PlayActivity
+import com.example.ninosproject.Data.AudioPlay
 import com.example.ninosproject.Logic.GameThread
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
@@ -16,7 +17,7 @@ class Puerta : AbstObstaculo, ActionObject {
     override var newPxFinal: Int
     override var newPyFinal: Int
     private var open = false
-    private var solucio = 1
+    private lateinit var playActivity: PlayActivity
 
     init{
         pxInit = 0
@@ -29,7 +30,7 @@ class Puerta : AbstObstaculo, ActionObject {
         newPyFinal = 50.dp
     }
 
-    constructor(px: Int, py: Int){
+    constructor(px: Int, py: Int, context:PlayActivity){
         this.pxInit = px
         this.pyInit = py
         this.pxFinal = px+25.dp
@@ -38,6 +39,7 @@ class Puerta : AbstObstaculo, ActionObject {
         this.newPyInit = py
         this.newPxFinal = px+25.dp
         this.newPyFinal = py+50.dp
+        playActivity = context
     }
 
     override fun draw(v: GameView) {
@@ -55,9 +57,11 @@ class Puerta : AbstObstaculo, ActionObject {
     }
 
     override fun action(v: GameView) {
-        if(v.getSuma() == solucio) {
+        if(v.getSuma() == v.getSolucion()) {
             changeLock()
             v.youWin()
+        }else{
+            AudioPlay.playMusicAux(playActivity,R.raw.error)
         }
     }
 

@@ -7,15 +7,15 @@ object LevelGallery{
 
     private val level_map_1 = arrayOf(
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  10, 0,  1,  0,  0,  0,  1,  30, 0,  0,  0,  0,  43, 0,  1,  0,  0,  0),
-        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0),
+        intArrayOf(0,  -1,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0, 70,  1,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0),
         intArrayOf(2,   2,  2,  7,  0,  0,  0,  8,  2,  5,  0,  0,  0,  6,  2,  7,  0,  0,  0,  8,  2,  5,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0, 63,  0,  0,  0,  0,  0,  0, 62,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(50,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 61, 0, 0, 0, 0, 0, 14, 14, 14, 0, 41, 0, 0, 0),
-        intArrayOf(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 14, 14, 14, 0, 0, 0, 0, 0),
-        intArrayOf(2, 2, 2, 7, 0, 0, 0, 8, 2, 3, 0, 0, 0, 0, 0, 0, 0, 14, 14, 14, 0, 0, 0, 0, 20),
+        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 61,  0,  0,  0,  0,  0,  0,  0,  0,  0, 41,  0,  0,  0),
+        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        intArrayOf(2,   2,  2,  7,  0,  0,  0,  8,  2,  3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 20),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0, 64,  0,  20, 1,  0,  42, 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0,  10, 0,  0,  0,  0,  0,  0,  0),
@@ -45,10 +45,10 @@ object LevelGallery{
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
-        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 0,  0,  0),
-        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
+        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0, -1,  0, 65,  0,  0,  0, 65,  0,  1,  0,  0,  0,  0,  0,  0,  0),
+        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0),
+        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 65,  0, 65,  0, 65,  0,  1,  0,  0,  0,  0, 0,  0,  0),
+        intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0),
@@ -74,10 +74,10 @@ object LevelGallery{
         intArrayOf(0,   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0)
     )
 
-    private val level_1: Nivel = Nivel(level_map_1, R.drawable.enigma1)
-    private val level_2: Nivel = Nivel(level_map_2, R.drawable.enigma1)
-    private val level_3: Nivel = Nivel(level_map_3, R.drawable.enigma1)
-    private val level_4: Nivel = Nivel(level_map_4, R.drawable.enigma1)
+    private val level_1: Nivel = Nivel(level_map_1, R.drawable.enigma1,1)
+    private val level_2: Nivel = Nivel(level_map_2, R.drawable.enigma1,1)
+    private val level_3: Nivel = Nivel(level_map_3, R.drawable.enigma1,1)
+    private val level_4: Nivel = Nivel(level_map_4, R.drawable.enigma1,1)
 
     val levels = arrayListOf(level_1, level_2, level_3, level_4)
 }

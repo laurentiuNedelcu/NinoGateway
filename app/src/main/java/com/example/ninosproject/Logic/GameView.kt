@@ -16,7 +16,7 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
     private var thread: GameThread
     private var screenW: Int
     private var blockSize: Int
-    private var murArray: ArrayList<AbstObstaculo> = ArrayList()
+    private var obsArray: ArrayList<AbstObstaculo> = ArrayList()
 
     init {
         holder.addCallback(this)
@@ -30,7 +30,7 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
 
         renderMap(lvlSelected)
 
-        thread = GameThread(holder,this,murArray)
+        thread = GameThread(holder,this,obsArray)
         isFocusable = true
     }
 
@@ -72,7 +72,7 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
     }
 
     fun youWin(){
-        playActivity.finestraVictoria()
+        playActivity.finestraVictoria(getSuma())
     }
 
     fun showEnigma(){
@@ -93,111 +93,42 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
         thread.getButtons()[3].isEnabled = true
     }
     private fun renderMap(lvlSelected: Int) {
-        val level = LevelGallery.levels[lvlSelected].map
+        var level = LevelGallery.levels[lvlSelected].map
         var x: Int
         var y: Int
-        var mur: Mur
+        var obs: AbstObstaculo?
+        var murs: ArrayList<AbstObstaculo> = ArrayList()
+        var trampes: ArrayList<AbstObstaculo> = ArrayList()
+        var altres: ArrayList<AbstObstaculo> = ArrayList()
+        var pj: AbstObstaculo = Personaje(50, 50) //inicialitzem a una posició en concret per si de cas
 
         for (i in 0..14) {
             for (j in 0..24) {
                 x = j * blockSize
                 y = (i * (blockSize))
-                when(level[i][j]) {
-                     Mur.MurHor -> {
-                        mur = Mur(x, y, Mur.MurHor)
-                        murArray.add(mur)
-                    }
-                    Mur.MurVer -> {
-                        mur = Mur(x, y, Mur.MurVer)
-                        murArray.add(mur)
-                    }
-                    Mur.MurUpToLeft -> {
-                        mur = Mur(x, y, Mur.MurUpToLeft)
-                        murArray.add(mur)
-                    }
-                    Mur.MurUpToRight -> {
-                        mur = Mur(x, y, Mur.MurUpToRight)
-                        murArray.add(mur)
-                    }
-                    Mur.MurDownToLeft -> {
-                        mur = Mur(x, y, Mur.MurDownToLeft)
-                        murArray.add(mur)
-                    }
-                    Mur.MurDownToRight -> {
-                        mur = Mur(x, y, Mur.MurDownToRight)
-                        murArray.add(mur)
-                    }
-                    Mur.MurHorTD -> {
-                        mur = Mur(x, y, Mur.MurHorTD)
-                        murArray.add(mur)
-                    }
-                    Mur.MurHorTI-> {
-                        mur = Mur(x, y, Mur.MurHorTI)
-                        murArray.add(mur)
-                    }
-                    Mur.Caixa -> {
-                        mur = Mur(x, y, Mur.Caixa)
-                        murArray.add(mur)
-                    }
-                    Mur.Sofa -> {
-                        mur = Mur(x, y, Mur.Sofa)
-                        murArray.add(mur)
-                    }
-                    30 -> {
-                        val cart = Cartel(x, y)
-                        murArray.add(cart)
-                    }
-                    41->{
-                        val casilla = Casilla(x, y, 1, playActivity)
-                        murArray.add(casilla)
-                    }
-                    42->{
-                        val casilla = Casilla(x, y, 2, playActivity)
-                        murArray.add(casilla)
-                    }
-                    43->{
-                        val casilla = Casilla(x, y, 3, playActivity)
-                        murArray.add(casilla)
-                    }
-                    50->{
-                        val puerta = Puerta(x, y)
-                        murArray.add(puerta)
-                    }
-                    60->{
-                        val cuchilla = Cuchilla(x, y)
-                        murArray.add(cuchilla)
-                    }
-                    61->{
-                        val bola = Bola(x, y)
-                        murArray.add(bola)
-                    }
-                    62->{
-                        var laser = Laser(x,y)
-                        murArray.add(laser)
-                    }
-                    63->{
-                        var obs = Pendulo(x,y)
-                        murArray.add(obs)
-                    }
-                    64->{
-                        var obs = CasillaPinchitos(x,y)
-                        murArray.add(obs)
-                    }
-                    70->{
-                        val button = ResetButton(x, y, playActivity)
-                        murArray.add(button)
-                    }
-                    14->{
-                        val hielo = Hielo(x, y)
-                        murArray.add(hielo)
-                    }
+                obs = ObstacleCreator.create(level[i][j],x,y,playActivity)
+                if(obs is Mur)
+                    murs.add(obs)
+                else if(obs is Trampa)
+                    trampes.add(obs)
+                else if(obs is Personaje)
+                    pj = obs
+                else if(obs!=null){
+                    altres.add(obs)
                 }
             }
         }
+        obsArray.addAll(murs)
+        obsArray.addAll(trampes)
+        obsArray.addAll(altres)
+        obsArray.add(pj)
     }
 
     fun getSuma(): Int{
         return playActivity.suma
+    }
+    fun getSolucion(): Int{
+        return playActivity.solucion()
     }
     fun changeActionButtonColor(b: Boolean){
         playActivity.actionButtonColor(b)

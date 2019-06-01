@@ -42,12 +42,12 @@ class Mur: AbstObstaculo{
         this.newPyFinal = py+25.dp
         this.type = type
 
-        if(type == Mur.Caixa){
+        if(type == 10){
             pxFinal = px+50.dp
             pyFinal = py+50.dp
             newPxFinal = px+50.dp
             newPyFinal = py+50.dp
-        }else if(type == Mur.Sofa){
+        }else if(type == 20){
             pyFinal = py+50.dp
             newPyFinal = py+50.dp
         }
@@ -71,20 +71,5 @@ class Mur: AbstObstaculo{
         }
 
         GameThread.canvas?.drawBitmap(rect,pxInit.toFloat(),pyInit.toFloat(),null)
-    }
-
-    companion object {
-        var MurVer = 1
-        var MurHor = 2
-        var MurDownToLeft = 3
-        var MurDownToRight = 4
-        var MurUpToLeft = 5
-        var MurUpToRight = 6
-        var MurHorTD = 7
-        var MurHorTI = 8
-
-        var Caixa = 10
-
-        var Sofa = 20
     }
 }

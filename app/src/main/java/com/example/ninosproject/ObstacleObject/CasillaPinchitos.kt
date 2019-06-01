@@ -59,7 +59,7 @@ class CasillaPinchitos : Trampa {
             newPxFinal = pxInit+50.dp
             newPyFinal = pyInit+50.dp
             var p: Bitmap? = null
-            if(times<=80) {
+            if(times==77) {
                 p = BitmapFactory.decodeResource(v.resources, R.drawable.pinchos_3)
             }else{
                 p = BitmapFactory.decodeResource(v.resources, R.drawable.pinchos_4)

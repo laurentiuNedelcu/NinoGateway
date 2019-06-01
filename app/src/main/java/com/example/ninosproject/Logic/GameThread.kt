@@ -54,7 +54,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
                         //Este es el loop del juego, lo demas es para prevenir errores
                         //this.gameView.update(); //implementarlo
 
-                        if (gameEngine.hieloPissed()) {
+                        if (gameEngine.hieloPissed) {
                             when {
                                 gameEngine.direccio == 0 -> gameEngine.updateL()
                                 gameEngine.direccio == 1 -> gameEngine.updateD()

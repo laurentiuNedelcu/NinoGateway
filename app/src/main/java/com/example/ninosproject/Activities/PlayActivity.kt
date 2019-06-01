@@ -37,7 +37,7 @@ class PlayActivity : AppCompatActivity() {
     private lateinit var level: Nivel
     private lateinit var buttonPause: Button
     private val buttons: ArrayList<Button> = ArrayList()
-    private lateinit var lvlSelected: String
+    private var lvlSelected: Int = -1
     var suma: Int = 0
 
     @SuppressLint("ResourceType")
@@ -53,8 +53,8 @@ class PlayActivity : AppCompatActivity() {
         if (Guest.getGuest()) sfx = AudioPlay.getSFX()
         else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
 
-        lvlSelected = intent.getStringExtra("level")
-        level = LevelGallery.levels[lvlSelected.toInt()]
+        lvlSelected = intent.getStringExtra("level").toInt()
+        level = LevelGallery.levels[lvlSelected]
 
         val buttonLeft = Button(this)
         buttonLeft.setBackgroundResource(android.R.drawable.btn_default)
@@ -286,9 +286,11 @@ class PlayActivity : AppCompatActivity() {
         }
     }
 
-    fun finestraVictoria() {
+    fun finestraVictoria(answer: Int) {
 
 
+        if(!(level.solution == answer))
+            return
         val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
         val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
 
@@ -348,6 +350,8 @@ class PlayActivity : AppCompatActivity() {
 
                         finish()
                         AudioPlay.stopMusic()
+                        lvlSelected+=1
+                        intent.putExtra("level",lvlSelected.toString())
                         startActivity(intent)
                     }
                 }
@@ -467,6 +471,10 @@ class PlayActivity : AppCompatActivity() {
 
     fun resetPuntuacio(){
         suma = 0
+    }
+
+    fun solucion():Int{
+        return level.solution
     }
 
     fun updateTextViewSuma(){

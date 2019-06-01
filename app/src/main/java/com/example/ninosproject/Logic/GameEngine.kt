@@ -8,17 +8,19 @@ class GameEngine {
     private var obstaculos = ArrayList<AbstObstaculo>()
     private var actionColor = false
     var direccio: Int = 0 //0->LEFT,1->DOWN,2->RIGHT,3->UP
+    var hieloPissed: Boolean = false
     private var buttonUsing = false
-    var arrayOfHielo: ArrayList<Hielo> = ArrayList()
 
-    private var player: Personaje =
-        Personaje(50, 50)
+
+    private lateinit var player: Personaje
 
     constructor(gameView: GameView, m: ArrayList<AbstObstaculo>) {
         obstaculos = m
-        obstaculos.add(player)
+        var aux = obstaculos[obstaculos.size-1]
+        if(aux is Personaje){
+            player = aux
+        }
         this.gameView = gameView
-        hieloInGame()
     }
 
     fun updateL() {
@@ -62,21 +64,6 @@ class GameEngine {
         gameView.draw(obstaculos)
     }
 
-    fun hieloInGame() {
-        for (i in obstaculos) {
-            if (i is Hielo)
-                arrayOfHielo.add(i)
-        }
-    }
-
-    fun hieloPissed(): Boolean {
-        for (i in arrayOfHielo) {
-            if (i.pissed)
-                return true
-        }
-        return false
-    }
-
     fun update() {
         var colorChange = false
         for (i in obstaculos) {
@@ -98,6 +85,7 @@ class GameEngine {
 
     fun colision(p: AbstObstaculo): Boolean {
         var col = false
+        var hielo = false
         for (i in obstaculos) {
             if (i != p) {
                 //Punts del mur amb l'area de l'objecte
@@ -113,11 +101,9 @@ class GameEngine {
                     } else if (i is Personaje && p is Casilla) {
                         p.pressed = true
                     } else if (i is Hielo && p is Personaje) {
-                        i.pissed = true
-                        col = false
+                        hielo = true
                     } else if (i is Personaje && p is Hielo) {
-                        p.pissed = true
-                        col = false
+                        hielo = true
                     } else {
                         col = true
                     }
@@ -131,11 +117,9 @@ class GameEngine {
                     } else if (i is Personaje && p is Casilla) {
                         p.pressed = true
                     } else if (i is Hielo && p is Personaje) {
-                        i.pissed = true
-                        col = false
+                        hielo = true
                     } else if (i is Personaje && p is Hielo) {
-                        p.pissed = true
-                        col = false
+                        hielo = true
                     } else {
                         col = true
                     }
@@ -149,17 +133,14 @@ class GameEngine {
                     } else if (i is Personaje && p is Casilla) {
                         p.pressed = true
                     } else if (i is Hielo && p is Personaje) {
-                        i.pissed = true
-                        col = false
+                        hielo = true
                     } else if (i is Personaje && p is Hielo) {
-                        p.pissed = true
-                        col = false
+                        hielo = true
                     } else {
                         col = true
                     }
                 } else if ((i.pxInit >= p.newPxInit && i.pxInit <= p.newPxFinal && i.pyFinal >= p.newPyInit && i.pyFinal <= p.newPyFinal) ||
-                    (p.newPxInit >= i.pxInit && p.newPxInit <= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)
-                ) {
+                    (p.newPxInit >= i.pxInit && p.newPxInit <= i.pxFinal && p.newPyFinal >= i.pyInit && p.newPyFinal <= i.pyFinal)) {
                     if ((i is Trampa && p is Personaje) || (i is Personaje && p is Trampa)) {
                         gameView.youLose()
                     } else if (i is Casilla && p is Personaje) {
@@ -167,22 +148,16 @@ class GameEngine {
                     } else if (i is Personaje && p is Casilla) {
                         p.pressed = true
                     } else if (i is Hielo && p is Personaje) {
-                        i.pissed = true
-                        col = false
+                        hielo = true
                     } else if (i is Personaje && p is Hielo) {
-                        p.pissed = true
-                        col = false
+                        hielo = true
                     } else {
                         col = true
                     }
-                } else {
-                    if (i is Hielo && p is Personaje)
-                        i.pissed = false
-                    else if (i is Personaje && p is Hielo)
-                        p.pissed = false
                 }
             }
         }
+        hieloPissed = hielo
         return col
     }
 
