@@ -156,9 +156,9 @@ class RegisterActivity : AppCompatActivity() {
                     val userBD = user?.uid?.let { Firebase.getReferenceUser().child(it) }
 
                     userBD?.child("Nickname")?.child(userName)?.setValue(email)
-                    userBD?.child("Levels")?.child("level1")?.setValue(1)
-                    var i = 2
-                    while (i < 11) {
+                    userBD?.child("Levels")?.child("level0")?.setValue(1)
+                    var i = 1
+                    while (i < 10) {
                         userBD?.child("Levels")?.child("level$i")?.setValue(0)
                         i++
                     }

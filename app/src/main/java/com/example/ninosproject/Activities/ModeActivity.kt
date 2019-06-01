@@ -12,6 +12,7 @@ import com.example.ninosproject.R
 
 class ModeActivity : AppCompatActivity() {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -45,9 +46,9 @@ class ModeActivity : AppCompatActivity() {
             finish()
         }
         tutorial_button.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             val intent = Intent(this, TutorialActivity::class.java)
-            intent.putExtra("mode",tutorial_button.text.toString())
+            intent.putExtra("mode", tutorial_button.text.toString())
             startActivity(intent)
         }
 

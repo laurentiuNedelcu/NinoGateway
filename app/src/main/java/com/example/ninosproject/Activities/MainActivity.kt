@@ -13,6 +13,8 @@ import android.widget.Button
 import android.widget.PopupWindow
 import com.example.ninosproject.Data.AudioPlay
 import com.example.ninosproject.Data.Firebase
+import com.example.ninosproject.Data.Guest
+import com.example.ninosproject.Data.LevelsArrays
 import com.example.ninosproject.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_main_menu)
 
+        LevelsArrays.initList()
+
         AudioPlay.playMusic(this, R.raw.florian_bur_no_name, true)
         AudioPlay.enableSFX()
 
@@ -46,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         log_out = findViewById(R.id.log_out_button)
 
         //Recogemos el valor del sfx
-        if (Firebase.getGuest()) sfx = getString(R.string.on)
+        if (Guest.getGuest()) sfx = getString(R.string.on)
         else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
 
         button_jugar.setOnClickListener {
@@ -115,9 +119,9 @@ class MainActivity : AppCompatActivity() {
         button_accept.setOnClickListener {
             AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             sfx = buttonSfx.text.toString()
-            if (!Firebase.getGuest())
+            if (!Guest.getGuest())
                 searchSFX(Firebase.getAuth().uid.toString(), 2)
-            Firebase.setSFXValue(sfx)
+            AudioPlay.setSFXValue(sfx)
             popupWindow.dismiss()
         }
 

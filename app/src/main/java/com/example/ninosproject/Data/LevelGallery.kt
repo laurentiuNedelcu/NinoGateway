@@ -79,5 +79,5 @@ object LevelGallery{
     private val level_3: Nivel = Nivel(level_map_3, R.drawable.enigma1)
     private val level_4: Nivel = Nivel(level_map_4, R.drawable.enigma1)
 
-    val levels = arrayListOf<Nivel>(level_1, level_2, level_3, level_4)
+    val levels = arrayListOf(level_1, level_2, level_3, level_4)
 }

@@ -9,27 +9,13 @@ object Firebase {
     private var dataBase: FirebaseDatabase = FirebaseDatabase.getInstance()
     private var mAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var dbReference: DatabaseReference = dataBase.reference.child("User")
-    private var sfx: String = ""
-    private var guest: Boolean = true
 
     fun getReferenceUser(): DatabaseReference {
         return dbReference
     }
 
-    fun setSFXValue(sfx: String) {
-        this.sfx = sfx
-    }
-
-    fun getSFX(): String {
-        return sfx
-    }
-
-    fun setGuest(guest: Boolean) {
-        this.guest = guest
-    }
-
-    fun getGuest(): Boolean {
-        return guest
+    fun getDatabase(): FirebaseDatabase {
+        return dataBase
     }
 
     fun getAuth(): FirebaseAuth {

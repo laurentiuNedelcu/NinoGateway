@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.example.ninosproject.Data.Firebase
+import com.example.ninosproject.Data.Guest
 import com.example.ninosproject.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,6 +27,7 @@ class LogInActivity : AppCompatActivity() {
     private lateinit var emailText: TextView
     private lateinit var passwordText: TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var numbOfUsers: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -43,13 +45,15 @@ class LogInActivity : AppCompatActivity() {
 
         progressBar.visibility = View.GONE
 
+        getNumberUsers()
+
         logInButton.setOnClickListener { logIn() }
         registerButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
         guestButton.setOnClickListener {
-            Firebase.setGuest(true)
+            Guest.setGuest(true)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
@@ -90,10 +94,16 @@ class LogInActivity : AppCompatActivity() {
                                             }
 
                                             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                                if (dataSnapshot.exists()) {
-                                                    val userId = dataSnapshot.getValue(String::class.java)
-                                                    performLogin(userId, password)
+                                                var i = 0
+                                                while (i < numbOfUsers.toInt()) {
+                                                    if (dataSnapshot.exists()) {
+                                                        val userId = dataSnapshot.getValue(String::class.java)
+                                                        performLogin(userId, password)
+                                                    }
+                                                    i++
                                                 }
+                                                progressBar.visibility = View.GONE
+                                                userIncorrect()
                                             }
                                         })
                             }
@@ -110,29 +120,42 @@ class LogInActivity : AppCompatActivity() {
 
 
     fun performLogin(username: String?, password: String) {
+        progressBar.visibility = View.GONE
         if (username != null) {
             Firebase.getAuth().signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        progressBar.visibility = View.GONE
-                        Firebase.setGuest(false)
+                        Guest.setGuest(false)
                         // Sign in success, update UI with the signed-in user's information
                         val intent = Intent(this, MainActivity::class.java)
+                        finish()
                         startActivity(intent)
-                        //updateUI(user)
-                    } else {
-
-                        progressBar.visibility = View.GONE
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(
-                            this, getString(R.string.incorrect_user_password),
-                            Toast.LENGTH_SHORT
-                        ).show()
                     }
+                    userIncorrect()
                 }
         } else {
             Toast.makeText(this, "Username is null", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun userIncorrect() {
+        Toast.makeText(this, getString(R.string.incorrect_user_password), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun getNumberUsers() {
+        Firebase.getDatabase().getReference("NumberOfUsers").addListenerForSingleValueEvent(
+            object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists())
+                        numbOfUsers = dataSnapshot.getValue(Int::class.java).toString()
+                }
+
+            }
+        )
     }
 
     public override fun onStart() {

@@ -16,6 +16,7 @@ object AudioPlay{
     private lateinit var soundPool: SoundPool
     private var length: Int = 0
     private var isAudioPlaying: Boolean = false
+    private var sfx: String = ""
 
 
 
@@ -69,6 +70,14 @@ object AudioPlay{
 
     fun getSoundPool(): SoundPool {
         return soundPool
+    }
+
+    fun setSFXValue(sfx: String) {
+        this.sfx = sfx
+    }
+
+    fun getSFX(): String {
+        return sfx
     }
 
 }

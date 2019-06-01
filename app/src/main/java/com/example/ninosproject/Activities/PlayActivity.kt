@@ -9,10 +9,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.widget.*
-import com.example.ninosproject.Data.AudioPlay
-import com.example.ninosproject.Data.Firebase
-import com.example.ninosproject.Data.LevelGallery
-import com.example.ninosproject.Data.Nivel
+import com.example.ninosproject.Data.*
 import com.example.ninosproject.Logic.GameView
 import com.example.ninosproject.R
 import com.google.firebase.database.DataSnapshot
@@ -37,6 +34,7 @@ class PlayActivity : AppCompatActivity() {
     private lateinit var sumaText: TextView
     private lateinit var level: Nivel
     private val buttons: ArrayList<Button> = ArrayList()
+    private lateinit var lvlSelected: String
     var suma: Int = 0
 
     @SuppressLint("ResourceType")
@@ -49,11 +47,11 @@ class PlayActivity : AppCompatActivity() {
         val clickOptions = AudioPlay.getSoundPool().load(this,R.raw.pause_button,1)
 
         //Recogemos el valor del sfx
-        if (Firebase.getGuest()) sfx = Firebase.getSFX()
+        if (Guest.getGuest()) sfx = AudioPlay.getSFX()
         else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
 
-        val lvlSelected = intent.getStringExtra("level").toInt()
-        level = LevelGallery.levels[lvlSelected]
+        lvlSelected = intent.getStringExtra("level")
+        level = LevelGallery.levels[lvlSelected.toInt()]
 
         val buttonLeft = Button(this)
         buttonLeft.setBackgroundResource(android.R.drawable.btn_default)
@@ -99,7 +97,7 @@ class PlayActivity : AppCompatActivity() {
 
 
         game = FrameLayout(this)
-        gameView = GameView(this,this,lvlSelected)
+        gameView = GameView(this, this, lvlSelected.toInt())
         gameButtons = RelativeLayout(this)
         auxLayout = RelativeLayout(this)
         leftDownRightLayout = LinearLayout(this)
@@ -274,9 +272,9 @@ class PlayActivity : AppCompatActivity() {
         button_accept.setOnClickListener {
             sfx = buttonSfx.text.toString()
             //Escribimos el valor del sfx
-            if (!Firebase.getGuest())
+            if (!Guest.getGuest())
                 searchSFX(Firebase.getAuth().uid.toString(), 2)
-            Firebase.setSFXValue(sfx)
+            AudioPlay.setSFXValue(sfx)
             popupWindow.dismiss(); finestraPause(buttonPause, clickButton, clickOptions)
         }
         button_deny.setOnClickListener {
@@ -292,13 +290,20 @@ class PlayActivity : AppCompatActivity() {
 
         AudioPlay.stopMusic()
         AudioPlay.playMusic(this,R.raw.you_win_music,false)
-        var context = this
+        val context = this
         runOnUiThread(
             object : Runnable {
                 override fun run() {
                     gameView.pause()
                     buttonPause.isEnabled = false
                     buttonPause.visibility = View.INVISIBLE
+                    val aux = lvlSelected.toInt() + 1
+                    if (!Guest.getGuest()) {
+                        Firebase.getReferenceUser().child(Firebase.getAuth().uid.toString()).child("Levels")
+                            .child("level$aux").setValue(1)
+                    }
+                    LevelsArrays.setLevel(aux, "1")
+
                     isPopupOn = true
 
                     val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -326,8 +331,11 @@ class PlayActivity : AppCompatActivity() {
                         AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
                         AudioPlay.stopMusic()
                         AudioPlay.playMusic(context,R.raw.florian_bur_no_name,true)
+
                         popupWindow.dismiss()
+                        val intent = Intent(context, LevelActivity::class.java)
                         finish()
+                        startActivity(intent)
                     }
 
                     next.setOnClickListener {
@@ -350,7 +358,7 @@ class PlayActivity : AppCompatActivity() {
 
         AudioPlay.stopMusic()
         AudioPlay.playMusic(this,R.raw.you_lose_music,false)
-        var context = this
+        val context = this
 
         runOnUiThread(
             object : Runnable {
@@ -455,13 +463,10 @@ class PlayActivity : AppCompatActivity() {
     }
 
     fun updateTextViewSuma(){
-        runOnUiThread(
-            object : Runnable {
-                override fun run() {
-                    if(suma<10) puntuacio.text = "0$suma"
-                    else puntuacio.text = suma.toString()
-                }
-            })
+        runOnUiThread {
+            if (suma < 10) puntuacio.text = "0$suma"
+            else puntuacio.text = suma.toString()
+        }
     }
 
     private fun searchSFX(key: String, action: Int) {
@@ -491,7 +496,6 @@ class PlayActivity : AppCompatActivity() {
 
         })
     }
-
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil
 }
