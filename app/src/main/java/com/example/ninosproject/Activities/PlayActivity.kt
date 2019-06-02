@@ -373,8 +373,14 @@ class PlayActivity : AppCompatActivity() {
                 finish()
                 AudioPlay.stopMusic()
                 lvlSelected += 1
-                intent.putExtra("level", lvlSelected.toString())
-                startActivity(intent)
+                if (lvlSelected < 10) {
+                    intent.putExtra("level", lvlSelected.toString())
+                    startActivity(intent)
+                } else {
+                    lvlSelected -= 1
+                    intent.putExtra("level", lvlSelected.toString())
+                    startActivity(intent)
+                }
             }
         }
     }
