@@ -2,9 +2,8 @@ package com.example.ninosproject.ObstacleObject
 
 import android.content.res.Resources
 import com.example.ninosproject.Logic.GameView
-import com.example.ninosproject.ObstacleObject.Obstaculo
 
-abstract class AbstObstaculo : Obstaculo{
+abstract class AbstObstaculo {
 
     abstract var pxInit: Int
     abstract var pyInit: Int
