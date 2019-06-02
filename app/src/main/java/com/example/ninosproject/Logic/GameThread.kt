@@ -13,7 +13,7 @@ class GameThread(surfaceHolder: SurfaceHolder, gameView: GameView, m: ArrayList<
     private var holder: SurfaceHolder = surfaceHolder
     private var gameEngine: GameEngine = GameEngine(gameView, m)
     private var isRunning: Boolean = true
-    var buttonArray: ArrayList<Button> = ArrayList<Button>(6)
+    var buttonArray: ArrayList<Button> = ArrayList(6)
     private var paused: Boolean = false
 
     companion object { //Para poder llamar al objeto estaticamente (ex: GameThread.canvas)

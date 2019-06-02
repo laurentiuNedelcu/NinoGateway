@@ -70,4 +70,12 @@ class Personaje: AbstObstaculo{
         newPyFinal = newPyInit+34.dp
     }
 
+    fun move(): Boolean {
+        return when {
+            pxInit == newPxInit -> true
+            pyInit == newPyInit -> true
+            else -> false
+        }
+    }
+
 }

@@ -93,13 +93,13 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
         thread.getButtons()[3].isEnabled = true
     }
     private fun renderMap(lvlSelected: Int) {
-        var level = LevelGallery.levels[lvlSelected].map
+        val level = LevelGallery.levels[lvlSelected].map
         var x: Int
         var y: Int
         var obs: AbstObstaculo?
-        var murs: ArrayList<AbstObstaculo> = ArrayList()
-        var trampes: ArrayList<AbstObstaculo> = ArrayList()
-        var altres: ArrayList<AbstObstaculo> = ArrayList()
+        val murs: ArrayList<AbstObstaculo> = ArrayList()
+        val trampes: ArrayList<AbstObstaculo> = ArrayList()
+        val altres: ArrayList<AbstObstaculo> = ArrayList()
         var pj: AbstObstaculo = Personaje(50, 50) //inicialitzem a una posició en concret per si de cas
 
         for (i in 0..14) {
@@ -107,14 +107,11 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
                 x = j * blockSize
                 y = (i * (blockSize))
                 obs = ObstacleCreator.create(level[i][j],x,y,playActivity)
-                if(obs is Mur)
-                    murs.add(obs)
-                else if(obs is Trampa)
-                    trampes.add(obs)
-                else if(obs is Personaje)
-                    pj = obs
-                else if(obs!=null){
-                    altres.add(obs)
+                when {
+                    obs is Mur -> murs.add(obs)
+                    obs is Trampa -> trampes.add(obs)
+                    obs is Personaje -> pj = obs
+                    obs != null -> altres.add(obs)
                 }
             }
         }

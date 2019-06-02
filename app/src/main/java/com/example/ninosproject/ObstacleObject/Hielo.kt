@@ -23,12 +23,12 @@ class Hielo : AbstObstaculo {
     constructor(px: Int, py: Int){
         pxInit = px
         pyInit = py
-        pxFinal = px+50.dp
-        pyFinal = py+50.dp
+        pxFinal = px
+        pyFinal = py
         newPxInit = px
         newPyInit = py
-        newPxFinal = px+50.dp
-        newPyFinal = py+50.dp
+        newPxFinal = px
+        newPyFinal = py
 
         pissed = false
         alreadyPissed = false
