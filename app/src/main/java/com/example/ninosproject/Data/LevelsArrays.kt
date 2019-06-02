@@ -19,6 +19,7 @@ object LevelsArrays {
                 levelsUnlocked.add("0")
                 i++
             }
+            levelsUnlocked[2] = "1"
         } else {
             levelsFirebase(Firebase.getAuth().uid.toString())
         }

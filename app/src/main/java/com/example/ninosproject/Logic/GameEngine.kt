@@ -10,7 +10,7 @@ class GameEngine {
     var direccio: Int = 0 //0->LEFT,1->DOWN,2->RIGHT,3->UP
     var hieloPissed: Boolean = false
 
-    private lateinit var player: Personaje
+    lateinit var player: Personaje
 
     constructor(gameView: GameView, m: ArrayList<AbstObstaculo>) {
         obstaculos = m
@@ -23,28 +23,28 @@ class GameEngine {
 
     fun updateL() {
         player.updateL()
-        if (!colision(player)) {
+        if (!colision(player, false)) {
             player.update()
         }
     }
 
     fun updateR() {
         player.updateR()
-        if (!colision(player)) {
+        if (!colision(player, false)) {
             player.update()
         }
     }
 
     fun updateD() {
         player.updateD()
-        if (!colision(player)) {
+        if (!colision(player, false)) {
             player.update()
         }
     }
 
     fun updateU() {
         player.updateU()
-        if (!colision(player)) {
+        if (!colision(player, false)) {
             player.update()
         }
     }
@@ -59,7 +59,7 @@ class GameEngine {
         for (i in obstaculos) {
             if (i is Trampa) {
                 i.newPosition()
-                if (!colision(i)) {
+                if (!colision(i, hieloPissed)) {
                     i.update()
                 }
             }
@@ -73,9 +73,12 @@ class GameEngine {
     }
 
 
-    fun colision(p: AbstObstaculo): Boolean {
+    fun colision(p: AbstObstaculo, hieloAux: Boolean): Boolean {
         var col = false
-        var hielo = false
+        var hielo =
+            if (!hieloAux) false
+            else hieloPissed
+
         for (i in obstaculos) {
             if (i != p) {
                 //Punts del mur amb l'area de l'objecte
