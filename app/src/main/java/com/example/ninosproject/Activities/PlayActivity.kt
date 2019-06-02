@@ -524,7 +524,7 @@ class PlayActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
         if (keyCode == KEYCODE_HOME) {
-            finestraPause(0, 0)
+            AudioPlay.stopMusic()
             return true
         }
         return super.onKeyDown(keyCode, event)

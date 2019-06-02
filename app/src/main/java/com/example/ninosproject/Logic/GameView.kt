@@ -97,6 +97,7 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
         var x: Int
         var y: Int
         var obs: AbstObstaculo?
+        val hielos: ArrayList<AbstObstaculo> = ArrayList()
         val murs: ArrayList<AbstObstaculo> = ArrayList()
         val trampes: ArrayList<AbstObstaculo> = ArrayList()
         val altres: ArrayList<AbstObstaculo> = ArrayList()
@@ -108,6 +109,7 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
                 y = (i * (blockSize))
                 obs = ObstacleCreator.create(level[i][j],x,y,playActivity)
                 when {
+                    obs is Hielo -> hielos.add(obs)
                     obs is Mur -> murs.add(obs)
                     obs is Trampa -> trampes.add(obs)
                     obs is Personaje -> pj = obs
@@ -115,6 +117,7 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
                 }
             }
         }
+        obsArray.addAll(hielos)
         obsArray.addAll(murs)
         obsArray.addAll(trampes)
         obsArray.addAll(altres)
