@@ -119,8 +119,8 @@ class GameView(context: Context,playActivity: PlayActivity,lvlSelected: Int): Su
         }
         obsArray.addAll(hielos)
         obsArray.addAll(murs)
-        obsArray.addAll(trampes)
         obsArray.addAll(altres)
+        obsArray.addAll(trampes)
         obsArray.add(pj)
     }
 
