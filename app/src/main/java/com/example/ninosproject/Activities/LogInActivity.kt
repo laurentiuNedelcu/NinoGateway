@@ -21,14 +21,16 @@ import com.google.firebase.database.ValueEventListener
 
 class LogInActivity : AppCompatActivity() {
 
+    private lateinit var sfx: String
+    private lateinit var musica: String
+
     private lateinit var logInButton: Button
     private lateinit var registerButton: Button
     private lateinit var guestButton: Button
     private lateinit var emailText: TextView
     private lateinit var passwordText: TextView
     private lateinit var progressBar: ProgressBar
-    private lateinit var numbOfUsers: String
-    private var userList: HashMap<String,String> = HashMap()
+    private var userList: HashMap<String, String> = HashMap()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -46,8 +48,6 @@ class LogInActivity : AppCompatActivity() {
 
         progressBar.visibility = View.GONE
 
-        getNumberUsers()
-
         logInButton.setOnClickListener { logIn() }
         registerButton.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -64,13 +64,13 @@ class LogInActivity : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
                         for (id in dataSnapshot.children) {
-                            for(dades in id.children){
-                                if(dades.key.toString().equals("Nickname")){
-                                    var aux = dades.value.toString() //retorna un string tal que: {nickname=email}
-                                    var nickname = aux.subSequence(1,aux.indexOf('='))
-                                    var mail = aux.subSequence(aux.indexOf('=')+1,aux.length-1)
-                                    if(!userList.containsKey(nickname)){
-                                        userList.put(nickname.toString(),mail.toString())
+                            for (dades in id.children) {
+                                if (dades.key.toString().equals("Nickname")) {
+                                    val aux = dades.value.toString() //retorna un string tal que: {nickname=email}
+                                    val nickname = aux.subSequence(1, aux.indexOf('='))
+                                    val mail = aux.subSequence(aux.indexOf('=') + 1, aux.length - 1)
+                                    if (!userList.containsKey(nickname)) {
+                                        userList[nickname.toString()] = mail.toString()
                                     }
                                 }
                             }
@@ -103,13 +103,13 @@ class LogInActivity : AppCompatActivity() {
 
         //Comprovem si l'usuari ha introduit un correu
         if ((android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches())) {
-            if(userList.containsValue(username)){
+            if (userList.containsValue(username)) {
                 performLogin(username, password)
             }
         } else {
-            if(userList.containsKey(username)){
+            if (userList.containsKey(username)) {
                 performLogin(userList[username], password)
-            }else{
+            } else {
                 userIncorrect()
                 progressBar.visibility = View.GONE
             }
@@ -123,12 +123,18 @@ class LogInActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Guest.setGuest(false)
+                        search(
+                            Firebase.getAuth().currentUser?.uid.toString(),
+                            1,
+                            "sfx"
+                        ) //Action 1 llegir, action 2 = escriure
+                        search(Firebase.getAuth().currentUser?.uid.toString(), 1, "music")
                         // Sign in success, update UI with the signed-in user's information
                         val intent = Intent(this, MainActivity::class.java)
                         finish()
                         startActivity(intent)
                         progressBar.visibility = View.GONE
-                    }else {
+                    } else {
                         userIncorrect()
                         progressBar.visibility = View.GONE
                     }
@@ -140,20 +146,36 @@ class LogInActivity : AppCompatActivity() {
         Toast.makeText(this, getString(R.string.incorrect_user_password), Toast.LENGTH_SHORT).show()
     }
 
-    private fun getNumberUsers() {
-        Firebase.getDatabase().getReference("NumberOfUsers").addListenerForSingleValueEvent(
-            object : ValueEventListener {
-                override fun onCancelled(p0: DatabaseError) {
-                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                }
-
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists())
-                        numbOfUsers = dataSnapshot.getValue(Int::class.java).toString()
-                }
-
+    private fun search(key: String, action: Int, audio: String) {
+        Firebase.getReferenceUser().addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
-        )
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (action == 1) {
+                    Firebase.getReferenceUser().child(key).child("Audio").child(audio).addListenerForSingleValueEvent(
+                        object : ValueEventListener {
+                            override fun onCancelled(p0: DatabaseError) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                if (audio == "sfx")
+                                    sfx = dataSnapshot.value.toString()
+                                else
+                                    musica = dataSnapshot.value.toString()
+                            }
+                        }
+                    )
+                } else if (action == 2) {
+                    if (audio == "sfx")
+                        Firebase.getReferenceUser().child(key).child("Audio").child(audio).setValue(sfx)
+                    else
+                        Firebase.getReferenceUser().child(key).child("Audio").child(audio).setValue(musica)
+                }
+            }
+        })
     }
 
     public override fun onStart() {

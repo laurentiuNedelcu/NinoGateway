@@ -17,7 +17,7 @@
     <string name="off">Desactivat</string>
     <string name="accept">Acceptar</string>
     <string name="cancel">Cancel·lar</string>
-    <string name="volume">Volum:</string>
+    <string name="music">Música:</string>
     <string name="email">Correu o nom d\'usuari:</string>
     <string name="title">Nino\'s Gateway</string>
     <string name="guest">Convidat</string>
@@ -87,4 +87,23 @@
     <string name="salida"> Sortida </string>
     <string name="Reset">Botó per resetejar</string>
     <string name="Accion">Botó d\'acció </string>
+    <string name="unlock_levels">Desbloqueja els altres nivells primer</string>
+    <string name="info_player">Aquest és el vostre jugador, l\'haureu de guiar fins al cartell on es troba l\'enigma.
+        \n\nPer finalitzar el nivell heu de resoldre fent servir les caselles numerades. Un cop tingueu la resposta aneu
+        cap a la porta de sortida -EXIT-.
+        \n\nEn cas d\'equivocació premeu el pulsador per resetejar la puntuació i les caselles.
+    </string>
+    <string name="info_traps">Compte!! El perill es inminent, cada trampa té el seu propi comportament i vosté haura de
+        descubrir quin és.
+        \n\nPd. No toqueu les trampes… només teniu una oportunitat.
+    </string>
+    <string name="info_obs">Només son elements decoratius, admireu-los si voleu.</string>
+    <string name="info_obj">Els elements interactius us ajudaren a sortir d\'aquesta habitació.
+        \n\nCartell: Conté l\'enigma a resoldre.
+        \nCasella: Trepitjant-la sumareu el seu valor a comptador.
+        \nPulsador: Reseteja el comptador a 0.
+        \nPorta de sortida: No pot haver-hi habitació sense porta.
+        \nGel: Rellisca una mica però es agradable.
+    </string>
 </resources>
+

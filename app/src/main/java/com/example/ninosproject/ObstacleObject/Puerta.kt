@@ -61,7 +61,7 @@ class Puerta : AbstObstaculo, ActionObject {
             changeLock()
             v.youWin()
         }else{
-            AudioPlay.playMusicAux(playActivity,R.raw.error)
+            AudioPlay.playSfx(playActivity, R.raw.error)
         }
     }
 

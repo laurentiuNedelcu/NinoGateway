@@ -19,9 +19,6 @@ import com.example.ninosproject.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var button_options: Button
     private lateinit var log_out: Button
     private lateinit var sfx: String
+    private lateinit var musica: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,32 +39,27 @@ class MainActivity : AppCompatActivity() {
 
         LevelsArrays.initList()
 
+        AudioPlay.getStrings(getString(R.string.on), getString(R.string.off))
+        getSfxMusica()
         AudioPlay.playMusic(this, R.raw.florian_bur_no_name, true)
-        AudioPlay.enableSFX()
 
-        val clickButton = AudioPlay.getSoundPool().load(this, R.raw.press_button, 1)
-        val clickOptions = AudioPlay.getSoundPool().load(this, R.raw.pause_button, 1)
+        val clickButton = R.raw.press_button
+        val clickOptions = R.raw.pause_button
 
         button_jugar = findViewById(R.id.jugar)
         button_exit = findViewById(R.id.button_exit)
         button_options = findViewById(R.id.button_options)
         log_out = findViewById(R.id.log_out_button)
 
-        //Recogemos el valor del sfx
-        if (Guest.getGuest()){
-            sfx = getString(R.string.on)
-        }
-        else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
-
         button_jugar.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             val intent = Intent(this, ModeActivity::class.java)
             finish()
             startActivity(intent)
         }
 
         button_exit.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             AudioPlay.stopMusic()
             val intent = Intent(Intent.ACTION_MAIN)
             intent.addCategory(Intent.CATEGORY_HOME)
@@ -76,12 +69,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         button_options.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickOptions, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickOptions)
             popup(clickButton)
         }
 
         log_out.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             AudioPlay.stopMusic()
             LevelsArrays.resetList()
             Firebase.performLogOut()
@@ -91,9 +84,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        AudioPlay.getSoundPool().release()
+    private fun getSfxMusica() {
+        if (Guest.getGuest()) {
+            if (AudioPlay.getSFX() != "" && AudioPlay.getMusica() != "") {
+                sfx = AudioPlay.getSFX()
+                musica = AudioPlay.getMusica()
+            } else {
+                sfx = getString(R.string.on)
+                musica = getString(R.string.on)
+            }
+        } else {
+            sfx = AudioPlay.getSFX()
+            musica = AudioPlay.getMusica()
+        }
+        AudioPlay.setSFXValue(sfx)
+        AudioPlay.setMusicaValue(musica)
     }
 
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt() // Metode per passar de density independent pixels (dp) a pixels
@@ -119,43 +124,38 @@ class MainActivity : AppCompatActivity() {
         popupWindow.showAtLocation(findViewById(R.id.main_menu), Gravity.CENTER, 0, 0)
 
         val buttonSfx: Button = view.findViewById(R.id.button_sfx)
+        val buttonMusic: Button = view.findViewById(R.id.button_musica)
         val button_accept: Button = view.findViewById(R.id.button_accept)
         val button_deny: Button = view.findViewById(R.id.button_deny)
 
         buttonSfx.text = sfx
+        buttonMusic.text = musica
 
-        buttonSfx.setOnClickListener { sfx(buttonSfx) }
+        buttonSfx.setOnClickListener { onOff(buttonSfx) }
+        buttonMusic.setOnClickListener { onOff(buttonMusic) }
 
         button_accept.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
             sfx = buttonSfx.text.toString()
-            if (!Guest.getGuest())
-                searchSFX(Firebase.getAuth().uid.toString(), 2)
+            musica = buttonMusic.text.toString()
             AudioPlay.setSFXValue(sfx)
+            AudioPlay.setMusicaValue(musica)
+            AudioPlay.updateMusica()
+            if (sfx == AudioPlay.on)
+                AudioPlay.playSfx(this, clickButton)
+            if (!Guest.getGuest()) {
+                search(Firebase.getAuth().uid.toString(), 2, "sfx")
+                search(Firebase.getAuth().uid.toString(), 2, "music")
+            }
             popupWindow.dismiss()
         }
 
         button_deny.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             popupWindow.dismiss()
         }
     }
 
-    private fun sfx(button: Button) {
-        runOnUiThread {
-            if (button.text == getString(R.string.on)) {
-                button.text = getString(R.string.off)
-                AudioPlay.disableSFX()
-            } else {
-                synchronized(AudioPlay.getSoundPool()) {
-                    button.text = getString(R.string.on)
-                    AudioPlay.enableSFX()
-                }
-            }
-        }
-    }
-
-    private fun searchSFX(key: String, action: Int) {
+    private fun search(key: String, action: Int, audio: String) {
         Firebase.getReferenceUser().addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -163,22 +163,38 @@ class MainActivity : AppCompatActivity() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (action == 1) {
-                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").addListenerForSingleValueEvent(
+                    Firebase.getReferenceUser().child(key).child("Audio").child(audio).addListenerForSingleValueEvent(
                         object : ValueEventListener {
                             override fun onCancelled(p0: DatabaseError) {
                                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                             }
 
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                sfx = dataSnapshot.value.toString()
+                                if (audio == "sfx")
+                                    sfx = dataSnapshot.value.toString()
+                                else
+                                    musica = dataSnapshot.value.toString()
                             }
                         }
                     )
                 } else if (action == 2) {
-                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").setValue(sfx)
+                    if (audio == "sfx")
+                        Firebase.getReferenceUser().child(key).child("Audio").child(audio).setValue(sfx)
+                    else
+                        Firebase.getReferenceUser().child(key).child("Audio").child(audio).setValue(musica)
                 }
             }
         })
+    }
+
+    private fun onOff(button: Button) {
+        runOnUiThread {
+            if (button.text == getString(R.string.on)) {
+                button.text = getString(R.string.off)
+            } else {
+                button.text = getString(R.string.on)
+            }
+        }
     }
 
     override fun onBackPressed() {} //Deshabilitar back button del mobil

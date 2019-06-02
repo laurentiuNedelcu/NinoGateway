@@ -22,6 +22,7 @@ class PlayActivity : AppCompatActivity() {
 
 
     private lateinit var sfx: String
+    private lateinit var musica: String
 
     private lateinit var popupWindow: PopupWindow
     private var isPopupOn: Boolean = false
@@ -44,14 +45,12 @@ class PlayActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        AudioPlay.playMusic(this,R.raw.wonderful_world,true)
+        getSfxMusica()
 
-        val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
-        val clickOptions = AudioPlay.getSoundPool().load(this,R.raw.pause_button,1)
+        AudioPlay.playMusic(this, R.raw.wonderful_world, true)
 
-        //Recogemos el valor del sfx
-        if (Guest.getGuest()) sfx = AudioPlay.getSFX()
-        else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
+        val clickButton = R.raw.press_button
+        val clickOptions = R.raw.pause_button
 
         lvlSelected = intent.getStringExtra("level").toInt()
         level = LevelGallery.levels[lvlSelected]
@@ -80,10 +79,10 @@ class PlayActivity : AppCompatActivity() {
         buttonPause.setBackgroundResource(R.drawable.pause_button)
         buttonPause.id = 555666
         buttonPause.setOnClickListener {
-            if(!isPopupOn) {
+            if (!isPopupOn) {
                 finestraPause(clickButton, clickOptions)
             } else {
-                AudioPlay.playMusicAux(this,R.raw.resume_button)
+                AudioPlay.playSfx(this, R.raw.resume_button)
                 gameView.resume()
                 AudioPlay.resumeMusic()
                 isPopupOn = false
@@ -100,7 +99,7 @@ class PlayActivity : AppCompatActivity() {
 
 
         game = FrameLayout(this)
-        gameView = GameView(this, this, lvlSelected.toInt())
+        gameView = GameView(this, this, lvlSelected)
         gameButtons = RelativeLayout(this)
         auxLayout = RelativeLayout(this)
         leftDownRightLayout = LinearLayout(this)
@@ -127,8 +126,8 @@ class PlayActivity : AppCompatActivity() {
         val layoutButtonUp: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(210, 180)
         val layoutButtonPause: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(210, 180)
         val layoutButtonInt: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(210, 180)
-        val layoutSumaText: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(300,200)
-        val layoutPuntuacio: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(200,200)
+        val layoutSumaText: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(300, 200)
+        val layoutPuntuacio: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(200, 200)
 
         val params: RelativeLayout.LayoutParams = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -207,13 +206,29 @@ class PlayActivity : AppCompatActivity() {
         setContentView(game)
     }
 
+    private fun getSfxMusica() {
+        if (Guest.getGuest()) {
+            if (AudioPlay.getSFX() != "" && AudioPlay.getMusica() != "") {
+                sfx = AudioPlay.getSFX()
+                musica = AudioPlay.getMusica()
+            } else {
+                sfx = getString(R.string.on)
+                musica = getString(R.string.on)
+            }
+        } else {
+            sfx = AudioPlay.getSFX()
+            musica = AudioPlay.getMusica()
+        }
+        AudioPlay.setSFXValue(sfx)
+        AudioPlay.setMusicaValue(musica)
+    }
+
     val Int.dp: Int get() = (this * Resources.getSystem().displayMetrics.density).toInt()
 
     fun finestraPause(clickButton: Int, clickOptions: Int) {
 
-        AudioPlay.getSoundPool().play(clickOptions,1F,1F,2,0, 1F)
-        AudioPlay.pauseMusic()
-        AudioPlay.playMusicAux(this,R.raw.pause_button)
+        AudioPlay.pause()
+        AudioPlay.playSfx(this, clickOptions)
         gameView.pause()
         isPopupOn = true
         buttonPause.setBackgroundResource(R.drawable.play_button)
@@ -229,24 +244,24 @@ class PlayActivity : AppCompatActivity() {
         //popupWindow.isOutsideTouchable = true
         val reprenJoc: Button = view.findViewById(R.id.repren_button)
         reprenJoc.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             AudioPlay.resumeMusic()
             //Recuperar estat del joc i tornar a la partida.
             buttonPause.setBackgroundResource(R.drawable.pause_button)
-            AudioPlay.playMusicAux(this,R.raw.resume_button)
+            AudioPlay.playSfx(this, R.raw.resume_button)
             gameView.resume()
             isPopupOn = false
             popupWindow.dismiss()
         }
         val opcionsJoc: Button = view.findViewById(R.id.opcions_button)
         opcionsJoc.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickOptions,1F,1F,0,0, 1F)
+            AudioPlay.playSfx(this, clickOptions)
             popupWindow.dismiss()
             finestraOpcions(clickButton, clickOptions)
         }
         val menu_joc: Button = view.findViewById(R.id.menu_button)
         menu_joc.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             AudioPlay.stopMusic()
             val intent = Intent(this, MainActivity::class.java)
             popupWindow.dismiss()
@@ -265,20 +280,30 @@ class PlayActivity : AppCompatActivity() {
         popupWindow.showAtLocation(this.game, Gravity.CENTER, 0, 0)
 
         val buttonSfx: Button = view.findViewById(R.id.button_sfx)
+        val buttonMusic: Button = view.findViewById(R.id.button_musica)
         val button_accept: Button = view.findViewById(R.id.button_accept)
         val button_deny: Button = view.findViewById(R.id.button_deny)
 
         buttonSfx.text = sfx
+        buttonMusic.text = musica
 
-        buttonSfx.setOnClickListener { sfx(buttonSfx) }
+        buttonSfx.setOnClickListener { onOff(buttonSfx) }
+        buttonMusic.setOnClickListener { onOff(buttonMusic) }
 
         button_accept.setOnClickListener {
             sfx = buttonSfx.text.toString()
-            //Escribimos el valor del sfx
-            if (!Guest.getGuest())
-                searchSFX(Firebase.getAuth().uid.toString(), 2)
+            musica = buttonMusic.text.toString()
             AudioPlay.setSFXValue(sfx)
-            popupWindow.dismiss(); finestraPause(clickButton, clickOptions)
+            AudioPlay.setMusicaValue(musica)
+            AudioPlay.updateMusica()
+            if (sfx == AudioPlay.on)
+                AudioPlay.playSfx(this, clickButton)
+            if (!Guest.getGuest()) {
+                search(Firebase.getAuth().uid.toString(), 2, "sfx")
+                search(Firebase.getAuth().uid.toString(), 2, "music")
+            }
+            popupWindow.dismiss()
+            finestraPause(clickButton, clickOptions)
         }
         button_deny.setOnClickListener {
             popupWindow.dismiss()
@@ -288,179 +313,160 @@ class PlayActivity : AppCompatActivity() {
 
     fun finestraVictoria(answer: Int) {
 
-
-        if(!(level.solution == answer))
+        if (level.solution != answer)
             return
-        val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
-        val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
+        val restartButton = R.raw.restart_button
+        val clickButton = R.raw.press_button
 
         AudioPlay.stopMusic()
-        AudioPlay.playMusic(this,R.raw.you_win_music,false)
+        AudioPlay.playMusic(this, R.raw.you_win_music, false)
         val context = this
-        runOnUiThread(
-            object : Runnable {
-                override fun run() {
-                    gameView.pause()
-                    buttonPause.isEnabled = false
-                    buttonPause.visibility = View.INVISIBLE
-                    val aux = lvlSelected.toInt() + 1
-                    if (!Guest.getGuest()) {
-                        Firebase.getReferenceUser().child(Firebase.getAuth().uid.toString()).child("Levels")
-                            .child("level$aux").setValue(1)
-                    }
-                    LevelsArrays.setLevel(aux, "1")
-
-                    isPopupOn = true
-
-                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-                    val view = inflater.inflate(R.layout.activity_you_win, null)
-
-                    popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
-                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
-
-                    val retry: Button = view.findViewById(R.id.retryButtonYW)
-                    val lvls: Button = view.findViewById(R.id.levelsbuttonYW)
-                    val next: Button = view.findViewById(R.id.nextButtonYW)
-
-                    retry.setOnClickListener {
-                        AudioPlay.getSoundPool().play(restartButton,1F,1F,0,0, 2F)
-
-                        popupWindow.dismiss()
-
-                        finish()
-                        AudioPlay.stopMusic()
-                        startActivity(intent)
-                    }
-
-                    lvls.setOnClickListener {
-                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
-                        AudioPlay.stopMusic()
-                        AudioPlay.playMusic(context,R.raw.florian_bur_no_name,true)
-
-                        popupWindow.dismiss()
-                        val intent = Intent(context, LevelActivity::class.java)
-                        finish()
-                        startActivity(intent)
-                    }
-
-                    next.setOnClickListener {
-                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
-                        popupWindow.dismiss()
-
-                        finish()
-                        AudioPlay.stopMusic()
-                        lvlSelected+=1
-                        intent.putExtra("level",lvlSelected.toString())
-                        startActivity(intent)
-                    }
-                }
+        runOnUiThread {
+            gameView.pause()
+            buttonPause.isEnabled = false
+            buttonPause.visibility = View.INVISIBLE
+            val aux = lvlSelected + 1
+            if (!Guest.getGuest()) {
+                Firebase.getReferenceUser().child(Firebase.getAuth().uid.toString()).child("Levels")
+                    .child("level$aux").setValue(1)
             }
-        )
+            LevelsArrays.setLevel(aux, "1")
+
+            isPopupOn = true
+
+            val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+            val view = inflater.inflate(R.layout.activity_you_win, null)
+
+            popupWindow = PopupWindow(view, 375.dp, 335.dp, false)
+            popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
+
+            val retry: Button = view.findViewById(R.id.retryButtonYW)
+            val lvls: Button = view.findViewById(R.id.levelsbuttonYW)
+            val next: Button = view.findViewById(R.id.nextButtonYW)
+
+            retry.setOnClickListener {
+                AudioPlay.playSfx(context, restartButton)
+
+                popupWindow.dismiss()
+
+                finish()
+                AudioPlay.stopMusic()
+                startActivity(intent)
+            }
+
+            lvls.setOnClickListener {
+                AudioPlay.playSfx(context, clickButton)
+                AudioPlay.stopMusic()
+                AudioPlay.playMusic(context, R.raw.florian_bur_no_name, true)
+
+                popupWindow.dismiss()
+                val intent = Intent(context, LevelActivity::class.java)
+                finish()
+                startActivity(intent)
+            }
+
+            next.setOnClickListener {
+                AudioPlay.playSfx(context, clickButton)
+                popupWindow.dismiss()
+
+                finish()
+                AudioPlay.stopMusic()
+                lvlSelected += 1
+                intent.putExtra("level", lvlSelected.toString())
+                startActivity(intent)
+            }
+        }
     }
 
     fun finestraDerrota() {
 
-        val restartButton = AudioPlay.getSoundPool().load(this, R.raw.restart_button,1)
-        val clickButton = AudioPlay.getSoundPool().load(this,R.raw.press_button,1)
+        val restartButton = R.raw.restart_button
+        val clickButton = R.raw.press_button
 
         AudioPlay.stopMusic()
-        AudioPlay.playMusic(this,R.raw.you_lose_music,false)
+        AudioPlay.playMusic(this, R.raw.you_lose_music, false)
         val context = this
 
-        runOnUiThread(
-            object : Runnable {
-                override fun run() {
-                    gameView.pause()
-                    buttonPause.isEnabled = false
-                    buttonPause.visibility = View.INVISIBLE
-                    isPopupOn = true
+        runOnUiThread {
+            gameView.pause()
+            buttonPause.isEnabled = false
+            buttonPause.visibility = View.INVISIBLE
+            isPopupOn = true
 
-                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-                    val view = inflater.inflate(R.layout.activity_you_lose, null)
+            val view = inflater.inflate(R.layout.activity_you_lose, null)
 
-                    popupWindow = PopupWindow(view, 395.dp, 335.dp, false)
-                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
+            popupWindow = PopupWindow(view, 395.dp, 335.dp, false)
+            popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
 
-                    val retry: Button = view.findViewById(R.id.retryButtonYL)
-                    val levels: Button = view.findViewById(R.id.levelsButtonYL)
+            val retry: Button = view.findViewById(R.id.retryButtonYL)
+            val levels: Button = view.findViewById(R.id.levelsButtonYL)
 
-                    retry.setOnClickListener {
-                        AudioPlay.getSoundPool().play(restartButton,1F,1F,0,0, 2F)
-                        popupWindow.dismiss()
+            retry.setOnClickListener {
+                AudioPlay.playSfx(this, restartButton)
+                popupWindow.dismiss()
 
-                        finish()
-                        AudioPlay.stopMusic()
-                        startActivity(intent)
-                    }
-
-                    levels.setOnClickListener {
-                        AudioPlay.getSoundPool().play(clickButton,1F,1F,0,0, 1F)
-                        AudioPlay.stopMusic()
-                        AudioPlay.playMusic(context,R.raw.florian_bur_no_name,true)
-
-                        popupWindow.dismiss()
-                        val intent = Intent(context, LevelActivity::class.java)
-                        finish()
-                        startActivity(intent)
-                    }
-                }
+                finish()
+                AudioPlay.stopMusic()
+                startActivity(intent)
             }
-        )
-    }
 
-    fun popup_enigma(buttonPause: Button){
-        runOnUiThread(
-            object : Runnable {
-                override fun run() {
-                    isPopupOn = true
-                    buttonPause.isEnabled = false
-                    buttonPause.visibility = View.INVISIBLE
+            levels.setOnClickListener {
+                AudioPlay.playSfx(this, clickButton)
+                AudioPlay.stopMusic()
+                AudioPlay.playMusic(context, R.raw.florian_bur_no_name, true)
 
-                    val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-                    val view = inflater.inflate(R.layout.popup_enigma, null)
-
-                    popupWindow = PopupWindow(view, 375.dp, 200.dp, true)
-                    popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
-
-                    val enigma: ImageView = view.findViewById(R.id.enigmaImage)
-                    enigma.setImageResource(level.enigmaResource)
-
-                    popupWindow.setOnDismissListener {
-                        buttonPause.isEnabled = true
-                        buttonPause.visibility = View.VISIBLE
-                        isPopupOn = false
-                    }
-                }
+                popupWindow.dismiss()
+                val intent = Intent(context, LevelActivity::class.java)
+                finish()
+                startActivity(intent)
             }
-        )
+        }
+    }
+
+    fun popup_enigma(buttonPause: Button) {
+        runOnUiThread {
+            isPopupOn = true
+            buttonPause.isEnabled = false
+            buttonPause.visibility = View.INVISIBLE
+
+            val inflater: LayoutInflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+            val view = inflater.inflate(R.layout.popup_enigma, null)
+
+            popupWindow = PopupWindow(view, 375.dp, 200.dp, true)
+            popupWindow.showAtLocation(game, Gravity.CENTER, 0, 0)
+
+            val enigma: ImageView = view.findViewById(R.id.enigmaImage)
+            enigma.setImageResource(level.enigmaResource)
+
+            popupWindow.setOnDismissListener {
+                buttonPause.isEnabled = true
+                buttonPause.visibility = View.VISIBLE
+                isPopupOn = false
+            }
+        }
     }
 
 
-    fun actionButtonColor(b: Boolean){
-        runOnUiThread(
-            object : Runnable {
-                override fun run() {
-                    if(b){
-                        buttons[4].setBackgroundColor(Color.YELLOW)
-                    }else{
-                        buttons[4].setBackgroundResource(android.R.drawable.btn_default)
-                    }
-                }
-            })
+    fun actionButtonColor(b: Boolean) {
+        runOnUiThread {
+            if (b) {
+                buttons[4].setBackgroundColor(Color.YELLOW)
+            } else {
+                buttons[4].setBackgroundResource(android.R.drawable.btn_default)
+            }
+        }
     }
 
-    private fun sfx(button: Button) {
+    private fun onOff(button: Button) {
         if (button.text.equals(getString(R.string.on))) {
             button.text = getString(R.string.off)
-            AudioPlay.disableSFX()
-        }
-        else {
-            synchronized(AudioPlay){
-            button.text =  getString(R.string.on)
-            AudioPlay.enableSFX()
+        } else {
+            synchronized(AudioPlay) {
+                button.text = getString(R.string.on)
             }
         }
     }
@@ -469,22 +475,22 @@ class PlayActivity : AppCompatActivity() {
         suma += i
     }
 
-    fun resetPuntuacio(){
+    fun resetPuntuacio() {
         suma = 0
     }
 
-    fun solucion():Int{
+    fun solucion(): Int {
         return level.solution
     }
 
-    fun updateTextViewSuma(){
+    fun updateTextViewSuma() {
         runOnUiThread {
             if (suma < 10) puntuacio.text = "0$suma"
             else puntuacio.text = suma.toString()
         }
     }
 
-    private fun searchSFX(key: String, action: Int) {
+    private fun search(key: String, action: Int, audio: String) {
         Firebase.getReferenceUser().addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -492,23 +498,27 @@ class PlayActivity : AppCompatActivity() {
 
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (action == 1) {
-                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").addListenerForSingleValueEvent(
+                    Firebase.getReferenceUser().child(key).child("Audio").child(audio).addListenerForSingleValueEvent(
                         object : ValueEventListener {
                             override fun onCancelled(p0: DatabaseError) {
                                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                             }
 
                             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                sfx = dataSnapshot.value.toString()
+                                if (audio == "sfx")
+                                    sfx = dataSnapshot.value.toString()
+                                else
+                                    musica = dataSnapshot.value.toString()
                             }
-
                         }
                     )
                 } else if (action == 2) {
-                    Firebase.getReferenceUser().child(key).child("Music").child("sfx").setValue(sfx)
+                    if (audio == "sfx")
+                        Firebase.getReferenceUser().child(key).child("Audio").child(audio).setValue(sfx)
+                    else
+                        Firebase.getReferenceUser().child(key).child("Audio").child(audio).setValue(musica)
                 }
             }
-
         })
     }
 

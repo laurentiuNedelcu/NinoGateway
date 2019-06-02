@@ -3,73 +3,79 @@
 package com.example.ninosproject.Data
 
 import android.content.Context
-import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.MediaPlayer
-import android.media.SoundPool
-import android.os.Build
 
-object AudioPlay{
+object AudioPlay {
 
     private lateinit var mediaPlayer: MediaPlayer
-    private lateinit var mediaPlayerAux: MediaPlayer
-    private lateinit var soundPool: SoundPool
+    private lateinit var soundEffectsPlayer: MediaPlayer
     private var length: Int = 0
     private var isAudioPlaying: Boolean = false
     private var sfx: String = ""
-
-
+    private var musica: String = ""
+    var on = ""
+    var off = ""
 
     fun playMusic(c: Context, id: Int, loop: Boolean) {
-        if (!isAudioPlaying){
-            mediaPlayer = MediaPlayer.create(c,id)
+        if (!isAudioPlaying) {
+            mediaPlayer = MediaPlayer.create(c, id)
             mediaPlayer.isLooping = loop
+            mediaPlayer.start()
+            isAudioPlaying = true
+            if (musica == off) pauseMusic()
+        }
+    }
+
+    fun playSfx(c: Context, id: Int) {
+        if (sfx == on) {
+            soundEffectsPlayer = MediaPlayer.create(c, id)
+            soundEffectsPlayer.isLooping = false
+            soundEffectsPlayer.start()
+        }
+    }
+
+    fun getStrings(s1: String, s2: String) {
+        on = s1
+        off = s2
+    }
+
+    fun pauseMusic() {
+        if (musica == off) {
+            mediaPlayer.pause()
+            length = mediaPlayer.currentPosition
+            isAudioPlaying = false
+        }
+    }
+
+    fun pause() {
+        mediaPlayer.pause()
+        length = mediaPlayer.currentPosition
+        isAudioPlaying = false
+    }
+
+    fun resumeMusic() {
+        if (musica == on && !isAudioPlaying) {
+            mediaPlayer.seekTo(length)
             mediaPlayer.start()
             isAudioPlaying = true
         }
     }
 
-    fun playMusicAux(c: Context, id: Int){
-        mediaPlayerAux = MediaPlayer.create(c,id)
-        mediaPlayerAux.isLooping = false
-        mediaPlayerAux.start()
-    }
-
-    fun pauseMusic() {
-        mediaPlayer.pause()
-        length = mediaPlayer.currentPosition
-    }
-
-    fun resumeMusic() {
-        mediaPlayer.seekTo(length)
-        mediaPlayer.start()
-    }
-
-    fun disableSFX(){
-        soundPool.release()
-    }
-
-    fun enableSFX(){
-        soundPool = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
-            val audio: AudioAttributes = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
-
-            SoundPool.Builder().setMaxStreams(5).setAudioAttributes(audio).build()
-        } else {
-            SoundPool(5,AudioManager.STREAM_MUSIC,100)
-        }
-    }
-
     fun stopMusic() {
-        if(isAudioPlaying){
-            mediaPlayer.stop()
-            mediaPlayer.release()
-            isAudioPlaying = false
+        if (!isAudioPlaying) {
+            resumeMusic()
         }
+        mediaPlayer.stop()
+        mediaPlayer.release()
+        isAudioPlaying = false
     }
 
-    fun getSoundPool(): SoundPool {
-        return soundPool
+    fun updateMusica() {
+        if (musica == off)
+            pauseMusic()
+        else {
+            resumeMusic()
+        }
     }
 
     fun setSFXValue(sfx: String) {
@@ -80,4 +86,11 @@ object AudioPlay{
         return sfx
     }
 
+    fun setMusicaValue(musica: String) {
+        this.musica = musica
+    }
+
+    fun getMusica(): String {
+        return musica
+    }
 }

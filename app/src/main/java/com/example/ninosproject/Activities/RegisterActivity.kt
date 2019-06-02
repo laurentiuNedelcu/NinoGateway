@@ -163,8 +163,8 @@ class RegisterActivity : AppCompatActivity() {
                         i++
                     }
 
-                    userBD?.child("Music")?.child("sfx")?.setValue(getString(R.string.on_music))
-                    userBD?.child("Music")?.child("audio")?.setValue(getString(R.string.on_music))
+                    userBD?.child("Audio")?.child("sfx")?.setValue(getString(R.string.on_music))
+                    userBD?.child("Audio")?.child("music")?.setValue(getString(R.string.on_music))
 
                     Toast.makeText(this, getString(R.string.registered_correctly), Toast.LENGTH_LONG).show()
                     finish()

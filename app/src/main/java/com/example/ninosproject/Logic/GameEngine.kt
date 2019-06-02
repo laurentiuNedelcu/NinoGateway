@@ -9,8 +9,6 @@ class GameEngine {
     private var actionColor = false
     var direccio: Int = 0 //0->LEFT,1->DOWN,2->RIGHT,3->UP
     var hieloPissed: Boolean = false
-    private var buttonUsing = false
-
 
     lateinit var player: Personaje
 
@@ -30,39 +28,31 @@ class GameEngine {
     }
 
     fun updateL() {
-        //if (!buttonUsing) {
         player.updateL()
         if (!colision(player, false)) {
             player.update()
         }
-        //}
     }
 
     fun updateR() {
-        //if (!buttonUsing) {
         player.updateR()
         if (!colision(player, false)) {
             player.update()
         }
-        //}
     }
 
     fun updateD() {
-        //if (!buttonUsing) {
         player.updateD()
         if (!colision(player, false)) {
             player.update()
         }
-        //}
     }
 
     fun updateU() {
-        //if (!buttonUsing) {
         player.updateU()
         if (!colision(player, false)) {
             player.update()
         }
-        //}
     }
 
     fun draw() {

@@ -52,7 +52,7 @@ class ResetButton: AbstObstaculo, ActionObject {
         }else if(pulsat){
             if (times in 0..2) {
                 if (times == 0){
-                    AudioPlay.playMusicAux(playActivity,R.raw.press_button)
+                    AudioPlay.playSfx(playActivity, R.raw.press_button)
                 }
                 val p = BitmapFactory.decodeResource(v.resources, R.drawable.reset_button_pulsat)
                 times += 1

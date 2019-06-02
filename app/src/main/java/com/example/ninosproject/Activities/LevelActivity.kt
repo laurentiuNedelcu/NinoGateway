@@ -24,7 +24,7 @@ class LevelActivity : AppCompatActivity() {
 
         AudioPlay.playMusic(this, R.raw.florian_bur_no_name, true)
 
-        val clickButton = AudioPlay.getSoundPool().load(this, R.raw.press_button, 1)
+        val clickButton = R.raw.press_button
 
         val text_mode: TextView = findViewById(R.id.textV_mode)
         val list_lvl: ListView = findViewById(R.id.lvl_selector)
@@ -50,10 +50,10 @@ class LevelActivity : AppCompatActivity() {
 
         list_lvl.adapter = nivellList
         list_lvl.setOnItemClickListener { parent, view, position, id ->
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             AudioPlay.stopMusic()
             if (levelDraw[position] == "Locked")
-                Toast.makeText(this, "Desbloquea los otros niveles primero", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.unlock_levels), Toast.LENGTH_SHORT).show()
             else {
                 val intent = Intent(this, PlayActivity::class.java)
                 intent.putExtra("level", position.toString())
@@ -63,7 +63,7 @@ class LevelActivity : AppCompatActivity() {
         }
 
         button_back.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             val intent = Intent(this, ModeActivity::class.java)
             finish()
             startActivity(intent)

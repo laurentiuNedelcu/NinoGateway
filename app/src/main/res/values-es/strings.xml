@@ -17,7 +17,7 @@
     <string name="off">Desactivado</string>
     <string name="accept">Acceptar</string>
     <string name="cancel">Cancelar</string>
-    <string name="volume">Volumen:</string>
+    <string name="music">Música:</string>
     <string name="email">Correo o nombre de usuario:</string>
     <string name="title">Nino\'s Gateway</string>
     <string name="guest">Invitado</string>
@@ -87,4 +87,20 @@
     <string name="salida"> Saliida </string>
     <string name="Reset">Botón para resetear</string>
     <string name="Accion">Botón de acción </string>
+    <string name="unlock_levels">Desbloquea los otros niveles primero</string>
+    <string name="info_player">Este es su jugador, debereis guiarlo hasta el cartel donde se encuentra el enigma.
+                 \n\nPara finalizar el nivel debereis resolver utilizando las casillas numeradas. Una vez que tengais la
+        respuesta id hacia la puerta de salida -EXIT-.
+                 \n\nEn caso de equivocación pulsad el pulsador para resetear la puntuación y las casillas.
+    </string>
+    <string name="info_traps"><![CDATA[Cuidado!! El peligro es inminente, cada trampa tiene su propio comportamiento y usted tendrá que descubrir cuál es.
+                 \n\nPD. No toque las trampas… sólo tiene una oportunidad.]]></string>
+    <string name="info_obs">Sólo son elementos decorativos, admiradlos si quereis.</string>
+    <string name="info_obj">Los elementos interactivos le ayudaran a salir de la habitación.
+                 \n\nCartel: Contiene el enigma a resolver.
+                 \nCasilla: Pisándola se suma su valor en el contador.
+                 \nPulsador: Resetea el contador a 0.
+                 \nPuerta de salida: No puede haber habitación sin puerta.
+                 \nHielo: Resbala un poco pero es agradable.
+    </string>
 </resources>

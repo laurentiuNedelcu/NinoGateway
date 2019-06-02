@@ -9,14 +9,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Window
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.PopupWindow
 import android.widget.TextView
-import com.example.ninosproject.Data.AudioPlay
-import com.example.ninosproject.Data.Firebase
-import com.example.ninosproject.Data.Guest
 import com.example.ninosproject.R
-import kotlinx.android.synthetic.main.popup_info.view.*
 
 class TutorialActivity : AppCompatActivity() {
 
@@ -26,10 +21,10 @@ class TutorialActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_show_tutorial)
 
-        var playerInfo = findViewById<ConstraintLayout>(R.id.PlayerInfo)
-        var objectInfo = findViewById<ConstraintLayout>(R.id.ObjectInfo)
-        var trapInfo = findViewById<ConstraintLayout>(R.id.TrapInfo)
-        var obstacleInfo = findViewById<ConstraintLayout>(R.id.ObstacleInfo)
+        val playerInfo = findViewById<ConstraintLayout>(R.id.PlayerInfo)
+        val objectInfo = findViewById<ConstraintLayout>(R.id.ObjectInfo)
+        val trapInfo = findViewById<ConstraintLayout>(R.id.TrapInfo)
+        val obstacleInfo = findViewById<ConstraintLayout>(R.id.ObstacleInfo)
 
         playerInfo.setOnClickListener {
             popup("player")
@@ -82,24 +77,16 @@ class TutorialActivity : AppCompatActivity() {
 
         when(info){
             "player"->{
-                showInfo.text = "Aquest és el vostre jugador, l'haureu de guiar fins al cartell on es troba l'enigma." +
-                        "\n\nPer finalitzar el nivell l'heu de resoldre fent servir les caselles numerades. Un cop tingueu la resposta aneu cap a la porta de sortida -exit-." +
-                        "\n\nEn cas d'equivocació premeu el pulsador per resetejar la puntuació."
+                showInfo.text = getString(R.string.info_player)
             }
             "trampes"->{
-                showInfo.text="Compte!! El perill es inminent, cada trampa té el seu propi comportament i vosté haura de descubrir quin és." +
-                        "\n\nPd. No toqueu les trampes... només teniu una oportunitat."
+                showInfo.text = getString(R.string.info_traps)
             }
             "obstacles"->{
-                showInfo.text="Només son elements decoratius, admireu-los si voleu."
+                showInfo.text = getString(R.string.info_obs)
             }
             "objectes"->{
-                showInfo.text="Els elements interactius us ajudaren a sortir d'aquesta habitació" +
-                        "\n\nCartell: Conté l'enigma a resoldre" +
-                        "\nCasella: Trepitjant-la sumareu el seu valor a comptador" +
-                        "\nPulsador: Reseteja el comptador a 0" +
-                        "\nPorta de sortida: No pot haver-hi habitació sense porta" +
-                        "\nGel: Rellisca una mica però es agradable"
+                showInfo.text = getString(R.string.info_obj)
             }
         }
     }

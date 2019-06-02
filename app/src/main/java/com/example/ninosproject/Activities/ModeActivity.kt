@@ -19,7 +19,7 @@ class ModeActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_mode_seleccion)
 
-        val clickButton = AudioPlay.getSoundPool().load(this, R.raw.press_button, 1)
+        val clickButton = R.raw.press_button
 
         val back_button: Button = findViewById(R.id.button_back)
         val single_button: Button = findViewById(R.id.button_singleplayer)
@@ -27,14 +27,14 @@ class ModeActivity : AppCompatActivity() {
         val tutorial_button: Button = findViewById(R.id.button_tutorial)
 
         single_button.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             val intent = Intent(this, LevelActivity::class.java)
             intent.putExtra("mode", single_button.text.toString())
             startActivity(intent)
         }
 
         multi_button.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             //val intent: Intent = Intent(this, LevelActivity::class.java)
             val intent = Intent(this, ServerActivity::class.java)
             intent.putExtra("mode", multi_button.text.toString())
@@ -42,13 +42,13 @@ class ModeActivity : AppCompatActivity() {
         }
 
         back_button.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             val intent = Intent(this, MainActivity::class.java)
             finish()
             startActivity(intent)
         }
         tutorial_button.setOnClickListener {
-            AudioPlay.getSoundPool().play(clickButton, 1F, 1F, 0, 0, 1F)
+            AudioPlay.playSfx(this, clickButton)
             val intent = Intent(this, TutorialActivity::class.java)
             intent.putExtra("mode", tutorial_button.text.toString())
             startActivity(intent)
