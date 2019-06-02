@@ -82,18 +82,24 @@ class TutorialActivity : AppCompatActivity() {
 
         when(info){
             "player"->{
-                showInfo.text = "Aquest es el vostre jugador, l'haureu de guiar fins a la cartell on es troba l'enigma," +
-                        "\n\nper finalitzar el nivell haureu d'anar sumant punts fent servir les caselles numerades fins que coincideix-hi amb la resposta del problema plantejat," +
-                        "\n\nen cas d'equivocació premeu el botó per resetejar la puntuació, para resolver la chusta esta ir a la salida"
+                showInfo.text = "Aquest és el vostre jugador, l'haureu de guiar fins al cartell on es troba l'enigma." +
+                        "\n\nPer finalitzar el nivell l'heu de resoldre fent servir les caselles numerades. Un cop tingueu la resposta aneu cap a la porta de sortida -exit-." +
+                        "\n\nEn cas d'equivocació premeu el pulsador per resetejar la puntuació."
             }
             "trampes"->{
-                showInfo.text=""
+                showInfo.text="Compte!! El perill es inminent, cada trampa té el seu propi comportament i vosté haura de descubrir quin és." +
+                        "\n\nPd. No toqueu les trampes... només teniu una oportunitat."
             }
             "obstacles"->{
-                showInfo.text=""
+                showInfo.text="Només son elements decoratius, admireu-los si voleu."
             }
             "objectes"->{
-                showInfo.text=""
+                showInfo.text="Els elements interactius us ajudaren a sortir d'aquesta habitació" +
+                        "\n\nCartell: Conté l'enigma a resoldre" +
+                        "\nCasella: Trepitjant-la sumareu el seu valor a comptador" +
+                        "\nPulsador: Reseteja el comptador a 0" +
+                        "\nPorta de sortida: No pot haver-hi habitació sense porta" +
+                        "\nGel: Rellisca una mica però es agradable"
             }
         }
     }
