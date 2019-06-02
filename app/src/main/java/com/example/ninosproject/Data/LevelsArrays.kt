@@ -16,10 +16,9 @@ object LevelsArrays {
             var i = 0
             levelsUnlocked.add("1")
             while (i < 10) {
-                levelsUnlocked.add("0")
+                levelsUnlocked.add("1")
                 i++
             }
-            levelsUnlocked[4] = "1"
         } else {
             levelsFirebase(Firebase.getAuth().uid.toString())
         }
