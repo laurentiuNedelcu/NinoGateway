@@ -19,6 +19,9 @@ import com.example.ninosproject.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +53,9 @@ class MainActivity : AppCompatActivity() {
         log_out = findViewById(R.id.log_out_button)
 
         //Recogemos el valor del sfx
-        if (Guest.getGuest()) sfx = getString(R.string.on)
+        if (Guest.getGuest()){
+            sfx = getString(R.string.on)
+        }
         else searchSFX(Firebase.getAuth().currentUser?.uid.toString(), 1)
 
         button_jugar.setOnClickListener {
