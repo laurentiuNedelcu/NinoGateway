@@ -9,44 +9,60 @@ class GameEngine {
     private var actionColor = false
     var direccio: Int = 0 //0->LEFT,1->DOWN,2->RIGHT,3->UP
     var hieloPissed: Boolean = false
+    private var buttonUsing = false
+
 
     lateinit var player: Personaje
 
     constructor(gameView: GameView, m: ArrayList<AbstObstaculo>) {
         obstaculos = m
-        val aux = obstaculos[obstaculos.size - 1]
+        var aux = obstaculos[obstaculos.size-1]
         if(aux is Personaje){
             player = aux
         }
         this.gameView = gameView
     }
 
+    fun playerIsMoving(): Boolean{
+        if(player.pxInit==player.newPxInit && player.pyInit==player.newPyInit)
+            return true
+        return false
+    }
+
     fun updateL() {
+        //if (!buttonUsing) {
         player.updateL()
         if (!colision(player, false)) {
             player.update()
         }
+        //}
     }
 
     fun updateR() {
+        //if (!buttonUsing) {
         player.updateR()
         if (!colision(player, false)) {
             player.update()
         }
+        //}
     }
 
     fun updateD() {
+        //if (!buttonUsing) {
         player.updateD()
         if (!colision(player, false)) {
             player.update()
         }
+        //}
     }
 
     fun updateU() {
+        //if (!buttonUsing) {
         player.updateU()
         if (!colision(player, false)) {
             player.update()
         }
+        //}
     }
 
     fun draw() {
